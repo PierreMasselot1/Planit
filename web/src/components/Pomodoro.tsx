@@ -56,9 +56,6 @@ export function Pomodoro() {
       <div className="space-y-14 mt-10">
         <button onClick={toggleTimer}>PLAY/PAUSE</button>
         <br />
-        <button className="mt-3" onClick={resetTimer}>
-          RESET TIMER
-        </button>
         <br />
         <button onClick={() => changeTimer(5)}>5 MINUTES</button>
         <br />
