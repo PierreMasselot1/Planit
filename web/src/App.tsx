@@ -1,6 +1,6 @@
 
 import './App.css'
-import { Pomodoro } from './components/Pomodoro';
+import { Pomodoro } from './components/pomodoro/Pomodoro';
 
 function App() {
   return (
@@ -8,6 +8,8 @@ function App() {
       
       <div className='bg-slate-700 w-25 h-screen'>
         NAVIGATION BAR
+
+        PomodoroNavIcon
       </div>
       
       <div className="bg-slate-400 w-full h-screen">
