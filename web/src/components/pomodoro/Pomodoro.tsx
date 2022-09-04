@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Countdown } from "react-daisyui";
 export function Pomodoro() {
   const [ellapsedTime, setEllapsedTime] = useState<number>(0);
   const [timer, setTimer] = useState<number>(25);
@@ -24,10 +23,6 @@ export function Pomodoro() {
     };
   }, [ellapsedTime, timerStatus, timer]);
 
-  function resetTimer() {
-    setEllapsedTime(0);
-  }
-
   function toggleTimer() {
     setTimerStatus(!timerStatus);
   }
@@ -39,20 +34,15 @@ export function Pomodoro() {
   }
   return (
     <div>
-      <h1 className="underline text-green-300 text-7xl ">Pomodoro</h1>
-      <p className="mt-3 text-green-400 text-3xl">Time Left:</p>
-
-      <div className="grid grid-flow-col gap-5 text-center auto-cols-max">
       <div className="flex flex-col">
-        <Countdown className="font-mono text-5xl" value={minutesLeft} />
-        min
+        <h1 className="underline text-green-300 text-7xl ">Pomodoro</h1>
+        <p className="mt-3 text-green-400 text-3xl">Time Left:</p>
+        <div className="flex flex-row text-white">
+          <div className="flex text-3xl">{minutesLeft} min&nbsp;</div>
+          <div className="flex text-3xl"> {secondsLeft} sec</div>
+        </div>
       </div>
-      <div className="flex flex-col">
-        <Countdown className="font-mono text-5xl" value={secondsLeft} />
-        sec
-      </div>
-    </div>
-      <div className="space-y-14 mt-10">
+      <div className="space-y-14 mt-10 text-white">
         <button onClick={toggleTimer}>PLAY/PAUSE</button>
         <br />
         <br />
