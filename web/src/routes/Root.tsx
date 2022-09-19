@@ -1,18 +1,16 @@
-import { Pomodoro } from "./components/pomodoro/Pomodoro";
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/navbar/Navbar";
 
-function App() {
+export default function Root() {
   return (
     <div className="flex flex-row">
       <div className=" w-25 h-screen bg-slate-700">
-        NAVIGATION BAR PomodoroNavIcon
+        <Navbar/>
       </div>
 
       <div className="w-full h-screen bg-slate-800">
-        APPLICATION
-        <Pomodoro />
+        <Outlet />
       </div>
     </div>
   );
 }
-
-export default App;
