@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 function PomodoroNavIcon() {
   return (
-    <div>Pomodoro</div>
-  )
+    <div className="whitespace-nowrap text-xl text-green-400">Pomodoro</div>
+  );
 }
 
-export default PomodoroNavIcon
+export default PomodoroNavIcon;
