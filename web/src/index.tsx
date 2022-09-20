@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Pomodoro } from "./components/pomodoro/Pomodoro";
 import Home from "./routes/Home";
 import ErrorPage from "./routes/Error";
-import Todo from "./components/todo/Todo";
+import Todo from "./components/Todo/Todo";
 
 const router = createBrowserRouter([
   {
