@@ -6,17 +6,22 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Pomodoro } from "./components/pomodoro/Pomodoro";
 import Home from "./routes/Home";
 import ErrorPage from "./routes/Error";
+import Todo from "./components/todo/Todo";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
       {
         path: "/pomodoro",
         element: <Pomodoro />,
+      },
+      {
+        path: "/todo",
+        element: <Todo />,
       },
     ],
   },

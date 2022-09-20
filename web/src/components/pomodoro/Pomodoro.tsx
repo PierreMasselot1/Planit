@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export function Pomodoro() {
   const [ellapsedTime, setEllapsedTime] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(0.21);
+  const [timer, setTimer] = useState<number>(25);
   const [minutesLeft, setMinutes] = useState<number>(25);
   const [secondsLeft, setSeconds] = useState<number>(0);
   const [timerStatus, setTimerStatus] = useState<boolean>(false);
