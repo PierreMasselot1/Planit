@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export function Pomodoro() {
   const [ellapsedTime, setEllapsedTime] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(25);
+  const [timer, setTimer] = useState<number>(0.21);
   const [minutesLeft, setMinutes] = useState<number>(25);
   const [secondsLeft, setSeconds] = useState<number>(0);
   const [timerStatus, setTimerStatus] = useState<boolean>(false);
@@ -13,11 +13,15 @@ export function Pomodoro() {
       if (timerStatus) {
         setEllapsedTime(ellapsedTime + 100);
       }
+
       let seconds = Math.floor((timer * 60000 - ellapsedTime) / 1000);
       let minutes = Math.floor(seconds / 60);
-
-      setMinutes(minutes);
-      setSeconds(seconds - minutes * 60);
+      if (ellapsedTime >= timer * 60000) {
+        setTimerStatus(false);
+      } else {
+        setMinutes(minutes);
+        setSeconds(seconds - minutes * 60);
+      }
     }, 100);
 
     return () => {
@@ -39,10 +43,14 @@ export function Pomodoro() {
     setTimer(time);
   }
   return (
-    <div>
+    <div className="text-white flex-col text-center">
       <h1 className="underline text-green-300 text-7xl ">Pomodoro</h1>
       <p className="mt-3 text-green-400 text-3xl">Time Left:</p>
-      <p className="text-9xl">
+      <p
+        className={`text-9xl ${
+          minutesLeft === 0 && secondsLeft === 0 ? "animate-pulse" : ""
+        }`}
+      >
         {" "}
         {minutesLeft.toLocaleString("en-US", {
           minimumIntegerDigits: 2,
@@ -54,16 +62,20 @@ export function Pomodoro() {
           useGrouping: false,
         })}
       </p>
-      <div className="space-y-14 mt-10">
-        <button onClick={toggleTimer}>PLAY/PAUSE</button>
-        <br />
-        <button className="mt-3" onClick={resetTimer}>
-          RESET TIMER
+      <div className="flex-row justify-center">
+        <button onClick={toggleTimer} className="mx-2">
+          {timerStatus ? "PAUSE" : "PLAY"}
         </button>
-        <br />
-        <button onClick={() => changeTimer(5)}>5 MINUTES</button>
-        <br />
-        <button onClick={() => changeTimer(25)}>25 MINUTES</button>
+        <button onClick={resetTimer} className="mx-2">
+          {" "}
+          RESET TIMER{" "}
+        </button>
+        <button onClick={() => changeTimer(5)} className="mx-2">
+          5 MINUTES
+        </button>
+        <button onClick={() => changeTimer(25)} className="mx-2">
+          25 MINUTES
+        </button>
       </div>
     </div>
   );
