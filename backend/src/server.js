@@ -11,7 +11,7 @@ app.listen(port, console.log(`Listening on port ${port}`));
 const todoRouter = require("./routes/todo");
 
 //map routes
-app.use("/api/caribou", todoRouter);
+app.use("/api/todo", todoRouter);
 
 app.get("/api/ping", (req, res) => {
   res.json("beep boop");
