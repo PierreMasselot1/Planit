@@ -9,7 +9,7 @@ export default function TodoItem() {
   }
 
   return (
-    <div className="bg-green-400 w-fit mx-2 my-1 p-1 rounded ">
+    <div className="bg-green-400 w-fit mx-2 my-1 py-1 px-2 rounded ">
       <input type="checkbox" onChange={onToggle} />
       <label className="mx-2">TODO</label>
       <button onClick={onDestroy} className="bg-slate-50 rounded-full ">
