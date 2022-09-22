@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: planit
+    volumes:
+      - ./db/database.sql:/docker-entrypoint-initdb.d/database.sql
+    ports:
+     - '5432:5432'

@@ -1,0 +1,5 @@
+CREATE TABLE "todo" (
+    "id" SERIAL PRIMARY KEY,
+    "message" VARCHAR(255) NOT NULL UNIQUE,
+    "description" VARCHAR(255) NOT NULL
+) WITH (OIDS = FALSE);
