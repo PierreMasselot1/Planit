@@ -1,6 +1,5 @@
-const express = require("express");
+import express from "express";
 const app = express();
-require("dotenv").config();
 
 app.use(express.json());
 const port = 5055;
@@ -8,7 +7,7 @@ const port = 5055;
 app.listen(port, console.log(`Listening on port ${port}`));
 
 //routes
-const todoRouter = require("./routes/todo");
+import todoRouter from "./routes/todo";
 
 //map routes
 app.use("/api/todo", todoRouter);
