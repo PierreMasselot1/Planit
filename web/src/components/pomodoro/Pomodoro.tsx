@@ -44,9 +44,9 @@ export function Pomodoro() {
   }
   return (
     <div className="text-white flex-col text-center">
-      <h1 className="underline text-green-300 text-7xl ">Pomodoro</h1>
-      <p className="mt-3 text-green-400 text-3xl">Time Left:</p>
-      <p
+      <h1 className="text-teal-500 text-7xl ">Pomodoro</h1>
+      <div className="">
+        <p
         className={`text-9xl ${
           minutesLeft === 0 && secondsLeft === 0 ? "animate-pulse" : ""
         }`}
@@ -76,7 +76,8 @@ export function Pomodoro() {
         <button onClick={() => changeTimer(25)} className="mx-2">
           25 MINUTES
         </button>
-      </div>
+      </div></div>
+      
     </div>
   );
 }
