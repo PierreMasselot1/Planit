@@ -11,19 +11,16 @@ router.get("/test", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  
-  
-  
-  
-  const text = `
-      INSERT INTO todo (id, message, description)
+  console.log(req.query);
+  const query = `
+      INSERT INTO todo (todo_list_id,title, description)
       VALUES ($1, $2, $3)
       RETURNING id
     `;
-  const values = [1, "message", "description"];
-  res = pool.query(text, values);
+  const values = [1, req.query.title, req.query.description];
+  await pool.query(query, values);
 
-  res.json({ message: "tried to post"});
+  res.json({ message: "tried to post" });
 });
 
 module.exports = router;
