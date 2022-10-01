@@ -1,3 +1,5 @@
+import {Request, Response} from "express"
+
 const express = require("express");
 const pool = require("../config/db");
 
@@ -8,7 +10,7 @@ router.get("/test", async (req, res) => {
   res.json({ message: "TEST BACKEND ROUTE" });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res : Response) => {
   console.log(req.query);
   const query = `
       INSERT INTO todo (todo_list_id,title, description)
