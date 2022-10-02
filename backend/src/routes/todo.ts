@@ -1,4 +1,4 @@
-import {Request, Response} from "express"
+import { Request, Response } from "express";
 
 const express = require("express");
 const pool = require("../config/db");
@@ -10,7 +10,14 @@ router.get("/test", async (req, res) => {
   res.json({ message: "TEST BACKEND ROUTE" });
 });
 
-router.post("/", async (req: Request, res : Response) => {
+router.get("/", async (req: Request, res: Response) => {
+  console.log("Getting todos");
+  const query = `SELECT * from todo`;
+  const todos = await pool.query(query);
+  res.json({ todos: todos.rows });
+});
+
+router.post("/", async (req: Request, res: Response) => {
   console.log(req.query);
   const query = `
       INSERT INTO todo (todo_list_id,title, description)
