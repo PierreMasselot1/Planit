@@ -30,6 +30,7 @@ export function Pomodoro() {
   }, [ellapsedTime, timerStatus, timer]);
 
   function resetTimer() {
+    setTimerStatus(false);
     setEllapsedTime(0);
   }
 
@@ -47,37 +48,37 @@ export function Pomodoro() {
       <h1 className="text-teal-500 text-7xl ">Pomodoro</h1>
       <div className="">
         <p
-        className={`text-9xl ${
-          minutesLeft === 0 && secondsLeft === 0 ? "animate-pulse" : ""
-        }`}
-      >
-        {" "}
-        {minutesLeft.toLocaleString("en-US", {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        })}
-        :
-        {secondsLeft.toLocaleString("en-US", {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        })}
-      </p>
-      <div className="flex-row justify-center">
-        <button onClick={toggleTimer} className="mx-2">
-          {timerStatus ? "PAUSE" : "PLAY"}
-        </button>
-        <button onClick={resetTimer} className="mx-2">
+          className={`text-9xl ${
+            minutesLeft === 0 && secondsLeft === 0 ? "animate-pulse" : ""
+          }`}
+        >
           {" "}
-          RESET TIMER{" "}
-        </button>
-        <button onClick={() => changeTimer(5)} className="mx-2">
-          5 MINUTES
-        </button>
-        <button onClick={() => changeTimer(25)} className="mx-2">
-          25 MINUTES
-        </button>
-      </div></div>
-      
+          {minutesLeft.toLocaleString("en-US", {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+          :
+          {secondsLeft.toLocaleString("en-US", {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+        </p>
+        <div className="flex-row justify-center">
+          <button onClick={toggleTimer} className="mx-2">
+            {timerStatus ? "PAUSE" : "PLAY"}
+          </button>
+          <button onClick={resetTimer} className="mx-2">
+            {" "}
+            RESET TIMER{" "}
+          </button>
+          <button onClick={() => changeTimer(5)} className="mx-2">
+            5 MINUTES
+          </button>
+          <button onClick={() => changeTimer(25)} className="mx-2">
+            25 MINUTES
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
