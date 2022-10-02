@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TodoItem() {
+export default function TodoItem(title: string = "", description: string = "") {
   function onToggle() {
     console.log("toggled");
   }
@@ -12,6 +12,9 @@ export default function TodoItem() {
     <div className="bg-green-400 w-fit mx-2 my-1 py-1 px-2 rounded ">
       <input type="checkbox" onChange={onToggle} />
       <label className="mx-2">TODO</label>
+      <label className="mx-2">{title}</label>
+      <label className="mx-2">{description}</label>
+
       <button onClick={onDestroy} className="bg-slate-50 rounded-full ">
         X
       </button>
