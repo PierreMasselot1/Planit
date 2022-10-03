@@ -23,7 +23,7 @@ export default function TodoList() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-gray-700 rounded-lg mr-2 my-3 h-5/6 p-2">
       {todos.map((todo: any, key: number) => (
         <li className="list-none" key={key}>
           {TodoItem(todo.title, todo.description)}
