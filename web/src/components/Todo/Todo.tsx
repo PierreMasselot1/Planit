@@ -1,9 +1,11 @@
+import { Todo } from "@shared/types/todo_types";
 import { useEffect, useState } from "react";
 import TodoItem from "./TodoItem/TodoItem";
 
-export default function Todo() {
+export default function TodoList() {
   const [todos, setTodos] = useState([]);
-
+  const todo: Todo = { title: "test", description: "ahahjd" };
+  console.log(todo);
   useEffect(() => {
     console.log("useEffect todo");
     try {
@@ -13,8 +15,6 @@ export default function Todo() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(`Here is the data received:${data}`);
-          console.log(data);
           setTodos(data.todos);
         });
     } catch (err) {
