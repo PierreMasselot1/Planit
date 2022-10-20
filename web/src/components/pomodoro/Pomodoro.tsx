@@ -44,11 +44,11 @@ export function Pomodoro() {
     setTimer(time);
   }
   return (
-    <div className="text-white flex-col text-center">
-      <h1 className="text-teal-500 text-7xl ">Pomodoro</h1>
+    <div className=" flex flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2 text-white flex-col justify-center text-center">
+      <h1 className="text-teal-500 text-7xl lg:text-8xl ">Pomodoro</h1>
       <div className="">
         <p
-          className={`text-9xl ${
+          className={`text-9xl lg:text-[200px]  mb-5${
             minutesLeft === 0 && secondsLeft === 0 ? "animate-pulse" : ""
           }`}
         >
@@ -63,7 +63,7 @@ export function Pomodoro() {
             useGrouping: false,
           })}
         </p>
-        <div className="flex-row justify-center">
+        <div className="flex-row justify-center lg:text-3xl">
           <button onClick={toggleTimer} className="mx-2">
             {timerStatus ? "PAUSE" : "PLAY"}
           </button>
