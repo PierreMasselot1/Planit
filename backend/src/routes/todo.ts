@@ -11,7 +11,7 @@ router.get("/test", async (req, res) => {
 
 router.get("/", async (req: Request, res: Response) => {
   console.log("Getting todos");
-  const query = `SELECT * from todo where NOT is_deleted`;
+  const query = `SELECT * FROM todo where is_deleted IS NULL OR FALSE`;
   const todos = await pool.query(query);
   res.json({ todos: todos.rows });
 });
@@ -31,7 +31,9 @@ router.post("/", async (req: Request, res: Response) => {
 
 router.delete("/", async (req: Request, res: Response) => {
   console.log("deleting todo");
-  const query = ``;
+  const query = `Update todo SET is_deleted = 't' WHERE id = ${req.query.id}`;
+  await pool.query(query);
+
 });
 
 module.exports = router;
