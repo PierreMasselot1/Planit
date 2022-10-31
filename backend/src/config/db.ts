@@ -4,7 +4,7 @@ user: 'postgres',
 host: 'localhost',
 database: 'planit',
 password: 'postgres',
-port: 5432
+port: 5444
 });
 
 module.exports = pool;
