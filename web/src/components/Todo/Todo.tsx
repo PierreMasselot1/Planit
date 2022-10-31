@@ -57,7 +57,7 @@ export default function TodoList() {
     <div className="flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2">
       {todos.map((todo: any, key: number) => (
         <li className="list-none" key={key}>
-          {TodoItem(todo.title, todo.description)}
+          {TodoItem(todo)}
         </li>
       ))}
       <form>
