@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TodoItem(todo: any) {
+export default function TodoItem(todo: any, reloadTodos:any) {
   function onToggle() {
     console.log("toggled");
     console.log(todo.is_deleted);
@@ -19,6 +19,7 @@ export default function TodoItem(todo: any) {
     } catch (err) {
       console.log("error" + err);
     }
+    reloadTodos()
   }
 
   return (
