@@ -11,7 +11,7 @@ router.get("/test", async (req, res) => {
 
 router.get("/", async (req: Request, res: Response) => {
   console.log("Getting todos");
-  const query = `SELECT * from todo`;
+  const query = `SELECT * from todo where NOT is_deleted`;
   const todos = await pool.query(query);
   res.json({ todos: todos.rows });
 });
@@ -27,6 +27,11 @@ router.post("/", async (req: Request, res: Response) => {
   await pool.query(query, values);
 
   res.json({ message: "tried to post" });
+});
+
+router.delete("/", async (req: Request, res: Response) => {
+  console.log("deleting todo");
+  const query = ``;
 });
 
 module.exports = router;
