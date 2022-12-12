@@ -13,14 +13,7 @@ export default function TodoList() {
   useEffect(() => {
     console.log("useEffect todo");
     try {
-      fetch("http://localhost:5055/api/todo", {
-        method: "GET",
-        credentials: "include",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setTodos(data.todos);
-        });
+      getAllTodos();
     } catch (err) {
       console.log("error" + err);
     }
@@ -44,7 +37,9 @@ export default function TodoList() {
                 description: todoInput,
               }),
             }
-          ).then((response) => response.json());
+          ).then(() => {
+            getAllTodos();
+          });
         } catch (err) {
           console.log("error" + err);
         }
@@ -59,20 +54,27 @@ export default function TodoList() {
     };
   }, [todoInput]);
 
-  function getAllTodos(){
-    
+  function getAllTodos() {
+    fetch("http://localhost:5055/api/todo", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setTodos(data.todos);
+      });
   }
-  function deleteTodo(id:number){
+  function deleteTodo(id: number) {
     try {
       fetch(`http://localhost:5055/api/todo?id=${id}`, {
         method: "DELETE",
         credentials: "include",
-      })
-        .then((response) => {
-          if(response.status===204){
-            console.log("successfully deleted")
-          }
-        })
+      }).then((response) => {
+        if (response.status === 204) {
+          getAllTodos();
+          console.log("successfully deleted");
+        }
+      });
     } catch (err) {
       console.log("error" + err);
     }
@@ -82,7 +84,7 @@ export default function TodoList() {
     <div className="flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2">
       {todos.map((todo: any, key: number) => (
         <li className="list-none" key={key}>
-          {TodoItem(todo,deleteTodo)}
+          {TodoItem(todo, deleteTodo)}
         </li>
       ))}
       <form>
