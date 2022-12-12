@@ -12,7 +12,7 @@ export default function TodoList() {
     } catch (err) {
       console.log("error" + err);
     }
-  });
+  },[]);
 
   useEffect(() => {
     const keyDownHandler = (event: {
@@ -58,6 +58,7 @@ export default function TodoList() {
         setTodos(data.todos);
       });
   }
+
   function deleteTodo(id: number) {
     try {
       fetch(`http://localhost:5055/api/todo?id=${id}`, {
