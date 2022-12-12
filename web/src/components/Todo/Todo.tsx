@@ -4,11 +4,6 @@ import TodoItem from "./TodoItem/TodoItem";
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
   const [todoInput, setTodoInput] = useState("");
-  const [reload, setReloadTodos] = useState(false);
-
-  function reloadTodos() {
-    setReloadTodos(!reload);
-  }
 
   useEffect(() => {
     console.log("useEffect todo");
@@ -17,7 +12,7 @@ export default function TodoList() {
     } catch (err) {
       console.log("error" + err);
     }
-  }, [reload]);
+  });
 
   useEffect(() => {
     const keyDownHandler = (event: {
@@ -43,7 +38,6 @@ export default function TodoList() {
         } catch (err) {
           console.log("error" + err);
         }
-        reloadTodos();
       }
     };
 
