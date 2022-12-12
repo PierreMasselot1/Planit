@@ -1,12 +1,32 @@
 {
+  "include": [
+    "src",
+    "../shared"
+  ],
   "compilerOptions": {
     "sourceMap": true,
     "target": "es2017",
+    "paths": {
+      "@shared/*": [
+        "../shared/*"
+      ]
+    },
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "noFallthroughCasesInSwitch": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
     "moduleResolution": "node",
-    "paths": { "@shared/*": ["../shared/*"] }
   },
-  "include": ["src/**/*.ts", "../shared"],
-  "exclude": ["node_modules"]
+  "ts-node": {
+    // Do not forget to `npm i -D tsconfig-paths`
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
 }

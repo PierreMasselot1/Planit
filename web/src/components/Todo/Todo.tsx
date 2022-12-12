@@ -12,7 +12,7 @@ export default function TodoList() {
     } catch (err) {
       console.log("error" + err);
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     const keyDownHandler = (event: {

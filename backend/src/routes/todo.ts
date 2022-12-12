@@ -1,4 +1,7 @@
 import { Request, Response } from "express";
+import { Todo } from "@shared/types/todo_types";
+
+
 const express = require("express");
 const pool = require("../config/db");
 
@@ -16,7 +19,7 @@ router.get("/", async (req: Request, res: Response) => {
   res.json({ todos: todos.rows });
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", async (req: Request<Todo>, res: Response) => {
   console.log(req.query);
   const query = `
       INSERT INTO todo (todo_list_id,title, description)
