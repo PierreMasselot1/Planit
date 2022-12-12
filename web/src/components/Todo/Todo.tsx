@@ -59,11 +59,30 @@ export default function TodoList() {
     };
   }, [todoInput]);
 
+  function getAllTodos(){
+    
+  }
+  function deleteTodo(id:number){
+    try {
+      fetch(`http://localhost:5055/api/todo?id=${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      })
+        .then((response) => {
+          if(response.status===204){
+            console.log("successfully deleted")
+          }
+        })
+    } catch (err) {
+      console.log("error" + err);
+    }
+  }
+
   return (
     <div className="flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2">
       {todos.map((todo: any, key: number) => (
         <li className="list-none" key={key}>
-          {TodoItem(todo, reloadTodos)}
+          {TodoItem(todo,deleteTodo)}
         </li>
       ))}
       <form>

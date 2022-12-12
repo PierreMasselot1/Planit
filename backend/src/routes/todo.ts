@@ -33,7 +33,8 @@ router.delete("/", async (req: Request, res: Response) => {
   console.log("deleting todo");
   const query = `Update todo SET is_deleted = 't' WHERE id = ${req.query.id}`;
   await pool.query(query);
-
+  res.statusCode = 204;
+  res.json({ message: "Deleted the item" });
 });
 
 module.exports = router;

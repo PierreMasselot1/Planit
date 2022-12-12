@@ -1,25 +1,9 @@
-import React from "react";
-
-export default function TodoItem(todo: any, reloadTodos:any) {
+export default function TodoItem(todo: any, deleteTodo: Function) {
   function onToggle() {
     console.log("toggled");
-    console.log(todo.is_deleted);
   }
   function onDestroy() {
-    console.log("destroy");
-
-    try {
-      fetch(
-        `http://localhost:5055/api/todo?id=${todo.id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      ).then((response) => response.json());
-    } catch (err) {
-      console.log("error" + err);
-    }
-    reloadTodos()
+    deleteTodo(todo.id);
   }
 
   return (
