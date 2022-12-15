@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import LoginButton from "../Auth/Login";
+import LogoutButton from "../Auth/Logout";
 import NavIcon from "./NavIcon";
 
 export default function Navbar() {
@@ -10,6 +12,8 @@ export default function Navbar() {
       <Link to={"todo"} className="whitespace-nowrap">
         {NavIcon("Todo")}
       </Link>
+      {NavIcon(<LoginButton />)}
+      {NavIcon(<LogoutButton />)}
     </div>
   );
 }
