@@ -7,6 +7,7 @@ import { Pomodoro } from "./components/pomodoro/Pomodoro";
 import Home from "./routes/Home";
 import ErrorPage from "./routes/Error";
 import TodoList from "./components/Todo/Todo";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,13 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <Auth0Provider
+    domain="dev-hfnpcabx1n3viyfj.us.auth0.com"
+    clientId="WAOa9Dt62cQtYmvlDdclW4coP9fW5Iup"
+    redirectUri={window.location.origin}
+  >
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Auth0Provider>
 );
