@@ -1,5 +1,63 @@
 import { useEffect, useState } from "react";
 
+const CircularTimer = ({
+  timeLeft,
+  minutes,
+  seconds,
+  pulse = false,
+}: {
+  timeLeft: number;
+  minutes: string;
+  seconds: string;
+  pulse?: boolean;
+}) => {
+  // map to 70% of circumference
+  if (timeLeft === undefined || timeLeft < 0) timeLeft = 0;
+  timeLeft = timeLeft * 0.7;
+  const circumference = 2 * Math.PI * 45;
+  const strokeDashoffset = circumference - timeLeft * circumference;
+
+  return (
+    <svg className="relative h-3/6 mx-auto" viewBox="0 0 100 100">
+      <circle
+        cx="50"
+        cy="50"
+        r="45"
+        fill="transparent"
+        stroke="grey"
+        strokeWidth="10"
+        strokeDasharray={circumference}
+        strokeDashoffset={circumference - 0.7 * circumference}
+        transform="rotate(145 50 50)"
+        className={`${pulse ? "animate-pulse" : ""}`}
+      />
+      <circle
+        cx="50"
+        cy="50"
+        r="45"
+        fill="transparent"
+        stroke="white"
+        strokeWidth="10"
+        strokeDasharray={circumference}
+        strokeDashoffset={strokeDashoffset}
+        transform="rotate(145 50 50)"
+        className={`${pulse ? "animate-pulse" : ""}`}
+      />
+
+      <text
+        x="50"
+        y="50"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="white"
+        className={`${pulse ? "animate-pulse" : ""}`}
+      >
+        {minutes}:{seconds}
+      </text>
+    </svg>
+  );
+};
+
 export function Pomodoro() {
   const [ellapsedTime, setEllapsedTime] = useState<number>(0);
   const [timer, setTimer] = useState<number>(25);
@@ -7,21 +65,22 @@ export function Pomodoro() {
   const [secondsLeft, setSeconds] = useState<number>(0);
   const [timerStatus, setTimerStatus] = useState<boolean>(false);
 
+  const refreshInterval = 100;
   useEffect(() => {
     const interval = setInterval(() => {
-      if (timerStatus) {
-        setEllapsedTime(ellapsedTime + 100);
-      }
-
-      let seconds = Math.floor((timer * 60000 - ellapsedTime) / 1000);
-      let minutes = Math.floor(seconds / 60);
       if (ellapsedTime >= timer * 60000) {
         setTimerStatus(false);
-      } else {
-        setMinutes(minutes);
-        setSeconds(seconds - minutes * 60);
+        return;
       }
-    }, 100);
+      if (timerStatus) {
+        setEllapsedTime(ellapsedTime + refreshInterval);
+      }
+      let seconds = Math.floor((timer * 60000 - ellapsedTime) / 1000);
+      let minutes = Math.floor(seconds / 60);
+
+      setMinutes(minutes);
+      setSeconds(seconds - minutes * 60);
+    }, refreshInterval);
 
     return () => {
       clearInterval(interval);
@@ -44,31 +103,31 @@ export function Pomodoro() {
   }
   return (
     <div className=" flex flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2 text-white flex-col justify-center text-center">
-      <h1 className="text-teal-500 text-7xl lg:text-8xl ">Pomodoro</h1>
       <div className="">
-        <p
-          className={`text-9xl lg:text-[200px]  mb-5${
-            minutesLeft === 0 && secondsLeft === 0 ? "animate-pulse" : ""
-          }`}
-        >
-          {" "}
-          {minutesLeft.toLocaleString("en-US", {
+        <CircularTimer
+          timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
+          minutes={minutesLeft.toLocaleString("en-US", {
             minimumIntegerDigits: 2,
             useGrouping: false,
           })}
-          :
-          {secondsLeft.toLocaleString("en-US", {
+          seconds={secondsLeft.toLocaleString("en-US", {
             minimumIntegerDigits: 2,
             useGrouping: false,
           })}
-        </p>
-        <div className="flex-row justify-center lg:text-3xl">
+          pulse={minutesLeft === 0 && secondsLeft === 0}
+        />
+        <div className="flex-row justify-center lg:text-3xl mb-2">
           <button onClick={toggleTimer} className="mx-2">
             {timerStatus ? "PAUSE" : "PLAY"}
           </button>
           <button onClick={resetTimer} className="mx-2">
             {" "}
             RESET TIMER{" "}
+          </button>
+        </div>
+        <div className="flex-row justify-center lg:text-3xl">
+          <button onClick={() => changeTimer(0.1)} className="mx-2">
+            6 SECONDS
           </button>
           <button onClick={() => changeTimer(5)} className="mx-2">
             5 MINUTES
