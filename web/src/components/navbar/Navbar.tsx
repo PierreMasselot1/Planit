@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import UserProfile from "../Auth/AuthInfo";
 import LoginButton from "../Auth/Login";
 import NavIcon from "./NavIcon";
 
@@ -13,7 +14,12 @@ export default function Navbar() {
       <Link to={"todo"} className=" whitespace-nowrap">
         {NavIcon("Todo", !isAuthenticated)}
       </Link>
-      <div className="mt-auto"> {NavIcon(<LoginButton />)}</div>
+      <div className="mt-auto">
+        <div className="text-white outline outline-gray-800 outline- font-medium rounded-lg text-lg px-3 py-1.5 text-center mx-3 my-2">
+          <UserProfile />
+        </div>
+        {NavIcon(<LoginButton />)}
+      </div>
     </div>
   );
 }
