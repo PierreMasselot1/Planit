@@ -9,12 +9,18 @@ const CircularTimer = ({
   seconds,
   pulse = false,
   className = "",
+  timerStatus,
+  toggleTimer,
+  resetTimer,
 }: {
   timeLeft: number;
   minutes: string;
   seconds: string;
   pulse?: boolean;
   className?: string;
+  timerStatus: boolean;
+  toggleTimer: () => void;
+  resetTimer: () => void;
 }) => {
   // map to 70% of circumference
   if (timeLeft === undefined || timeLeft < 0) timeLeft = 0;
@@ -24,8 +30,8 @@ const CircularTimer = ({
 
   return (
     <svg
-      className={`relative h-3/6 mx-auto ${className}`}
-      viewBox="0 0 100 100"
+      className={`relative  h-3/6 mx-auto ${className}`}
+      viewBox="0 0 100 85"
     >
       <circle
         cx="50"
@@ -62,6 +68,16 @@ const CircularTimer = ({
       >
         {minutes}:{seconds}
       </text>
+      <foreignObject x="35" y="50" width="40" height="35">
+        {" "}
+        <PlayPauseResetButton
+          isPlaying={timerStatus}
+          onPause={toggleTimer}
+          onPlay={toggleTimer}
+          onReset={resetTimer}
+          className="h-10"
+        />
+      </foreignObject>
     </svg>
   );
 };
@@ -84,21 +100,21 @@ const PlayPauseResetButton = ({
       {isPlaying ? (
         <button
           onClick={onPause}
-          className="text-white hover:text-gray-900 focus:outline-none  focus:text-gray-900 text-4xl"
+          className="text-white hover:text-gray-900 focus:outline-none  focus:text-gray-900"
         >
           <FontAwesomeIcon icon={faPause} />
         </button>
       ) : (
         <button
           onClick={onPlay}
-          className="text-white hover:text-gray-900 focus:outline-none focus:text-gray-900 text-4xl"
+          className="text-white hover:text-gray-900 focus:outline-none focus:text-gray-900"
         >
           <FontAwesomeIcon icon={faPlay} />
         </button>
       )}
       <button
         onClick={onReset}
-        className="ml-2 text-white hover:text-gray-900 focus:outline-none focus:text-gray-900 text-4xl"
+        className="ml-2 text-white hover:text-gray-900 focus:outline-none focus:text-gray-900"
       >
         <FontAwesomeIcon icon={faRedo} />
       </button>
@@ -150,8 +166,8 @@ export function Pomodoro() {
     setTimer(time);
   }
   return (
-    <div className=" flex flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2 text-white flex-col justify-center text-center">
-      <div className="">
+    <div className="flex h-full">
+      <div className=" flex flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2 text-white flex-col justify-center text-center">
         <CircularTimer
           timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
           minutes={minutesLeft.toLocaleString("en-US", {
@@ -164,13 +180,9 @@ export function Pomodoro() {
           })}
           pulse={minutesLeft === 0 && secondsLeft === 0}
           className="mt-5"
-        />
-        <PlayPauseResetButton
-          isPlaying={timerStatus}
-          onPause={toggleTimer}
-          onPlay={toggleTimer}
-          onReset={resetTimer}
-          className="mx-auto flex flex-row justify-center mb-2"
+          timerStatus={timerStatus}
+          resetTimer={resetTimer}
+          toggleTimer={toggleTimer}
         />
         <div className="flex-row justify-center lg:text-3xl">
           <Button onClick={() => changeTimer(0.1)} className="mx-2">
