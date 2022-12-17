@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../Common/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faPause, faRedo } from "@fortawesome/free-solid-svg-icons";
 
 const CircularTimer = ({
   timeLeft,
@@ -56,6 +58,46 @@ const CircularTimer = ({
         {minutes}:{seconds}
       </text>
     </svg>
+  );
+};
+
+const PlayPauseResetButton = ({
+  isPlaying,
+  onPlay,
+  onPause,
+  onReset,
+  className,
+}: {
+  isPlaying: boolean;
+  onPlay: () => void;
+  onPause: () => void;
+  onReset: () => void;
+  className?: string;
+}) => {
+  return (
+    <div className={`flex items-center ${className}`}>
+      {isPlaying ? (
+        <button
+          onClick={onPause}
+          className="text-white hover:text-gray-900 focus:outline-none  focus:text-gray-900 text-4xl"
+        >
+          <FontAwesomeIcon icon={faPause} />
+        </button>
+      ) : (
+        <button
+          onClick={onPlay}
+          className="text-white hover:text-gray-900 focus:outline-none focus:text-gray-900 text-4xl"
+        >
+          <FontAwesomeIcon icon={faPlay} />
+        </button>
+      )}
+      <button
+        onClick={onReset}
+        className="ml-2 text-white hover:text-gray-900 focus:outline-none focus:text-gray-900 text-4xl"
+      >
+        <FontAwesomeIcon icon={faRedo} />
+      </button>
+    </div>
   );
 };
 
@@ -117,15 +159,13 @@ export function Pomodoro() {
           })}
           pulse={minutesLeft === 0 && secondsLeft === 0}
         />
-        <div className="flex-row justify-center lg:text-3xl mb-2">
-          <button onClick={toggleTimer} className="mx-2">
-            {timerStatus ? "PAUSE" : "PLAY"}
-          </button>
-          <button onClick={resetTimer} className="mx-2">
-            {" "}
-            RESET TIMER{" "}
-          </button>
-        </div>
+        <PlayPauseResetButton
+          isPlaying={timerStatus}
+          onPause={toggleTimer}
+          onPlay={toggleTimer}
+          onReset={resetTimer}
+          className="mx-auto flex flex-row justify-center mb-2"
+        />
         <div className="flex-row justify-center lg:text-3xl">
           <Button onClick={() => changeTimer(0.1)} className="mx-2">
             6 SECONDS

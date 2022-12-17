@@ -5,7 +5,7 @@ import LoginButton from "../Auth/Login";
 import NavIcon from "./NavIcon";
 
 export default function Navbar() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
 
   return (
     <div className="flex flex-col h-screen justify-between m-3 py-1 bg-gray-700 rounded-lg">
@@ -15,9 +15,12 @@ export default function Navbar() {
         {NavIcon("Todo", !isAuthenticated)}
       </Link>
       <div className="mt-auto">
-        <div className="text-white outline outline-gray-800 outline- font-medium rounded-lg text-lg px-3 py-1.5 text-center mx-3 my-2">
-          <UserProfile />
-        </div>
+        {!isLoading && isAuthenticated && (
+          <div className="text-white outline outline-gray-800 outline- font-medium rounded-lg text-lg px-3 py-1.5 text-center mx-3 my-2">
+            <UserProfile />
+          </div>
+        )}
+
         {NavIcon(<LoginButton />)}
       </div>
     </div>
