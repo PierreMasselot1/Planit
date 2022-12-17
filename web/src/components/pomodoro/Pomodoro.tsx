@@ -8,11 +8,13 @@ const CircularTimer = ({
   minutes,
   seconds,
   pulse = false,
+  className = "",
 }: {
   timeLeft: number;
   minutes: string;
   seconds: string;
   pulse?: boolean;
+  className?: string;
 }) => {
   // map to 70% of circumference
   if (timeLeft === undefined || timeLeft < 0) timeLeft = 0;
@@ -21,7 +23,10 @@ const CircularTimer = ({
   const strokeDashoffset = circumference - timeLeft * circumference;
 
   return (
-    <svg className="relative h-3/6 mx-auto" viewBox="0 0 100 100">
+    <svg
+      className={`relative h-3/6 mx-auto ${className}`}
+      viewBox="0 0 100 100"
+    >
       <circle
         cx="50"
         cy="50"
@@ -158,6 +163,7 @@ export function Pomodoro() {
             useGrouping: false,
           })}
           pulse={minutesLeft === 0 && secondsLeft === 0}
+          className="mt-5"
         />
         <PlayPauseResetButton
           isPlaying={timerStatus}
