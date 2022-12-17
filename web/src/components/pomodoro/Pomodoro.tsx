@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "../Common/Button";
 
 const CircularTimer = ({
   timeLeft,
@@ -126,15 +127,15 @@ export function Pomodoro() {
           </button>
         </div>
         <div className="flex-row justify-center lg:text-3xl">
-          <button onClick={() => changeTimer(0.1)} className="mx-2">
+          <Button onClick={() => changeTimer(0.1)} className="mx-2">
             6 SECONDS
-          </button>
-          <button onClick={() => changeTimer(5)} className="mx-2">
+          </Button>
+          <Button onClick={() => changeTimer(5)} className="mx-2">
             5 MINUTES
-          </button>
-          <button onClick={() => changeTimer(25)} className="mx-2">
+          </Button>
+          <Button onClick={() => changeTimer(25)} className="mx-2">
             25 MINUTES
-          </button>
+          </Button>
         </div>
       </div>
     </div>
