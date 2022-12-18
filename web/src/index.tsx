@@ -38,7 +38,9 @@ root.render(
     redirectUri={window.location.origin}
   >
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <div className="font-mono">
+        <RouterProvider router={router} />
+      </div>
     </React.StrictMode>
   </Auth0Provider>
 );
