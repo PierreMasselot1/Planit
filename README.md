@@ -1,25 +1,20 @@
-# planit
+# Planit
 
-This repo contains all the stuff for this react-native productivity/time-management app
+The goal of this project is to familiarize myself with the development of a cross-platform application, using React-native and Electron. The first goal is to get most of the features working in a regular web application. Once satisfied with the development state I will try to set up a CI/CD pipeline and host the said website. Having the website hosted will also push me to handle DB migrations properly which is something that I want to be able to do properly (even if the app won't have any users at that time and resetting everything would be the easiest solution).
 
-The main goal of this project was to learn how to build the same application with cross-platform support, including a web-based UI, native apps for mobile and possibly Windows/macOS/Linux by using react native. The focus is on how to share as much of the codebase between the native and web app.
+Current features that I am trying to implement before hosting the website and getting the mobile applications up to speed, order corresponds to priority ( and will probably change):
 
-While the main focus of the project is to learn the concepts mentioned above it is also useful for me as I will be able to easily customize everyday productivity tools to my liking while also bringing everything in one place...that hopefully can run without internet, which is super useful when you are in the north of Quebec with internet that can't even pass a speed test due to latency errors.
-Additionally, I want to work on new technologies. Improve in React, learn Tailwind, and learn React native. If this project comes to a point where it needs a backend I will probably use a microservice architecture, and try to fit in some Rust or Go if the use case allows it.
+- [X] Pomodoro
+- [] TODO List
+- [X] User account and auth
+- [] TODO integration with Pomodoro
+- [] Time tracking
+- [] Time tracking integration with Pomodoro
+- [] Have a task board
 
-This is more of a note to myself. Don't get a domain until you would personally use this thing...
+Once those features are implemented, and the hosting and native app side of things is done I will potentially move on to the following features:
 
-And if it does get to that point maybe look into how to deploy a CI/CD pipeline, running everything in dockerized containers and maybe even get to play around with Kubernetes... but at that point, this is wishful thinking
-
-Here is a list of things that I want to implement
-
-
-Pomodoro
-Todo List (being closely integrated with the Pomodoro timer)
-Calendar integration with Google (and others bcs privacy...)
-Journaling/notes 
-Time tracker, standalone and with the ability to use the Pomodoro timer/Calendar
-App and website blocker... This would probably mean having an extension and a bunch of stuff that I might not be able to do with a React native app when it comes to app blocking but we will see when we get there
-For the TODOs a Trello-like board (Github integration to track issue??)
-
-And I think that with this I have enough stuff for more than a YEAR so I will stop here.
+- [] Journaling
+- [] Notes
+- [] App and website blocker (Extension required?)
+- [] ...
