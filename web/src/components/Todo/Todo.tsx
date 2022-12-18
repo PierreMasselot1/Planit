@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Todo } from "@shared/types/todo_types";
 import TodoItem from "./TodoItem/TodoItem";
 
 export default function TodoList() {
@@ -30,7 +31,7 @@ export default function TodoList() {
               body: JSON.stringify({
                 title: "test title",
                 description: todoInput,
-              }),
+              } as Todo),
             }
           ).then(() => {
             getAllTodos();
