@@ -33,6 +33,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Auth0Provider
+    audience="planit-auth"
     domain="dev-hfnpcabx1n3viyfj.us.auth0.com"
     clientId="WAOa9Dt62cQtYmvlDdclW4coP9fW5Iup"
     redirectUri={window.location.origin}

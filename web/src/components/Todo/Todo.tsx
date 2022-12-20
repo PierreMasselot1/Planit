@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
 import TodoItem from "./TodoItem/TodoItem";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function TodoList() {
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
   const [todos, setTodos] = useState([]);
   const [todoInput, setTodoInput] = useState("");
 
@@ -16,7 +19,7 @@ export default function TodoList() {
   }, []);
 
   useEffect(() => {
-    const keyDownHandler = (event: {
+    const keyDownHandler = async (event: {
       key: string;
       preventDefault: () => void;
     }) => {
@@ -28,12 +31,16 @@ export default function TodoList() {
             {
               method: "POST",
               credentials: "include",
+              headers: {
+                authorization: `Bearer ${await getAccessTokenSilently()}`,
+              },
               body: JSON.stringify({
                 title: "test title",
                 description: todoInput,
               } as Todo),
             }
-          ).then(() => {
+          ).then(async () => {
+            console.log(await getAccessTokenSilently());
             getAllTodos();
           });
         } catch (err) {
@@ -49,22 +56,29 @@ export default function TodoList() {
     };
   }, [todoInput]);
 
-  function getAllTodos() {
+  async function getAllTodos() {
     fetch("http://localhost:5055/api/todo", {
       method: "GET",
       credentials: "include",
+      headers: {
+        authorization: `Bearer ${await getAccessTokenSilently()}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setTodos(data.todos);
       });
   }
 
-  function deleteTodo(id: number) {
+  async function deleteTodo(id: number) {
     try {
       fetch(`http://localhost:5055/api/todo?id=${id}`, {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          authorization: `Bearer ${await getAccessTokenSilently()}`,
+        },
       }).then((response) => {
         if (response.status === 204) {
           getAllTodos();
