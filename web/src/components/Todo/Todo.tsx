@@ -10,7 +10,6 @@ export default function TodoList() {
   const [todoInput, setTodoInput] = useState("");
 
   useEffect(() => {
-    console.log("useEffect todo");
     try {
       getAllTodos();
     } catch (err) {
@@ -40,7 +39,6 @@ export default function TodoList() {
               } as Todo),
             }
           ).then(async () => {
-            console.log(await getAccessTokenSilently());
             getAllTodos();
           });
         } catch (err) {
@@ -66,7 +64,6 @@ export default function TodoList() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setTodos(data.todos);
       });
   }
@@ -82,7 +79,6 @@ export default function TodoList() {
       }).then((response) => {
         if (response.status === 204) {
           getAllTodos();
-          console.log("successfully deleted");
         }
       });
     } catch (err) {
