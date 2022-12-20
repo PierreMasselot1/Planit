@@ -1,5 +1,6 @@
 CREATE TABLE "todo_list"(
-    "id" SERIAL PRIMARY KEY
+    "id" SERIAL PRIMARY KEY,
+    "owner_id" integer NOT NULL
 );
 CREATE TABLE "todo" (
     "id" SERIAL PRIMARY KEY,
@@ -13,3 +14,11 @@ CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(255)
 );
+INSERT INTO todo_list ("id", "owner_id")
+VALUES (1, 1);
+INSERT INTO todo ("todo_list_id", "title", "description")
+VALUES (
+        1,
+        'THIS IS A DEVELOPMENT TEST TODO',
+        'THIS IS THE DESCRIPTION OF THE TEST TODO'
+    );
