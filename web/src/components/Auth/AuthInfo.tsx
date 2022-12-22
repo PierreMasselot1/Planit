@@ -11,7 +11,7 @@ const UserProfile = () => {
         alt={`${user?.name}`}
         className="w-10 h-10 rounded-full"
       />
-      <span className="ml-4 font-bold text-lg">{user?.name}</span>
+      <span className="ml-4 font-bold text-lg truncate ...">{user?.name}</span>
     </div>
   );
 };
