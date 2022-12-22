@@ -21,7 +21,7 @@ export default function Navbar() {
           </div>
         )}
 
-        {NavIcon(<LoginButton />)}
+        <LoginButton />
       </div>
     </div>
   );
