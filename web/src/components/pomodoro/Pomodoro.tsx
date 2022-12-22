@@ -133,6 +133,8 @@ export function Pomodoro() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (ellapsedTime >= timer * 60000) {
+        if(timerStatus)alert("Time expired!")
+
         setTimerStatus(false);
         return;
       }
