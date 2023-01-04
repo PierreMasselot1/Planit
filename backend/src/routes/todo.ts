@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import { Todo } from "@shared/types/todo_types";
 
-
 const express = require("express");
 const pool = require("../config/db");
-
 const router = express.Router();
+
+const AuthenticationClient = require("auth0").AuthenticationClient;
+const auth0 = new AuthenticationClient({
+  domain: "dev-hfnpcabx1n3viyfj.us.auth0.com",
+  clientId: "WAOa9Dt62cQtYmvlDdclW4coP9fW5Iup",
+});
 
 router.get("/test", async (req, res) => {
   console.log("test");
@@ -14,6 +18,8 @@ router.get("/test", async (req, res) => {
 
 router.get("/", async (req: Request, res: Response) => {
   console.log("Getting todos");
+  const token = req.headers.authorization.split(" ")[1];
+  const userProfile = await auth0.getProfile(token);
   const query = `SELECT * FROM todo where is_deleted IS NULL OR FALSE`;
   const todos = await pool.query(query);
   res.json({ todos: todos.rows });
