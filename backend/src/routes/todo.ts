@@ -26,13 +26,29 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request<Todo>, res: Response) => {
-  console.log(req.query);
+  const token = req.headers.authorization.split(" ")[1];
+  const userProfile = await auth0.getProfile(token);
+  var todolist = await pool.query(
+    `SELECT * FROM todo_list 
+    WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
+  );
+
+  if (todolist.rows.length === 0) {
+    const query = `
+      INSERT INTO todo_list (owner_id)
+      VALUES ($1)
+      RETURNING id
+    `;
+    const values = [userProfile.sub.replace("|", "_")];
+    todolist = await pool.query(query, values);
+  }
+
   const query = `
       INSERT INTO todo (todo_list_id,title, description)
       VALUES ($1, $2, $3)
       RETURNING id
     `;
-  const values = [1, req.query.title, req.query.description];
+  const values = [todolist.rows[0].id, req.query.title, req.query.description];
   await pool.query(query, values);
 
   res.json({ message: "tried to post" });

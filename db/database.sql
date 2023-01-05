@@ -1,6 +1,6 @@
 CREATE TABLE "todo_list"(
     "id" SERIAL PRIMARY KEY,
-    "owner_id" integer NOT NULL
+    "owner_id" VARCHAR(255) NOT NULL
 );
 CREATE TABLE "todo" (
     "id" SERIAL PRIMARY KEY,
