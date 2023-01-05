@@ -24,6 +24,11 @@ router.get("/", async (req: Request, res: Response) => {
     `SELECT * FROM todo_list 
     WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
   );
+  if(todolist.rows.length===0){
+    console.log("no todo list exists, create a todo for this call to actually return anything")
+    return
+  }
+
   const query = `SELECT * FROM todo where todo_list_id = ${todolist.rows[0].id} AND is_deleted IS NULL OR FALSE`;
   const todos = await pool.query(query);
   res.json({ todos: todos.rows });
