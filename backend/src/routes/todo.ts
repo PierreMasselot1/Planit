@@ -20,7 +20,11 @@ router.get("/", async (req: Request, res: Response) => {
   console.log("Getting todos");
   const token = req.headers.authorization.split(" ")[1];
   const userProfile = await auth0.getProfile(token);
-  const query = `SELECT * FROM todo where is_deleted IS NULL OR FALSE`;
+  const todolist = await pool.query(
+    `SELECT * FROM todo_list 
+    WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
+  );
+  const query = `SELECT * FROM todo where todo_list_id = ${todolist.rows[0].id} AND is_deleted IS NULL OR FALSE`;
   const todos = await pool.query(query);
   res.json({ todos: todos.rows });
 });
