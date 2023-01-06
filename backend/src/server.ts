@@ -26,7 +26,3 @@ app.listen(port, console.log(`Listening on port ${port}`));
 const todoRouter = require("./routes/todo");
 //map routes
 app.use("/api/todo", checkJwt, todoRouter);
-
-app.get("/api/ping", (req: Request, res: Response) => {
-  res.json("beep boop");
-});
