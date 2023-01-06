@@ -1,8 +1,4 @@
 {
-  "include": [
-    "src",
-    "../shared"
-  ],
   "compilerOptions": {
     "sourceMap": true,
     "target": "es2017",
@@ -23,8 +19,14 @@
     "outDir": "./dist",
     "moduleResolution": "node",
   },
+  "include": [
+    "src",
+    "../shared"
+, "types.d.ts"  ],
+  "files": [
+    "types.d.ts"
+  ],
   "ts-node": {
-    // Do not forget to `npm i -D tsconfig-paths`
     "require": [
       "tsconfig-paths/register"
     ]

@@ -5,38 +5,24 @@ const express = require("express");
 const pool = require("../config/db");
 const router = express.Router();
 
-const AuthenticationClient = require("auth0").AuthenticationClient;
-const auth0 = new AuthenticationClient({
-  domain: "dev-hfnpcabx1n3viyfj.us.auth0.com",
-  clientId: "WAOa9Dt62cQtYmvlDdclW4coP9fW5Iup",
-});
-
-router.get("/test", async (req, res) => {
-  console.log("test");
-  res.json({ message: "TEST BACKEND ROUTE" });
-});
-
 router.get("/", async (req: Request, res: Response) => {
-  console.log("Getting todos");
-  const token = req.headers.authorization.split(" ")[1];
-  const userProfile = await auth0.getProfile(token);
+  const userProfile = req.auth.payload;
+
   const todolist = await pool.query(
     `SELECT * FROM todo_list 
     WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
   );
-  if(todolist.rows.length===0){
-    console.log("no todo list exists, create a todo for this call to actually return anything")
-    return
-  }
 
-  const query = `SELECT * FROM todo where todo_list_id = ${todolist.rows[0].id} AND is_deleted IS NULL OR FALSE`;
-  const todos = await pool.query(query);
+  var todos = null;
+  if (todolist.rows.length !== 0) {
+    const query = `SELECT * FROM todo where todo_list_id = ${todolist.rows[0].id} AND is_deleted IS NULL OR FALSE`;
+    todos = await pool.query(query);
+  }
   res.json({ todos: todos.rows });
 });
 
 router.post("/", async (req: Request<Todo>, res: Response) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const userProfile = await auth0.getProfile(token);
+  const userProfile = req.auth.payload;
   var todolist = await pool.query(
     `SELECT * FROM todo_list 
     WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
@@ -57,14 +43,19 @@ router.post("/", async (req: Request<Todo>, res: Response) => {
       VALUES ($1, $2, $3)
       RETURNING id
     `;
-  const values = [todolist.rows[0].id, req.query.title, req.query.description];
-  await pool.query(query, values);
 
+  if (todolist.rows.length !== 0) {
+    const values = [
+      todolist.rows[0].id,
+      req.query.title,
+      req.query.description,
+    ];
+    await pool.query(query, values);
+  }
   res.json({ message: "tried to post" });
 });
 
 router.delete("/", async (req: Request, res: Response) => {
-  console.log("deleting todo");
   const query = `Update todo SET is_deleted = 't' WHERE id = ${req.query.id}`;
   await pool.query(query);
   res.statusCode = 204;
