@@ -88,11 +88,12 @@ export default function TodoList() {
 
   return (
     <div className="flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2">
-      {todos.map((todo: any, key: number) => (
+      { todos && todos.map((todo: any, key: number) => (
         <li className="list-none" key={key}>
           {TodoItem(todo, deleteTodo)}
         </li>
-      ))}
+      )) 
+      }
       <form>
         <input
           type="text"
