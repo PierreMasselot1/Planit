@@ -7,9 +7,10 @@ Current features that I am trying to implement before hosting the website and ge
 - [X] Pomodoro
 <img src="https://user-images.githubusercontent.com/72809488/208276024-776644c9-7ba2-4403-a755-38734d0571cf.png " height="200" />
 
-- [ ] TODO List
+- [X] TODO List
 - [X] User account and auth
 <img src="https://user-images.githubusercontent.com/72809488/208276083-abbd204f-b387-42b8-9547-e3df0b7ddf9f.png" height="200" />
+
 - [ ] TODO integration with Pomodoro
 - [ ] Time tracking
 - [ ] Time tracking integration with Pomodoro
