@@ -11,7 +11,6 @@ Current features that I am trying to implement before hosting the website and ge
 - [X] User account and auth
 <img src="https://user-images.githubusercontent.com/72809488/208276083-abbd204f-b387-42b8-9547-e3df0b7ddf9f.png" height="200" />
 
-- [ ] TODO integration with Pomodoro
 - [ ] Time tracking
 - [ ] Time tracking integration with Pomodoro
 - [ ] Have a task board
