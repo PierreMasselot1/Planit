@@ -13,6 +13,8 @@ export default function TodoList() {
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     createTodo(title, description);
+    setTitle("");
+    setDescription("");
   };
 
   useEffect(() => {
