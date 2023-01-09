@@ -14,6 +14,8 @@ export default function Navbar() {
       <Link to={"todo"} className=" whitespace-nowrap">
         {NavIcon("Todo", !isAuthenticated)}
       </Link>
+      <Link to={"habit"}>{NavIcon("Habit", !isAuthenticated)}</Link>
+
       <div className="mt-auto">
         {!isLoading && isAuthenticated && (
           <div className="text-white outline outline-gray-800 outline- font-medium rounded-lg text-lg px-3 py-1.5 text-center mx-3 my-2">
