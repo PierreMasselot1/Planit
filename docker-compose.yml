@@ -16,3 +16,10 @@ services:
       dockerfile: ./web/Dockerfile
     ports:
       - "9240:9240"
+  backend:
+    environment:
+      - PORT=5055
+    build:
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "5055:5055"
