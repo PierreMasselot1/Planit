@@ -8,4 +8,11 @@ services:
     volumes:
       - ./db/database.sql:/docker-entrypoint-initdb.d/database.sql
     ports:
-     - '5444:5432'
+     - '5432:5432'
+  web:
+    environment:
+      - PORT=9240
+    build:
+      dockerfile: ./web/Dockerfile
+    ports:
+      - "9240:9240"
