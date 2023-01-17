@@ -1,0 +1,25 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - "-t"
+      - "gcr.io/planit-374204/planit-backend-staging-build:latest"
+      - "-f"
+      - ./backend/Dockerfile
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - "gcr.io/planit-374204/planit-backend-staging-build:latest"
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - run
+      - deploy
+      - planit-backend
+      - "--image"
+      - "gcr.io/planit-374204/planit-backend-staging-build:latest"
+      - "--region"
+      - us-central1
+    entrypoint: gcloud
+images:
+  - "gcr.io/planit-374204/planit-backend-staging-build:latest"
