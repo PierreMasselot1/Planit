@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 const express = require("express");
 const cors = require("cors");
 const app = express();
+require("dotenv").config();
 const { auth, requiredScopes } = require("express-oauth2-jwt-bearer");
 
 // Authorization middleware. When used, the Access Token must
@@ -19,7 +20,7 @@ app.use(
 );
 
 app.use(express.json());
-const port: number = 5055;
+const port: string = process.env.PORT;
 
 app.listen(port, console.log(`Listening on port ${port}`));
 

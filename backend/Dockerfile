@@ -5,5 +5,5 @@ COPY ./shared ./shared
 COPY ./backend ./backend
 WORKDIR /backend
 RUN npm install
-EXPOSE 5055
+EXPOSE ${PORT}
 CMD ["npm", "start"]
