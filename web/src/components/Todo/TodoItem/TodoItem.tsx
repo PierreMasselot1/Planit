@@ -1,12 +1,9 @@
 import { Todo } from "@shared/types/todo_types";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent } from "react";
 
 export default function TodoItem(todo: Todo, deleteTodo: Function) {
-  const [checked, setChecked] = useState(false);
-
   function onToggle(event: SyntheticEvent) {
     console.log(event.target);
-    setChecked((event.target as HTMLInputElement).checked);
   }
   function onDestroy() {
     deleteTodo(todo.id);
