@@ -29,7 +29,7 @@ export default function TodoList() {
   async function createTodo(title: string, description: string) {
     try {
       fetch(
-        `http://localhost:5055/api/todo?title=${title}&description=${description}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/todo?title=${title}&description=${description}`,
         {
           method: "POST",
           credentials: "include",
@@ -50,7 +50,7 @@ export default function TodoList() {
   }
 
   async function getAllTodos() {
-    fetch("http://localhost:5055/api/todo", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/todo`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -65,7 +65,7 @@ export default function TodoList() {
 
   async function deleteTodo(id: number) {
     try {
-      fetch(`http://localhost:5055/api/todo?id=${id}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/todo?id=${id}`, {
         method: "DELETE",
         credentials: "include",
         headers: {
