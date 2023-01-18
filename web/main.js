@@ -13,7 +13,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`http://localhost:${process.env.PORT}`);
+  mainWindow.loadURL(`http://localhost:${process.env.REACT_APP_PORT}`);
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
