@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 
 const pool =
-  process.env.CONNECTION_STRING == ""
+  process.env.CONNECTION_STRING === undefined
     ? new Pool({
         user: "postgres",
         host: process.env.DB_HOST || "localhost",
