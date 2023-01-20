@@ -8,7 +8,7 @@ export default function Navbar() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   return (
-    <div className="flex flex-col h-screen justify-between m-3 py-1 bg-gray-700 rounded-lg">
+    <div className="flex flex-col justify-between m-3 py-1 bg-gray-700 rounded-lg">
       <Link to={"/"}>{NavIcon("Home", !isAuthenticated)}</Link>
       <Link to={"pomodoro"}>{NavIcon("Pomodoro", !isAuthenticated)}</Link>
       <Link to={"todo"} className=" whitespace-nowrap">
