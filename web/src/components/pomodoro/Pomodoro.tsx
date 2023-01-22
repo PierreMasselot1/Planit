@@ -30,7 +30,7 @@ const CircularTimer = ({
 
   return (
     <svg
-      className={`relative  h-3/6 mx-auto ${className}`}
+      className={`relative  w-full h-3/6 mx-auto ${className}`}
       viewBox="0 0 100 85"
     >
       <circle
@@ -133,7 +133,7 @@ export function Pomodoro() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (ellapsedTime >= timer * 60000) {
-        if(timerStatus)alert("Time expired!")
+        if (timerStatus) alert("Time expired!");
 
         setTimerStatus(false);
         return;
@@ -168,7 +168,7 @@ export function Pomodoro() {
     setTimer(time);
   }
   return (
-    <div className="flex h-full">
+    <div className="flex h-full w-full">
       <div className=" flex flex-auto bg-gray-700 rounded-lg mx-1 sm:mx-3 my-3 p-2 text-white flex-col justify-center text-center">
         <CircularTimer
           timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
