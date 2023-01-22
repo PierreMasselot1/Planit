@@ -8,7 +8,7 @@ const UserProfile = () => {
       <img
         src={user?.picture}
         alt={`${user?.name}`}
-        className="w-10 h-10 rounded-full"
+        className="w-10 h-10 rounded-full mx-auto"
       />
       <span className="hidden sm:block ml-4 font-bold text-lg truncate ...">{user?.name}</span>
     </div>
