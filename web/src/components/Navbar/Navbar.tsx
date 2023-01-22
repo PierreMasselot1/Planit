@@ -13,8 +13,14 @@ export default function Navbar() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   return (
-    <div className="flex flex-col justify-between my-3 ml-3 py-1 bg-gray-700 rounded-lg">
-      <Link to={"/"}>{NavIcon(undefined, "Home", !isAuthenticated)}</Link>
+    <div className="flex flex-col justify-between my-3 sm:ml-3 sm:py-1 sm:bg-gray-700 rounded-lg">
+      <Link to={"/"}>
+        <img
+          src={require("../../images/Logo.png")}
+          className="my-1 w-16"
+          alt="Planit"
+        />
+      </Link>
       <Link to={"pomodoro"}>
         {NavIcon(
           <FontAwesomeIcon icon={faStopwatch} />,
