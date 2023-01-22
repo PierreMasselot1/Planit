@@ -17,7 +17,7 @@ export default function Navbar() {
       <Link to={"/"}>
         <img
           src={require("../../images/Logo.png")}
-          className="sm:hidden my-1 w-16"
+          className="sm:hidden my-1 w-16 mx-auto"
           alt="Planit"
         />
         <img
