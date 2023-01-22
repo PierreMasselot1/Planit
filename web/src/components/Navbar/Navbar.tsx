@@ -3,18 +3,25 @@ import { Link } from "react-router-dom";
 import UserProfile from "../Auth/AuthInfo";
 import LoginButton from "../Auth/Login";
 import NavIcon from "./NavIcon";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStopwatch, faCheck, faRepeat } from "@fortawesome/free-solid-svg-icons";
 export default function Navbar() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   return (
     <div className="flex flex-col justify-between m-3 py-1 bg-gray-700 rounded-lg">
-      <Link to={"/"}>{NavIcon("Home", !isAuthenticated)}</Link>
-      <Link to={"pomodoro"}>{NavIcon("Pomodoro", !isAuthenticated)}</Link>
-      <Link to={"todo"} className=" whitespace-nowrap">
-        {NavIcon("Todo", !isAuthenticated)}
+      <Link to={"/"}>{NavIcon(undefined, "Home", !isAuthenticated)}</Link>
+      <Link to={"pomodoro"}>
+        {NavIcon(
+          <FontAwesomeIcon icon={faStopwatch} />,
+          "Pomodoro",
+          !isAuthenticated
+        )}
       </Link>
-      <Link to={"habit"}>{NavIcon("Habit", !isAuthenticated)}</Link>
+      <Link to={"todo"} className=" whitespace-nowrap">
+        {NavIcon( <FontAwesomeIcon icon={faCheck} />, "Todo", !isAuthenticated)}
+      </Link>
+      <Link to={"habit"}>{NavIcon( <FontAwesomeIcon icon={faRepeat} />, "Habit", !isAuthenticated)}</Link>
 
       <div className="mt-auto">
         {!isLoading && isAuthenticated && (
