@@ -13,11 +13,16 @@ export default function Navbar() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   return (
-    <div className="flex flex-col justify-between my-3 sm:ml-3 sm:py-1 sm:bg-gray-700 rounded-lg">
+    <div className="flex flex-col justify-between my-3 sm:ml-3 sm:py-1 sm:bg-gray-700 rounded-lg sm:w-60">
       <Link to={"/"}>
         <img
           src={require("../../images/Logo.png")}
-          className="my-1 w-16"
+          className="sm:hidden my-1 w-16"
+          alt="Planit"
+        />
+        <img
+          src={require("../../images/Planit-logo-large.png")}
+          className="hidden sm:block m-1 w-fit"
           alt="Planit"
         />
       </Link>
