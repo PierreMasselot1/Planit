@@ -169,7 +169,7 @@ export function Pomodoro() {
   }
   return (
     <div className="flex h-full">
-      <div className=" flex flex-auto bg-gray-700 rounded-lg mr-2 my-3 p-2 text-white flex-col justify-center text-center">
+      <div className=" flex flex-auto bg-gray-700 rounded-lg mx-3 my-3 p-2 text-white flex-col justify-center text-center">
         <CircularTimer
           timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
           minutes={minutesLeft.toLocaleString("en-US", {
