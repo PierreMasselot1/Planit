@@ -1,8 +1,10 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const LoginButton = () => {
-  const { isAuthenticated} = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const { loginWithRedirect, logout } = useAuth0();
   return (
     <div className="flex">
@@ -13,7 +15,10 @@ const LoginButton = () => {
      `}
           onClick={() => logout({ returnTo: window.location.origin })}
         >
-          Log Out
+          <div className=" flex flex-row">
+            <FontAwesomeIcon icon={faSignOut} />
+            <div className="hidden sm:block ml-2"> Log Out</div>
+          </div>
         </button>
       ) : (
         <button
@@ -22,7 +27,10 @@ const LoginButton = () => {
      } `}
           onClick={() => loginWithRedirect()}
         >
-          Log In
+          <div className=" flex flex-row">
+            <FontAwesomeIcon icon={faSignIn} />
+            <div className="hidden sm:block ml-2"> Log In</div>
+          </div>
         </button>
       )}
     </div>
