@@ -27,11 +27,7 @@ export default function Navbar() {
         />
       </Link>
       <Link to={"pomodoro"}>
-        {NavIcon(
-          <FontAwesomeIcon icon={faStopwatch} />,
-          "Pomodoro",
-          !isAuthenticated
-        )}
+        {NavIcon(<FontAwesomeIcon icon={faStopwatch} />, "Pomodoro")}
       </Link>
       <Link to={"todo"} className=" whitespace-nowrap">
         {NavIcon(<FontAwesomeIcon icon={faCheck} />, "Todo", !isAuthenticated)}
