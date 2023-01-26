@@ -15,16 +15,18 @@ export default function Navbar() {
   return (
     <div className="flex flex-col justify-between my-3 sm:ml-3 sm:py-1 sm:bg-gray-700 rounded-lg sm:w-60">
       <Link to={"/"}>
-        <img
-          src={require("../../images/Logo.png")}
-          className="sm:hidden my-1 w-16 mx-auto"
-          alt="Planit"
-        />
-        <img
-          src={require("../../images/Planit-logo-large.png")}
-          className="hidden sm:block m-1 w-fit"
-          alt="Planit"
-        />
+        <div className="mx-2 my-1">
+          <img
+            src={require("../../images/Logo.png")}
+            className="sm:hidden w-16 mx-auto"
+            alt="Planit"
+          />
+          <img
+            src={require("../../images/Planit-logo-large.png")}
+            className="hidden sm:block w-fit"
+            alt="Planit"
+          />
+        </div>
       </Link>
       <Link to={"pomodoro"}>
         {NavIcon(<FontAwesomeIcon icon={faStopwatch} />, "Pomodoro")}
