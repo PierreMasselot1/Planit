@@ -82,7 +82,7 @@ export default function TodoList() {
   }
 
   return (
-    <div className="flex-auto bg-gray-700 rounded-lg mx-1 sm:mx-3 my-3 p-2">
+    <div className="flex-auto">
       {todos &&
         todos.map((todo: any, key: number) => (
           <li className="list-none" key={key}>

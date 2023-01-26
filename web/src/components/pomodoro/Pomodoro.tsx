@@ -168,35 +168,33 @@ export function Pomodoro() {
     setTimer(time);
   }
   return (
-    <div className="flex h-full w-full">
-      <div className=" flex flex-auto bg-gray-700 rounded-lg mx-1 sm:mx-3 my-3 p-2 text-white flex-col justify-center text-center">
-        <CircularTimer
-          timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
-          minutes={minutesLeft.toLocaleString("en-US", {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          })}
-          seconds={secondsLeft.toLocaleString("en-US", {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          })}
-          pulse={minutesLeft === 0 && secondsLeft === 0}
-          className="mt-5"
-          timerStatus={timerStatus}
-          resetTimer={resetTimer}
-          toggleTimer={toggleTimer}
-        />
-        <div className="flex-row justify-center lg:text-3xl">
-          <Button onClick={() => changeTimer(0.1)} className="m-1">
-            6 SECONDS
-          </Button>
-          <Button onClick={() => changeTimer(5)} className="m-1">
-            5 MINUTES
-          </Button>
-          <Button onClick={() => changeTimer(25)} className="m-1">
-            25 MINUTES
-          </Button>
-        </div>
+    <div className="flex flex-col justify-center">
+      <CircularTimer
+        timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
+        minutes={minutesLeft.toLocaleString("en-US", {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        })}
+        seconds={secondsLeft.toLocaleString("en-US", {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        })}
+        pulse={minutesLeft === 0 && secondsLeft === 0}
+        className="mt-5"
+        timerStatus={timerStatus}
+        resetTimer={resetTimer}
+        toggleTimer={toggleTimer}
+      />
+      <div className="flex-row justify-center lg:text-3xl">
+        <Button onClick={() => changeTimer(0.1)} className="m-1">
+          6 SECONDS
+        </Button>
+        <Button onClick={() => changeTimer(5)} className="m-1">
+          5 MINUTES
+        </Button>
+        <Button onClick={() => changeTimer(25)} className="m-1">
+          25 MINUTES
+        </Button>
       </div>
     </div>
   );
