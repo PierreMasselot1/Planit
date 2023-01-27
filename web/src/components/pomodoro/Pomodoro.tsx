@@ -168,7 +168,7 @@ export function Pomodoro() {
     setTimer(time);
   }
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col m-auto">
       <CircularTimer
         timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
         minutes={minutesLeft.toLocaleString("en-US", {
