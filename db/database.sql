@@ -12,7 +12,7 @@ CREATE TABLE "todo" (
 );
 CREATE TABLE "habit_list"(
     "id" SERIAL PRIMARY KEY,
-    "user_id" VARCHAR(255) NOT NULL,
+    "user_id" VARCHAR(255) NOT NULL
 );
 CREATE TABLE "habit" (
     "id" SERIAL PRIMARY KEY,
