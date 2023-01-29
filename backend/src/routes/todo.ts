@@ -18,7 +18,7 @@ router.get("/", async (req: Request, res: Response) => {
     const query = `SELECT * FROM todo where todo_list_id = ${todolist.rows[0].id} AND is_deleted IS NULL OR FALSE`;
     todos = await pool.query(query);
   }
-  res.json({ todos: todos.rows });
+  res.json({ todos: todos?.rows });
 });
 
 router.post("/", async (req: Request<Todo>, res: Response) => {
