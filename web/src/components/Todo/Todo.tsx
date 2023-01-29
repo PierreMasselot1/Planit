@@ -1,6 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
-import TodoItem from "./TodoItem/TodoItem";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function TodoList() {
@@ -81,12 +80,32 @@ export default function TodoList() {
     }
   }
 
+  function onToggle(event: SyntheticEvent) {
+    console.log(event.target);
+  }
+
   return (
     <div className="flex-auto">
       {todos &&
         todos.map((todo: any, key: number) => (
           <li className="list-none" key={key}>
-            {TodoItem(todo, deleteTodo)}
+            {
+              <div className="bg-slate-300 w-fit my-1 py-1 px-2 rounded ">
+                <input
+                  id="default-checkbox"
+                  type="checkbox"
+                  onChange={onToggle}
+                />
+                <label className="mx-2">{todo.title}</label>
+                <label className="mx-2">{todo.description}</label>
+                <button
+                  onClick={() => deleteTodo(todo.id)}
+                  className="text-xs bg-slate-700 hover:bg-slate-800 text-white font-bold py-1 px-2 rounded-full"
+                >
+                  X
+                </button>
+              </div>
+            }
           </li>
         ))}
 
