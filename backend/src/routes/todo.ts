@@ -45,11 +45,7 @@ router.post("/", async (req: Request<Todo>, res: Response) => {
     `;
 
   if (todolist.rows.length !== 0) {
-    const values = [
-      todolist.rows[0].id,
-      req.query.title,
-      req.query.description,
-    ];
+    const values = [todolist.rows[0].id, req.body.title, req.body.description];
     await pool.query(query, values);
   }
   res.json({ message: "tried to post" });
