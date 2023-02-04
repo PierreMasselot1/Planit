@@ -14,7 +14,10 @@
     "paths": {
       "@shared/*": [
         "../shared/*"
-      ]
+      ],
+      "@src/*": [
+        "./src/*"
+      ],
     },
     "skipLibCheck": true,
     "esModuleInterop": true,
