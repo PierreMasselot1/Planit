@@ -23,7 +23,7 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.post("/", async (req: Request<Habit>, res: Response) => {
   const userProfile = req.auth.payload;
-  const habit: Habit = req.query as unknown as Habit;
+  const habit: Habit = req.body as unknown as Habit;
   var habitList = await pool.query(
     `SELECT * FROM habit_list 
       WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
