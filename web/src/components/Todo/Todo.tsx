@@ -1,9 +1,10 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import Api from "../../helpers/api";
 export default function TodoList() {
   const { getAccessTokenSilently } = useAuth0();
+  const api = new Api();
 
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState("");
@@ -27,22 +28,11 @@ export default function TodoList() {
 
   async function createTodo(title: string, description: string) {
     try {
-      fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/todo?title=${title}&description=${description}`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            authorization: `Bearer ${await getAccessTokenSilently()}`,
-          },
-          body: JSON.stringify({
-            title: title,
-            description: description,
-          } as Todo),
-        }
-      ).then(async () => {
-        getAllTodos();
-      });
+      api
+        .createTodo(await getAccessTokenSilently(), title, description)
+        .then(async () => {
+          getAllTodos();
+        });
     } catch (err) {
       console.log("error" + err);
     }
