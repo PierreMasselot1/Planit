@@ -26,7 +26,9 @@ export default class Api {
     return this.client;
   };
 
-  getTodos = async () => {};
+  getTodos = async (token: string) => {
+    return (await (await this.init(token)).get("/api/todo")).data;
+  };
 
   createTodo = async (token: string, title: string, description: string) => {
     return (await this.init(token)).post("/api/todo", {

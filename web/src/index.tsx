@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Pomodoro } from "./components/pomodoro/Pomodoro";
 import Home from "./routes/Home";
 import ErrorPage from "./routes/Error";
-import TodoList from "./components/Todo/Todo";
+import TodoListComponent from "./components/Todo/Todo";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Habit from "./components/Habit/Habit";
 
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/todo",
-        element: <TodoList />,
+        element: <TodoListComponent />,
       },
       {
         path: "/habit",

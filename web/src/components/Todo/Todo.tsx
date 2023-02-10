@@ -2,7 +2,9 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
 import { useAuth0 } from "@auth0/auth0-react";
 import Api from "../../helpers/api";
-export default function TodoList() {
+import { AxiosResponse } from "axios";
+import { TodoList } from "@shared/types/todo_types";
+export default function TodoListComponent() {
   const { getAccessTokenSilently } = useAuth0();
   const api = new Api();
 
@@ -39,16 +41,10 @@ export default function TodoList() {
   }
 
   async function getAllTodos() {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/todo`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        authorization: `Bearer ${await getAccessTokenSilently()}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setTodos(data.todos);
+    api
+      .getTodos(await getAccessTokenSilently())
+      .then((data: AxiosResponse<TodoList, TodoList>) => {
+        setTodos((data as any).todos);
       });
   }
 
