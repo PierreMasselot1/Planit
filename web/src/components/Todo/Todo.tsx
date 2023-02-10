@@ -49,21 +49,9 @@ export default function TodoListComponent() {
   }
 
   async function deleteTodo(id: number) {
-    try {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/todo?id=${id}`, {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          authorization: `Bearer ${await getAccessTokenSilently()}`,
-        },
-      }).then((response) => {
-        if (response.status === 204) {
-          getAllTodos();
-        }
-      });
-    } catch (err) {
-      console.log("error" + err);
-    }
+    api.deleteTodo(await getAccessTokenSilently(), id).then(() => {
+      getAllTodos();
+    });
   }
 
   function onToggle(event: SyntheticEvent) {

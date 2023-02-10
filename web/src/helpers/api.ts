@@ -36,4 +36,8 @@ export default class Api {
       description,
     });
   };
+
+  deleteTodo = async (token: string, id: number) => {
+    return (await this.init(token)).delete(`/api/todo?id=${id}`);
+  };
 }
