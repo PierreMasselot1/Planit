@@ -14,6 +14,7 @@ services:
       - PORT=9240
     build:
       dockerfile: ./web/Dockerfile
+      context: ./
     ports:
       - "9240:9240"
   backend:
@@ -21,5 +22,6 @@ services:
       - PORT=5055
     build:
       dockerfile: ./backend/Dockerfile
+      context: ./
     ports:
       - "5055:5055"
