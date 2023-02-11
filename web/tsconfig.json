@@ -1,32 +1,19 @@
 {
-  "include": [
-    "src",
-    "../shared"
-  ],
+  "include": ["src", "../shared"],
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "paths": {
-      "@shared/*": [
-        "../shared/*"
-      ],
-      "@src/*": [
-        "./src/*"
-      ],
+      "@shared/*": ["../shared/*"],
+      "@src/*": ["./src/*"]
     },
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
