@@ -26,6 +26,7 @@ export default class Api {
     return this.client;
   };
 
+  //TODOS
   getTodos = async (token: string) => {
     return (await (await this.init(token)).get("/api/todo")).data;
   };
@@ -40,4 +41,14 @@ export default class Api {
   deleteTodo = async (token: string, id: number) => {
     return (await this.init(token)).delete(`/api/todo?id=${id}`);
   };
+  //HABITS
+  getHabits = async (token: string) => {
+    return (await (await this.init(token)).get("/api/habit")).data;
+  }
+
+  createHabit = async (token:string, title:string) => {
+    return (await this.init(token)).post("/api/habit", {
+      title
+    })
+  }
 }
