@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -24,6 +23,9 @@ const port: string = process.env.PORT;
 
 app.listen(port, console.log(`Listening on port ${port}`));
 
+const habitRouter = require("./routes/habit");
 const todoRouter = require("./routes/todo");
+
 //map routes
 app.use("/api/todo", checkJwt, todoRouter);
+app.use("/api/habit", checkJwt, habitRouter);
