@@ -44,7 +44,7 @@ function Habit() {
           onChange={(e) => setHabitTitle(e.target.value)}
         />
       </form>
-      <div className="overflow-y-scroll overflow-x-hidden scrollbar flex flex-1 flex-col ">
+      <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col ">
         {habits &&
           habits?.map((habit: any, key: number) => (
             <div
