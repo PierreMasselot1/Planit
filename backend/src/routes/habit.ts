@@ -2,7 +2,7 @@ import { Habit } from "@shared/types/habit_types";
 import { Request, Response } from "express";
 
 const express = require("express");
-const pool = require(" ../config/db");
+const pool = require("../config/db");
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
