@@ -65,5 +65,9 @@ router.delete("/", async (req: Request, res: Response) => {
   res.json({ message: "Deleted the item" });
 });
 
+router.put("/", async (req: Request, res: Response) => {
+  const habit_id = req.query.id;
+});
+
 module.exports = router;
 export default router;
