@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Api from "../../helpers/api";
 import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
+import Button from "../Common/Button";
 export default function TodoListComponent() {
   const { getAccessTokenSilently } = useAuth0();
   const api = new Api();
@@ -85,34 +86,27 @@ export default function TodoListComponent() {
 
       <div className="mt-auto">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col mb-2">
-            <label className="text-white  text-sm font-bold mb-1">Title</label>
+          <div className="flex flex-row align-baseline  mb-4">
             <input
               type="text"
-              className="border rounded py-1 px-2 leading-tight focus:outline-none focus:border-teal-500"
+              className="h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-teal-500"
+              placeholder="Title"
               id="title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
-          </div>
-          <div className="flex flex-col mb-4">
-            <label className="text-white  text-sm font-bold mb-1">
-              Description
-            </label>
             <input
               type="text"
-              className="border rounded py-1 px-2 leading-tight focus:outline-none focus:border-teal-500"
+              className="ml-2 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-teal-500"
               id="description"
+              placeholder="Description"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
             />
+            <Button handleSubmit className="ml-2 px-2 py-0">
+              Submit
+            </Button>
           </div>
-          <button
-            type="submit"
-            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Submit
-          </button>
         </form>
       </div>
     </div>
