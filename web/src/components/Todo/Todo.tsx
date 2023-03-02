@@ -64,7 +64,7 @@ export default function TodoListComponent() {
         todos.map((todo: any, key: number) => (
           <li className="list-none" key={key}>
             {
-              <div className="bg-slate-300 w-fit my-1 py-1 px-2 rounded ">
+              <div className="bg-slate-300 w-1/2 my-1 py-1 px-2 rounded ">
                 <input
                   id="default-checkbox"
                   type="checkbox"
