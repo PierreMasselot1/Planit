@@ -13,7 +13,7 @@ export default function Navbar() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   return (
-    <div className="flex flex-row sm:flex-col justify-between my-1 sm:my-3 sm:ml-3 sm:py-1 sm:bg-gray-700 rounded-lg sm:w-60">
+    <div className="flex flex-row sm:flex-col justify-between my-1 sm:my-2 sm:ml-2 sm:py-1 sm:bg-gray-700 rounded-lg sm:w-60">
       <Link to={"/"}>
         <div className="mx-2 my-1">
           <img
