@@ -29,10 +29,7 @@ const CircularTimer = ({
   const strokeDashoffset = circumference - timeLeft * circumference;
 
   return (
-    <svg
-      className={`relative  w-full h-3/6 mx-auto ${className}`}
-      viewBox="0 0 100 85"
-    >
+    <svg className={`relative mx-auto h-full`} viewBox="0 0 100 85">
       <circle
         cx="50"
         cy="50"
@@ -168,24 +165,27 @@ export function Pomodoro() {
     setTimer(time);
   }
   return (
-    <div className="flex flex-col m-auto">
-      <CircularTimer
-        timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
-        minutes={minutesLeft.toLocaleString("en-US", {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        })}
-        seconds={secondsLeft.toLocaleString("en-US", {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        })}
-        pulse={minutesLeft === 0 && secondsLeft === 0}
-        className="mt-5"
-        timerStatus={timerStatus}
-        resetTimer={resetTimer}
-        toggleTimer={toggleTimer}
-      />
-      <div className="flex-row justify-center lg:text-3xl">
+    <div className="flex flex-col m-auto h-full justify-center">
+      <div className="h-2/3">
+        <CircularTimer
+          timeLeft={(timer * 60000 - ellapsedTime) / (timer * 60000)}
+          minutes={minutesLeft.toLocaleString("en-US", {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+          seconds={secondsLeft.toLocaleString("en-US", {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+          pulse={minutesLeft === 0 && secondsLeft === 0}
+          className="mt-5"
+          timerStatus={timerStatus}
+          resetTimer={resetTimer}
+          toggleTimer={toggleTimer}
+        />
+      </div>
+
+      <div className="flex-row justify-center lg:text-3xl mx-auto">
         <Button onClick={() => changeTimer(0.1)} className="m-1">
           6 SECONDS
         </Button>
