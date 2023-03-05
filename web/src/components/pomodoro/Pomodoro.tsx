@@ -125,37 +125,52 @@ export function Pomodoro() {
   const [minutesLeft, setMinutes] = useState<number>(25);
   const [secondsLeft, setSeconds] = useState<number>(0);
   const [timerRunning, setTimerStatus] = useState<boolean>(false);
+  const [tempDate, setTempDate] = useState<number>(Date.now());
 
   function resetTimer() {
     setTimerStatus(false);
     setEllapsedTime(0);
   }
 
-  function toggleTimer() {
-    var interval: NodeJS.Timer | undefined = undefined;
-    const tempDate = Date.now();
+  useEffect(() => {
+    if (!timerRunning){
+      let seconds = Math.floor(
+        (selectedTime * 60000 - ellapsedTime) / 1000
+      );
+      let minutes = Math.floor(seconds / 60);
 
-    if (!timerRunning) {
-      const refreshInterval = 100;
-      interval = setInterval(() => {
-        if (ellapsedTime >= selectedTime * 60000) {
-          alert("Time expired!");
-          setTimerStatus(false);
-          return;
-        }
-        const currentTime = Date.now();
-        const cycleTime = currentTime - tempDate;
-        let seconds = Math.floor(
-          (selectedTime * 60000 - ellapsedTime - cycleTime) / 1000
-        );
-        let minutes = Math.floor(seconds / 60);
+      setMinutes(minutes);
+      setSeconds(seconds - minutes * 60);
+      return;
+    } 
+    const interval = setInterval(() => {
+      const currentTime = Date.now();
+      const cycleTime = currentTime - tempDate;
+      if (ellapsedTime + cycleTime >= selectedTime * 60000) {
+        alert("Time expired!");
+        setTimerStatus(false);
+        return;
+      }
 
-        setMinutes(minutes);
-        setSeconds(seconds - minutes * 60);
-      }, refreshInterval);
-    } else {
-      setEllapsedTime(ellapsedTime + (Date.now() - tempDate));
+      let seconds = Math.floor(
+        (selectedTime * 60000 - ellapsedTime - cycleTime) / 1000
+      );
+      let minutes = Math.floor(seconds / 60);
+
+      setMinutes(minutes);
+      setSeconds(seconds - minutes * 60);
+    }, 100);
+
+    return () => {
       clearInterval(interval);
+    };
+  }, [ellapsedTime, selectedTime, tempDate, timerRunning]);
+
+  function toggleTimer() {
+    if (timerRunning) {
+      setEllapsedTime(ellapsedTime + (Date.now() - tempDate));
+    } else {
+      setTempDate(Date.now());
     }
     setTimerStatus(!timerRunning);
   }
@@ -170,7 +185,7 @@ export function Pomodoro() {
       <div className="h-2/3">
         <CircularTimer
           timeLeft={
-            (selectedTime * 60000 - ellapsedTime) / (selectedTime * 60000)
+            (selectedTime * 60000 - ellapsedTime - (Date.now()-tempDate)) / (selectedTime * 60000)
           }
           minutes={minutesLeft.toLocaleString("en-US", {
             minimumIntegerDigits: 2,
