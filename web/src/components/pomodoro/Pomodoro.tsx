@@ -146,7 +146,7 @@ export function Pomodoro() {
       const cycleTime = currentTime - tempDate;
       if (ellapsedTime + cycleTime >= selectedTime * 60000) {
         alert("Time expired!");
-        setTimerStatus(false);
+        changeTimer(selectedTime);
         return;
       }
 
@@ -168,13 +168,13 @@ export function Pomodoro() {
     if (timerRunning) {
       setEllapsedTime(ellapsedTime + (Date.now() - tempDate));
     }
-
     setTempDate(Date.now());
     setTimerStatus(!timerRunning);
   }
 
   function changeTimer(time: number) {
     setEllapsedTime(0);
+    setTempDate(Date.now());
     setTimerStatus(false);
     setSelectedTime(time);
   }
