@@ -133,16 +133,14 @@ export function Pomodoro() {
   }
 
   useEffect(() => {
-    if (!timerRunning){
-      let seconds = Math.floor(
-        (selectedTime * 60000 - ellapsedTime) / 1000
-      );
+    if (!timerRunning) {
+      let seconds = Math.floor((selectedTime * 60000 - ellapsedTime) / 1000);
       let minutes = Math.floor(seconds / 60);
 
       setMinutes(minutes);
       setSeconds(seconds - minutes * 60);
       return;
-    } 
+    }
     const interval = setInterval(() => {
       const currentTime = Date.now();
       const cycleTime = currentTime - tempDate;
@@ -169,9 +167,9 @@ export function Pomodoro() {
   function toggleTimer() {
     if (timerRunning) {
       setEllapsedTime(ellapsedTime + (Date.now() - tempDate));
-    } else {
-      setTempDate(Date.now());
     }
+
+    setTempDate(Date.now());
     setTimerStatus(!timerRunning);
   }
 
@@ -185,7 +183,8 @@ export function Pomodoro() {
       <div className="h-2/3">
         <CircularTimer
           timeLeft={
-            (selectedTime * 60000 - ellapsedTime - (Date.now()-tempDate)) / (selectedTime * 60000)
+            (selectedTime * 60000 - ellapsedTime - (Date.now() - tempDate)) /
+            (selectedTime * 60000)
           }
           minutes={minutesLeft.toLocaleString("en-US", {
             minimumIntegerDigits: 2,
