@@ -68,7 +68,6 @@ router.put("/", async (req: Request, res: Response) => {
   } ${
     req.body.completed != undefined ? "completed = " + req.body.completed : ""
   } WHERE id = ${req.query.id}`;
-  console.log(query)
   await pool.query(query);
   res.json({ message: "Updated the item" });
 });
