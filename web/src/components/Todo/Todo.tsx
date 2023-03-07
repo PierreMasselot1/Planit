@@ -55,8 +55,19 @@ export default function TodoListComponent() {
     });
   }
 
-  function onToggle(event: SyntheticEvent) {
-    console.log(event.target);
+  async function onToggle(event: React.ChangeEvent<HTMLInputElement>, id: number) {
+    console.log(event.target)
+    api
+      .updateTodo(
+        await getAccessTokenSilently(),
+        id,
+        undefined,
+        undefined,
+        !event.target.checked
+      )
+      .then(() => {
+        getAllTodos();
+      });
   }
 
   return (
@@ -95,7 +106,8 @@ export default function TodoListComponent() {
                   id="default-checkbox"
                   className="mt-1 mb-auto"
                   type="checkbox"
-                  onChange={onToggle}
+                  checked={todo.completed!=null?todo.completed:false}
+                  onChange={(e) => onToggle(e, todo.id)}
                 />
                 <div>
                   <label className="mx-2">{todo.title}</label>

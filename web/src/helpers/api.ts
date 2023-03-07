@@ -41,6 +41,14 @@ export default class Api {
   deleteTodo = async (token: string, id: number) => {
     return (await this.init(token)).delete(`/api/todo?id=${id}`);
   };
+
+  updateTodo = async (token:string, id:number, title:string|undefined, description:string|undefined, completed:boolean|undefined) => {
+    return (await this.init(token)).put(`/api/todo?id=${id}`, {
+      title,
+      description,
+      completed
+    })
+  }
   //HABITS
   getHabits = async (token: string) => {
     return (await (await this.init(token)).get("/api/habit")).data;

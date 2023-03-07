@@ -58,5 +58,20 @@ router.delete("/", async (req: Request, res: Response) => {
   res.json({ message: "Deleted the item" });
 });
 
+router.put("/", async (req: Request, res: Response) => {
+  const query = `Update todo SET ${
+    req.body.title != undefined ? "title = '" + req.body.title + "'" : ""
+  } ${
+    req.body.description != undefined
+      ? "description = '" + req.body.description + "'"
+      : ""
+  } ${
+    req.body.completed != undefined ? "completed = " + req.body.completed : ""
+  } WHERE id = ${req.query.id}`;
+  console.log(query)
+  await pool.query(query);
+  res.json({ message: "Updated the item" });
+});
+
 module.exports = router;
 export default router;
