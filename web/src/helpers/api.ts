@@ -59,4 +59,8 @@ export default class Api {
       title
     })
   }
+
+  completeHabit = async (token:string, id:number) => {
+    return (await this.init(token)).put(`/api/habit/increment?id=${id}`)
+  }
 }
