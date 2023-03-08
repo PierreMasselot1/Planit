@@ -3,6 +3,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "../Common/Button";
 
 function Habit() {
   const api = new Api();
@@ -34,15 +35,19 @@ function Habit() {
 
   return (
     <div className="flex flex-col justify-start text-left h-full">
-      <div className="text-white text-2xl font-bold">Habit</div>
       <form onSubmit={handleSubmit}>
-        <input
-          className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 mb-2 block w-full appearance-none leading-normal"
-          type="text"
-          placeholder="New habit"
-          value={habit_title}
-          onChange={(e) => setHabitTitle(e.target.value)}
-        />
+        <div>
+          <input
+            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+            type="text"
+            placeholder="New habit"
+            value={habit_title}
+            onChange={(e) => setHabitTitle(e.target.value)}
+          />
+          <Button handleSubmit className="h-full my-1 px-2 py-0">
+            Submit
+          </Button>
+        </div>
       </form>
       <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col ">
         {habits &&
