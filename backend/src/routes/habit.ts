@@ -61,12 +61,23 @@ router.post("/", async (req: Request<Habit>, res: Response) => {
 router.delete("/", async (req: Request, res: Response) => {
   const query = `Update habit SET is_deleted = 't' WHERE id = ${req.query.id}`;
   await pool.query(query);
-  res.statusCode = 204;
-  res.json({ message: "Deleted the item" });
+  res.status(204).json({ message: "Deleted the item" });
 });
 
-router.put("/", async (req: Request, res: Response) => {
+router.put("/increment/", async (req: Request, res: Response) => {
   const habit_id = req.query.id;
+  const getStreakQuery = `SELECT streak FROM habit WHERE id = ${habit_id}`;
+  let streak = await pool.query(getStreakQuery);
+
+  if (streak.rows[0].streak == undefined) {
+    streak = 0;
+  } else {
+    streak = streak.rows[0].streak + 1;
+  }
+
+  const query = `UPDATE habit SET streak = ${streak} WHERE id = ${habit_id}`;
+  await pool.query(query);
+  res.json({ message: "Incremented the habit counter" });
 });
 
 module.exports = router;
