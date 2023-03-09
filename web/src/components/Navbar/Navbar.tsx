@@ -28,23 +28,23 @@ export default function Navbar() {
           />
         </div>
       </Link>
-      <Link to={"pomodoro"}>
-        {NavIcon(<FontAwesomeIcon icon={faStopwatch} />, "Pomodoro")}
-      </Link>
-      <Link to={"todo"} className=" whitespace-nowrap">
-        {NavIcon(<FontAwesomeIcon icon={faCheck} />, "Todo", !isAuthenticated)}
-      </Link>
-      <Link to={"habit"}>
-        {NavIcon(
-          <FontAwesomeIcon icon={faRepeat} />,
-          "Habit",
-          !isAuthenticated
-        )}
-      </Link>
+      {NavIcon("pomodoro", <FontAwesomeIcon icon={faStopwatch} />, "Pomodoro")}
+      {NavIcon(
+        "todo",
+        <FontAwesomeIcon icon={faCheck} />,
+        "Todo",
+        !isAuthenticated
+      )}
+      {NavIcon(
+        "habit",
+        <FontAwesomeIcon icon={faRepeat} />,
+        "Habit",
+        !isAuthenticated
+      )}
 
       <div className="sm:mt-auto">
         {!isLoading && isAuthenticated && (
-          <div className="hidden sm:block sm:text-white sm:outline outline-gray-800 outline- font-medium rounded-lg text-lg sm:px-3 py-1.5 text-center sm:mx-3 sm:my-2">
+          <div className="hidden sm:block sm:text-white sm:outline outline-gray-800 font-medium rounded-lg text-lg sm:px-3 py-1.5 text-center sm:mx-3 sm:my-2">
             <UserProfile />
           </div>
         )}

@@ -1,24 +1,31 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 function NavIcon(
+  linkTo: string,
   icon: undefined | ReactNode,
   element: string | ReactNode,
   disabled: Boolean = false
 ) {
-  return (
-    <div
-      className={`text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600  font-medium rounded-lg text-lg px-4 sm:px-5 py-1 sm:py-2.5 text-center sm:mx-2 my-1 ${
-        disabled
-          ? "opacity-25"
-          : "hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800"
-      } `}
-    >
-      <div className=" flex flex-row">
-        <div>{icon}</div>
+  const [selected, setselected] = useState(false);
+  const location = useLocation();
 
+  useEffect(() => {
+    setselected(location.pathname.replace("/", "") === linkTo);
+    console.log(location.pathname);
+  }, [location, linkTo]);
+
+  return (
+    <Link to={linkTo}>
+      <div
+        className={`flex flex-row text-white font-medium rounded-lg text-lg px-4 sm:px-5 py-1 sm:py-2.5 text-center sm:mx-2 my-1 ${
+          disabled ? "opacity-25" : "hover:outline hover:outline-2"
+        } `}
+      >
+        <div className={`${selected ? "text-teal-200" : ""}`}>{icon}</div>
         <div className="hidden sm:block ml-2">{element}</div>
       </div>
-    </div>
+    </Link>
   );
 }
 
