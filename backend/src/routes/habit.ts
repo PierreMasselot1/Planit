@@ -70,7 +70,7 @@ router.put("/increment/", async (req: Request, res: Response) => {
   let streak = await pool.query(getStreakQuery);
 
   if (streak.rows[0].streak == undefined) {
-    streak = 0;
+    streak = 1;
   } else {
     streak = streak.rows[0].streak + 1;
   }
