@@ -9,6 +9,7 @@ import {
   faCheck,
   faRepeat,
   faHouse,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 export default function Navbar() {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -31,10 +32,11 @@ export default function Navbar() {
       )}
 
       <div className="sm:mt-auto">
-        {!isLoading && isAuthenticated && (
-          <div className="hidden sm:block sm:text-white sm:outline outline-gray-800 font-medium rounded-lg text-lg sm:px-3 py-1.5 text-center sm:mx-3 sm:my-2">
-            <UserProfile />
-          </div>
+        {NavIcon(
+          "profile",
+          <FontAwesomeIcon icon={faUser} />,
+          "Profile",
+          !isAuthenticated
         )}
 
         <LoginButton />
