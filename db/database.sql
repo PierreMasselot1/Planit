@@ -22,6 +22,7 @@ CREATE TABLE "habit" (
     "description" VARCHAR(255),
     "is_deleted" BOOLEAN,
     "streak" integer,
+    "completion_count" integer,
     "last_completed" VARCHAR(255),
     CONSTRAINT "habit_fk1" FOREIGN KEY ("habit_list_id") REFERENCES "habit_list"("id")
 );

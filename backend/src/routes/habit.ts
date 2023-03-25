@@ -40,8 +40,8 @@ router.post("/", async (req: Request<Habit>, res: Response) => {
   }
 
   const query = `
-        INSERT INTO habit (habit_list_id,title, description, streak, last_completed)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO habit (habit_list_id,title, description, streak, completion_count, last_completed)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING id
       `;
 
@@ -50,6 +50,7 @@ router.post("/", async (req: Request<Habit>, res: Response) => {
       habitList.rows[0].id,
       habit.title,
       habit.description,
+      habit.completion_count,
       habit.streak,
       habit.last_completed,
     ];
