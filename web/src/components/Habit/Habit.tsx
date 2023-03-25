@@ -54,7 +54,7 @@ function HabitComponent() {
           </Button>
         </div>
       </form>
-      <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col ">
+      <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col w-1/2 min-w-fit ">
         {habits &&
           habits?.map((habit: Habit, key: number) => (
             <div
@@ -68,7 +68,8 @@ function HabitComponent() {
               </div>
               <div className="mx-1" title="Daily Streak Count">
                 <FontAwesomeIcon icon={faFire} className="mr-1" />
-                {habit.streak}</div>
+                {habit.streak}
+              </div>
               <div className="ml-1">
                 <button onClick={() => completeHabits(habit.id)}>
                   <FontAwesomeIcon icon={faCheck} />
