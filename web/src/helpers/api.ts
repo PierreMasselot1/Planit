@@ -64,6 +64,7 @@ export default class Api {
   createHabit = async (token: string, title: string) => {
     return (await this.init(token)).post("/api/habit", {
       title,
+      completion_count: 0,
       streak: 0,
       is_deleted: false,
       last_completed: undefined,

@@ -1,7 +1,7 @@
 import Api from "../../helpers/api";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faFire, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../Common/Button";
 import { Habit } from "@shared/types/habit_types";
@@ -62,7 +62,13 @@ function HabitComponent() {
               key={key}
             >
               <h2 className="break-words"> {habit.title}</h2>
-              <div className="ml-auto">{habit.streak}</div>
+              <div className="ml-auto mr-2" title="Completion Count">
+                <FontAwesomeIcon icon={faRotate} className="mr-1" />
+                {habit.completion_count}
+              </div>
+              <div className="mx-1" title="Daily Streak Count">
+                <FontAwesomeIcon icon={faFire} className="mr-1" />
+                {habit.streak}</div>
               <div className="ml-1">
                 <button onClick={() => completeHabits(habit.id)}>
                   <FontAwesomeIcon icon={faCheck} />
