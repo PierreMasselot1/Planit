@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { Habit } from "@shared/types/habit_types";
 
 export default class Api {
   client: AxiosInstance | undefined;
@@ -42,25 +43,34 @@ export default class Api {
     return (await this.init(token)).delete(`/api/todo?id=${id}`);
   };
 
-  updateTodo = async (token:string, id:number, title:string|undefined, description:string|undefined, completed:boolean|undefined) => {
+  updateTodo = async (
+    token: string,
+    id: number,
+    title: string | undefined,
+    description: string | undefined,
+    completed: boolean | undefined
+  ) => {
     return (await this.init(token)).put(`/api/todo?id=${id}`, {
       title,
       description,
-      completed
-    })
-  }
+      completed,
+    });
+  };
   //HABITS
   getHabits = async (token: string) => {
     return (await (await this.init(token)).get("/api/habit")).data;
-  }
+  };
 
-  createHabit = async (token:string, title:string) => {
+  createHabit = async (token: string, title: string) => {
     return (await this.init(token)).post("/api/habit", {
-      title
-    })
-  }
+      title,
+      streak: 0,
+      is_deleted: false,
+      last_completed: undefined,
+    } as Habit);
+  };
 
-  completeHabit = async (token:string, id:number) => {
-    return (await this.init(token)).put(`/api/habit/increment?id=${id}`)
-  }
+  completeHabit = async (token: string, id: number) => {
+    return (await this.init(token)).put(`/api/habit/increment?id=${id}`);
+  };
 }

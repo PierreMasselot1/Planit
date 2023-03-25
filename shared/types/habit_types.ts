@@ -4,5 +4,5 @@ export type Habit = {
   description: string;
   streak: number;
   is_deleted: boolean;
-  last_completed: Date;
+  last_completed: Date | undefined;
 };
