@@ -8,26 +8,14 @@ import {
   faStopwatch,
   faCheck,
   faRepeat,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 export default function Navbar() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   return (
     <div className="flex flex-row sm:flex-col justify-between my-1 sm:my-2 sm:ml-2 sm:py-1 sm:bg-gray-700 rounded-lg sm:w-60">
-      <Link to={"/"}>
-        <div className="mx-2 my-1">
-          <img
-            src={require("../../images/Logo.png")}
-            className="sm:hidden h-12"
-            alt="Planit"
-          />
-          <img
-            src={require("../../images/Planit-logo-large.png")}
-            className="hidden sm:block w-fit"
-            alt="Planit"
-          />
-        </div>
-      </Link>
+      {NavIcon("", <FontAwesomeIcon icon={faHouse} />, "Home")}
       {NavIcon("pomodoro", <FontAwesomeIcon icon={faStopwatch} />, "Pomodoro")}
       {NavIcon(
         "todo",
