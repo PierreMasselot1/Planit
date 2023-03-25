@@ -8,31 +8,27 @@ const LoginButton = () => {
   const { loginWithRedirect, logout } = useAuth0();
   return (
     <div className="flex">
-      {isAuthenticated ? (
-        <button
-          className={`w-full text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600  font-medium rounded-lg text-lg px-5 py-2.5 text-center mx-2 my-1
-       "hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800"
-     `}
-          onClick={() => logout({ returnTo: window.location.origin })}
-        >
-          <div className=" flex flex-row">
-            <FontAwesomeIcon icon={faSignOut} className="my-auto"/>
-            <div className="hidden sm:block ml-2"> Log Out</div>
+      <button
+        className={
+          "w-full flex flex-row text-white font-medium rounded-lg text-lg px-4 sm:px-5 py-1 sm:py-2.5 text-center sm:mx-2 my-1 hover:outline hover:outline-2"
+        }
+        onClick={
+          isAuthenticated
+            ? () => logout({ returnTo: window.location.origin })
+            : () => loginWithRedirect()
+        }
+      >
+        <div className=" flex flex-row">
+          <FontAwesomeIcon
+            icon={isAuthenticated ? faSignOut : faSignIn}
+            className="my-auto"
+          />
+          <div className="hidden sm:block ml-2">
+            {" "}
+            {isAuthenticated ? "Log out" : "Log in"}{" "}
           </div>
-        </button>
-      ) : (
-        <button
-          className={`w-full text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600  font-medium rounded-lg text-lg px-5 py-2.5 text-center mx-2 my-1
-        "hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 "
-     } `}
-          onClick={() => loginWithRedirect()}
-        >
-          <div className=" flex flex-row">
-            <FontAwesomeIcon icon={faSignIn} className="my-auto"/>
-            <div className="hidden sm:block ml-2"> Log In</div>
-          </div>
-        </button>
-      )}
+        </div>
+      </button>
     </div>
   );
 };
