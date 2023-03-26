@@ -6,6 +6,7 @@ import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
 const LoginButton = () => {
   const { isAuthenticated } = useAuth0();
   const { loginWithRedirect, logout } = useAuth0();
+
   return (
     <div className="flex">
       <button
