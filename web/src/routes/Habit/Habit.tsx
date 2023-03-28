@@ -56,27 +56,29 @@ function HabitComponent() {
       </form>
       <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col w-1/2 min-w-fit ">
         {habits &&
-          habits?.map((habit: Habit, key: number) => (
-            <div
-              className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex  "
-              key={key}
-            >
-              <h2 className="break-words"> {habit.title}</h2>
-              <div className="ml-auto mr-2" title="Completion Count">
-                <FontAwesomeIcon icon={faRotate} className="mr-1" />
-                {habit.completion_count}
+          habits
+            ?.sort((a: Habit, b: Habit) => a.id - b.id)
+            .map((habit: Habit, key: number) => (
+              <div
+                className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex  "
+                key={key}
+              >
+                <h2 className="break-words"> {habit.title}</h2>
+                <div className="ml-auto mr-2" title="Completion Count">
+                  <FontAwesomeIcon icon={faRotate} className="mr-1" />
+                  {habit.completion_count}
+                </div>
+                <div className="mx-1" title="Daily Streak Count">
+                  <FontAwesomeIcon icon={faFire} className="mr-1" />
+                  {habit.streak}
+                </div>
+                <div className="ml-1">
+                  <button onClick={() => completeHabits(habit.id)}>
+                    <FontAwesomeIcon icon={faCheck} />
+                  </button>
+                </div>
               </div>
-              <div className="mx-1" title="Daily Streak Count">
-                <FontAwesomeIcon icon={faFire} className="mr-1" />
-                {habit.streak}
-              </div>
-              <div className="ml-1">
-                <button onClick={() => completeHabits(habit.id)}>
-                  <FontAwesomeIcon icon={faCheck} />
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
       </div>
     </div>
   );
