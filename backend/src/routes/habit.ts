@@ -62,13 +62,36 @@ router.delete("/", async (req: Request, res: Response) => {
 router.put("/increment/", async (req: Request, res: Response) => {
   const habitId = req.query.id;
 
+  const habit: Habit = await knex("habit").where("id", habitId).first();
+
+  // Get the current date and time
+  const currentDate = new Date();
+  const lastCompletedDate = new Date(habit.last_completed);
+  if (
+    !habit.last_completed ||
+    (currentDate.toLocaleDateString() !==
+      lastCompletedDate.toLocaleDateString() &&
+      currentDate.getDay() - lastCompletedDate.getDay() === 1 &&
+      currentDate.getMonth() === lastCompletedDate.getMonth() &&
+      currentDate.getFullYear() === lastCompletedDate.getFullYear())
+  ) {
+    await knex("habit")
+      .where("id", habitId)
+      .increment("streak", 1)
+      .update("last_completed", currentDate)
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({ message: "Error incrementing streak" });
+      });
+  }
+
   await knex("habit")
     .where("id", habitId)
-    .increment("streak", 1)
+    .increment("completion_count", 1)
     .then(() => {
       res.json({ message: "Incremented the habit counter" });
     })
-    .catch((error) => {
+    .catch(() => {
       res.status(500).json({ message: "Error incrementing streak" });
     });
 });
