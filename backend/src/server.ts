@@ -1,4 +1,7 @@
-const express = require("express");
+import express from "express";
+import habitRouter from "./routes/habit";
+import todoRouter from "./routes/todo";
+
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
@@ -21,10 +24,7 @@ app.use(
 app.use(express.json());
 const port: string = process.env.PORT;
 
-app.listen(port, console.log(`Listening on port ${port}`));
-
-const habitRouter = require("./routes/habit");
-const todoRouter = require("./routes/todo");
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 //map routes
 app.use("/api/todo", checkJwt, todoRouter);
