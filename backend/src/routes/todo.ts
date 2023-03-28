@@ -1,74 +1,69 @@
 import { Request, Response } from "express";
 import { Todo } from "@shared/types/todo_types";
+import express from "express";
+import knex from "../config/knex";
 
-const express = require("express");
-const pool = require("../config/db");
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
   const userProfile = req.auth.payload;
-
-  const todolist = await pool.query(
-    `SELECT * FROM todo_list 
-    WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
-  );
+  const todolist = await knex("todo_list")
+    .where("owner_id", userProfile.sub.replace("|", "_"))
+    .first();
 
   var todos = null;
-  if (todolist.rows.length !== 0) {
-    const query = `SELECT * FROM todo where todo_list_id = ${todolist.rows[0].id} AND is_deleted IS NULL OR FALSE`;
-    todos = await pool.query(query);
+  if (todolist) {
+    todos = await knex("todo")
+      .where("todo_list_id", todolist.id)
+      .where(function () {
+        this.whereNull("is_deleted").orWhere("is_deleted", false);
+      });
   }
-  res.json({ todos: todos?.rows });
+  res.json({ todos });
 });
 
 router.post("/", async (req: Request<Todo>, res: Response) => {
   const userProfile = req.auth.payload;
-  var todolist = await pool.query(
-    `SELECT * FROM todo_list 
-    WHERE owner_id = '${userProfile.sub.replace("|", "_")}'`
-  );
+  let todolist = await knex("todo_list")
+    .where("owner_id", userProfile.sub.replace("|", "_"))
+    .first();
 
-  if (todolist.rows.length === 0) {
-    const query = `
-      INSERT INTO todo_list (owner_id)
-      VALUES ($1)
-      RETURNING id
-    `;
-    const values = [userProfile.sub.replace("|", "_")];
-    todolist = await pool.query(query, values);
+  if (!todolist) {
+    const [newTodoList] = await knex("todo_list")
+      .insert({ owner_id: userProfile.sub.replace("|", "_") })
+      .returning("*");
+    todolist = newTodoList;
   }
 
-  const query = `
-      INSERT INTO todo (todo_list_id,title, description)
-      VALUES ($1, $2, $3)
-      RETURNING id
-    `;
-
-  if (todolist.rows.length !== 0) {
-    const values = [todolist.rows[0].id, req.body.title, req.body.description];
-    await pool.query(query, values);
-  }
+  await knex("todo").insert({
+    todo_list_id: todolist.id,
+    title: req.body.title,
+    description: req.body.description,
+  });
   res.json({ message: "tried to post" });
 });
 
 router.delete("/", async (req: Request, res: Response) => {
-  const query = `Update todo SET is_deleted = 't' WHERE id = ${req.query.id}`;
-  await pool.query(query);
-  res.statusCode = 204;
-  res.json({ message: "Deleted the item" });
+  await knex("todo").where("id", req.query.id).update("is_deleted", true);
+  res.sendStatus(204);
 });
 
 router.put("/", async (req: Request, res: Response) => {
-  const query = `Update todo SET ${
-    req.body.title != undefined ? "title = '" + req.body.title + "'" : ""
-  } ${
-    req.body.description != undefined
-      ? "description = '" + req.body.description + "'"
-      : ""
-  } ${
-    req.body.completed != undefined ? "completed = " + req.body.completed : ""
-  } WHERE id = ${req.query.id}`;
-  await pool.query(query);
+  const queryBuilder = knex("todo").where("id", req.query.id);
+
+  if (req.body.title != undefined) {
+    queryBuilder.update("title", req.body.title);
+  }
+
+  if (req.body.description != undefined) {
+    queryBuilder.update("description", req.body.description);
+  }
+
+  if (req.body.completed != undefined) {
+    queryBuilder.update("completed", req.body.completed);
+  }
+
+  await queryBuilder;
   res.json({ message: "Updated the item" });
 });
 
