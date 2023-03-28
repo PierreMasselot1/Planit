@@ -3,7 +3,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { faCheck, faFire, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "../Common/Button";
+import Button from "../../components/Common/Button";
 import { Habit } from "@shared/types/habit_types";
 
 function HabitComponent() {

@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "../Auth/Login";
+import LoginButton from "../../components/Auth/Login";
 import NavIcon from "./NavIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

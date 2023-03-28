@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Api from "../../helpers/api";
 import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
-import Button from "../Common/Button";
+import Button from "../../components/Common/Button";
 export default function TodoListComponent() {
   const { getAccessTokenSilently } = useAuth0();
   const api = new Api();

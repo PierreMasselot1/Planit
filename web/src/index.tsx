@@ -3,12 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import Root from "./routes/Root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Pomodoro } from "./components/pomodoro/Pomodoro";
+import { Pomodoro } from "./routes/pomodoro/Pomodoro";
 import Home from "./routes/Home";
 import ErrorPage from "./routes/Error";
-import TodoListComponent from "./components/Todo/Todo";
+import TodoListComponent from "./routes/Todo/Todo";
 import { Auth0Provider } from "@auth0/auth0-react";
-import Habit from "./components/Habit/Habit";
+import Habit from "./routes/Habit/Habit";
 
 const router = createBrowserRouter([
   {
