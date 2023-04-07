@@ -7,11 +7,10 @@ import Button from "../../components/Common/Button";
 import { Habit } from "@shared/types/habit_types";
 
 function HabitComponent() {
-  const api = new Api();
   const [habit_title, setHabitTitle] = useState("");
   const [habits, setHabits] = useState(Array<Habit>);
 
-  const { getAccessTokenSilently } = useAuth0();
+  const api = new Api(useAuth0());
 
   //load todos on page load
   useEffect(() => {
@@ -19,13 +18,13 @@ function HabitComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   async function getHabits() {
-    await api.getHabits(await getAccessTokenSilently()).then((data) => {
+    await api.getHabits().then((data) => {
       setHabits(data.habits);
     });
   }
 
   async function completeHabits(id: number) {
-    await api.completeHabit(await getAccessTokenSilently(), id).then(getHabits);
+    await api.completeHabit(id).then(getHabits);
   }
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -35,7 +34,7 @@ function HabitComponent() {
 
   async function createHabit(title: string) {
     console.log("creating habit");
-    api.createHabit(await getAccessTokenSilently(), title).then(getHabits);
+    api.createHabit(title).then(getHabits);
   }
 
   return (

@@ -6,8 +6,7 @@ import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 export default function TodoListComponent() {
-  const { getAccessTokenSilently } = useAuth0();
-  const api = new Api();
+  const api = new Api(useAuth0());
 
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState("");
@@ -31,26 +30,22 @@ export default function TodoListComponent() {
 
   async function createTodo(title: string, description: string) {
     try {
-      api
-        .createTodo(await getAccessTokenSilently(), title, description)
-        .then(async () => {
-          getAllTodos();
-        });
+      api.createTodo(title, description).then(async () => {
+        getAllTodos();
+      });
     } catch (err) {
       console.log("error" + err);
     }
   }
 
   async function getAllTodos() {
-    api
-      .getTodos(await getAccessTokenSilently())
-      .then((data: AxiosResponse<TodoList, TodoList>) => {
-        setTodos((data as any).todos);
-      });
+    api.getTodos().then((data: AxiosResponse<TodoList, TodoList>) => {
+      setTodos((data as any).todos);
+    });
   }
 
   async function deleteTodo(id: number) {
-    api.deleteTodo(await getAccessTokenSilently(), id).then(() => {
+    api.deleteTodo(id).then(() => {
       getAllTodos();
     });
   }
@@ -60,17 +55,9 @@ export default function TodoListComponent() {
     id: number
   ) {
     console.log(event.target);
-    api
-      .updateTodo(
-        await getAccessTokenSilently(),
-        id,
-        undefined,
-        undefined,
-        !event.target.checked
-      )
-      .then(() => {
-        getAllTodos();
-      });
+    api.updateTodo(id, undefined, undefined, !event.target.checked).then(() => {
+      getAllTodos();
+    });
   }
 
   return (
