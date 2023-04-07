@@ -66,7 +66,6 @@ export default class Api {
       completion_count: 0,
       streak: 0,
       is_deleted: false,
-      last_completed: undefined,
     } as Habit);
   };
 

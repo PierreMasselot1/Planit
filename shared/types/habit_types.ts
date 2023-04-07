@@ -5,5 +5,5 @@ export type Habit = {
   streak: number;
   completion_count: number;
   is_deleted: boolean;
-  last_completed: Date | undefined;
+  completion_dates: Array<Date> | undefined;
 };
