@@ -59,9 +59,10 @@ export default class Api {
     return (await this.client.get("/api/habit")).data;
   };
 
-  createHabit = async (title: string) => {
+  createHabit = async (title: string, description: string) => {
     return await this.client.post("/api/habit", {
       title,
+      description,
       completion_count: 0,
       streak: 0,
       is_deleted: false,

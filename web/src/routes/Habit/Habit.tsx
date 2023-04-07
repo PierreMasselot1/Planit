@@ -8,15 +8,16 @@ import { Habit } from "@shared/types/habit_types";
 
 function HabitComponent() {
   const [habit_title, setHabitTitle] = useState("");
-  const [habits, setHabits] = useState(Array<Habit>);
+  const [habit_description, setHabitDescription] = useState("");
+  const [habits, setHabits] = useState<Array<Habit>>([]);
 
   const api = new Api(useAuth0());
 
-  //load todos on page load
   useEffect(() => {
     getHabits();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   async function getHabits() {
     await api.getHabits().then((data) => {
       setHabits(data.habits);
@@ -26,15 +27,16 @@ function HabitComponent() {
   async function completeHabits(id: number) {
     await api.completeHabit(id).then(getHabits);
   }
+
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    createHabit(habit_title);
+    createHabit(habit_title, habit_description);
     setHabitTitle("");
+    setHabitDescription("");
   };
 
-  async function createHabit(title: string) {
-    console.log("creating habit");
-    api.createHabit(title).then(getHabits);
+  async function createHabit(title: string, description: string) {
+    api.createHabit(title, description).then(getHabits);
   }
 
   return (
@@ -47,6 +49,13 @@ function HabitComponent() {
             placeholder="New habit"
             value={habit_title}
             onChange={(e) => setHabitTitle(e.target.value)}
+          />
+          <input
+            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+            type="text"
+            placeholder="Description"
+            value={habit_description}
+            onChange={(e) => setHabitDescription(e.target.value)}
           />
           <Button handleSubmit className="h-full my-1 px-2 py-0">
             Submit
@@ -62,12 +71,21 @@ function HabitComponent() {
                 className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex  "
                 key={key}
               >
-                <h2 className="break-words"> {habit.title}</h2>
-                <div className="ml-auto mr-2" title="Completion Count">
+                <div className="flex flex-col w-full">
+                  <h2 className="break-words">{habit.title}</h2>
+                  <p className=" text-gray-700 text-sm">{habit.description}</p>
+                </div>
+                <div
+                  className=" whitespace-nowrap ml-auto mr-2 "
+                  title="Completion Count"
+                >
                   <FontAwesomeIcon icon={faRotate} className="mr-1" />
                   {habit.completion_count}
                 </div>
-                <div className="mx-1" title="Daily Streak Count">
+                <div
+                  className=" whitespace-nowrap mx-1"
+                  title="Daily Streak Count"
+                >
                   <FontAwesomeIcon icon={faFire} className="mr-1" />
                   {habit.streak}
                 </div>
