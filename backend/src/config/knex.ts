@@ -7,7 +7,7 @@ const connection =
         host: process.env.DB_HOST || "localhost",
         database: "planit",
         password: "postgres",
-        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
+        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5435,
       }
     : { connectionString: process.env.CONNECTION_STRING };
 
