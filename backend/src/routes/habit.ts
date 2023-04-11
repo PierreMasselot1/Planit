@@ -45,7 +45,6 @@ router.post("/", async (req: Request<Habit>, res: Response) => {
     description: habit.description,
     streak: habit.streak,
     completion_count: habit.completion_count,
-    last_completed: habit.last_completed,
   });
 
   res.json({ message: "tried to post" });
@@ -66,9 +65,15 @@ router.put("/increment/", async (req: Request, res: Response) => {
 
   // Get the current date and time
   const currentDate = new Date();
-  const lastCompletedDate = new Date(habit.last_completed);
+  let lastCompletedDate = null;
+  if (habit.completion_dates) {
+    lastCompletedDate = new Date(
+      habit.completion_dates[habit.completion_dates.length - 1]
+    );
+  }
+
   if (
-    !habit.last_completed ||
+    !lastCompletedDate ||
     (currentDate.toLocaleDateString() !==
       lastCompletedDate.toLocaleDateString() &&
       currentDate.getDay() - lastCompletedDate.getDay() === 1 &&
@@ -78,7 +83,6 @@ router.put("/increment/", async (req: Request, res: Response) => {
     await knex("habit")
       .where("id", habitId)
       .increment("streak", 1)
-      .update("last_completed", currentDate)
       .catch((error) => {
         console.log(error);
         res.status(500).json({ message: "Error incrementing streak" });
@@ -88,6 +92,11 @@ router.put("/increment/", async (req: Request, res: Response) => {
   await knex("habit")
     .where("id", habitId)
     .increment("completion_count", 1)
+    .update({
+      completion_dates: knex.raw(`array_append(completion_dates, ?)`, [
+        currentDate,
+      ]),
+    })
     .then(() => {
       res.json({ message: "Incremented the habit counter" });
     })
