@@ -5,6 +5,7 @@ import { faCheck, faFire, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Common/Button";
 import { Habit } from "@shared/types/habit_types";
+import Heatmap from "../../components/Visualization/Heatmap";
 
 function HabitComponent() {
   const [habit_title, setHabitTitle] = useState("");
@@ -74,6 +75,7 @@ function HabitComponent() {
                 <div className="flex flex-col w-full">
                   <h2 className="break-words">{habit.title}</h2>
                   <p className=" text-gray-700 text-sm">{habit.description}</p>
+                  <Heatmap dates={habit.completion_dates}/>
                 </div>
                 <div
                   className=" whitespace-nowrap ml-auto mr-2 "

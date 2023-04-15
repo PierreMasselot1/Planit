@@ -23,7 +23,7 @@ CREATE TABLE "habit" (
     "is_deleted" BOOLEAN,
     "streak" integer,
     "completion_count" integer,
-    "completion_dates" VARCHAR(255)[],
+    "completion_dates" timestamp [],
     CONSTRAINT "habit_fk1" FOREIGN KEY ("habit_list_id") REFERENCES "habit_list"("id")
 );
 CREATE TABLE "user" (

@@ -1,12 +1,12 @@
 {
-  "include": ["src", "../shared"],
+  "include": ["./src", "../shared"],
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "paths": {
       "@shared/*": ["../shared/*"],
-      "@src/*": ["./src/*"]
+      "@src/*": ["./src"] // Updated path
     },
     "skipLibCheck": true,
     "esModuleInterop": true,
