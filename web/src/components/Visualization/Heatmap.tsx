@@ -1,6 +1,10 @@
+import { useState } from "react";
+
 const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
-  // Find the earliest date in the input array
-  console.log(dates);
+  const currentDate = new Date();
+  const [selectedYear, setSelectedYear] = useState(0);
+
+  const yearCounts: Array<Array<number>> = [];
   // Find the earliest date in the input array
   if (dates) {
     let earliestDate: Date = dates[0];
@@ -9,25 +13,24 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
         earliestDate = date;
       }
     }
-    console.log(earliestDate);
-    // Initialize an array with the number of days between the earliest date and December 31st of that year
-    console.log(earliestDate.getFullYear());
-    const daysInYear = 365 + Number(earliestDate.getFullYear() % 4 === 0);
-    const daysSinceStartOfYear = getDayOfYear(earliestDate) - 1; // Subtract 1 since arrays are 0-indexed
-    const counts = Array(daysInYear - daysSinceStartOfYear).fill(0);
 
-    // Loop through each date and increment the corresponding count
-    for (const date of dates) {
-      const dayOfYear = getDayOfYear(date) - daysSinceStartOfYear;
-      counts[dayOfYear]++;
+    const startYear = earliestDate.getFullYear();
+    const endYear = currentDate.getFullYear();
+
+    for (let year = 0; year <= endYear - startYear; year++) {
+      yearCounts.push(new Array(365).fill(0));
+      for (const date of dates) {
+        if (date.getFullYear() === startYear + year) {
+          yearCounts[year][getDayOfYear(date)] += 1;
+        }
+      }
     }
-    console.log(counts); // Outputs an array with the counts for each day of the year
+
+    console.log(yearCounts); // Outputs an array with the counts for each day of the year
   }
-  console.log("here");
+
   // Helper function to get the day of year for a given date
   function getDayOfYear(date: Date) {
-    console.log(date);
-    console.log("fuck");
     const startOfYear = new Date(date.getFullYear(), 0, 0);
     const diff = date.getTime() - startOfYear.getTime();
     const oneDay = 1000 * 60 * 60 * 24;
@@ -35,7 +38,18 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
     return dayOfYear;
   }
 
-  return <div className="flex flex-col">test</div>;
+  return (
+    <div className="flex flex-col">
+      test{" "}
+      <div className="flex flex-row break-words ">
+        {yearCounts &&
+        yearCounts[selectedYear].map((day, index) => (
+          <div key={index}>{day}</div>
+        ))}
+      </div>
+      
+    </div>
+  );
 };
 
 export default Heatmap;

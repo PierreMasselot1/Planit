@@ -20,8 +20,8 @@ function HabitComponent() {
   }, []);
 
   async function getHabits() {
-    await api.getHabits().then((data) => {
-      setHabits(data.habits);
+    await api.getHabits().then((habits) => {
+      setHabits(habits);
     });
   }
 
@@ -75,7 +75,7 @@ function HabitComponent() {
                 <div className="flex flex-col w-full">
                   <h2 className="break-words">{habit.title}</h2>
                   <p className=" text-gray-700 text-sm">{habit.description}</p>
-                  <Heatmap dates={habit.completion_dates}/>
+                  <Heatmap dates={habit.completion_dates} />
                 </div>
                 <div
                   className=" whitespace-nowrap ml-auto mr-2 "

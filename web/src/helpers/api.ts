@@ -56,7 +56,14 @@ export default class Api {
   };
   //HABITS
   getHabits = async () => {
-    return (await this.client.get("/api/habit")).data;
+    const habits: Array<Habit> = (await this.client.get("/api/habit")).data.habits;
+    for (const habit of habits) {
+      if (habit.completion_dates)
+        for (let i = 0; i < habit.completion_dates.length; i++) {
+          habit.completion_dates[i] = new Date(habit.completion_dates[i]);
+        }
+    }
+    return habits;
   };
 
   createHabit = async (title: string, description: string) => {
