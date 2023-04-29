@@ -69,33 +69,37 @@ function HabitComponent() {
             ?.sort((a: Habit, b: Habit) => a.id - b.id)
             .map((habit: Habit, key: number) => (
               <div
-                className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex  "
+                className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex-col "
                 key={key}
               >
-                <div className="flex flex-col w-full">
-                  <h2 className="break-words">{habit.title}</h2>
-                  <p className=" text-gray-700 text-sm">{habit.description}</p>
-                  <Heatmap dates={habit.completion_dates} />
-                </div>
-                <div
-                  className=" whitespace-nowrap ml-auto mr-2 "
-                  title="Completion Count"
-                >
-                  <FontAwesomeIcon icon={faRotate} className="mr-1" />
-                  {habit.completion_count}
-                </div>
-                <div
-                  className=" whitespace-nowrap mx-1"
-                  title="Daily Streak Count"
-                >
-                  <FontAwesomeIcon icon={faFire} className="mr-1" />
-                  {habit.streak}
-                </div>
-                <div className="ml-1">
-                  <button onClick={() => completeHabits(habit.id)}>
-                    <FontAwesomeIcon icon={faCheck} />
-                  </button>
-                </div>
+                <div className="flex flex-row">
+                  <div className="flex flex-col w-full">
+                    <h2 className="break-words">{habit.title}</h2>
+                    <p className=" text-gray-700 text-sm">
+                      {habit.description}
+                    </p>
+                  </div>
+                  <div
+                    className=" whitespace-nowrap ml-auto mr-2 "
+                    title="Completion Count"
+                  >
+                    <FontAwesomeIcon icon={faRotate} className="mr-1" />
+                    {habit.completion_count}
+                  </div>
+                  <div
+                    className=" whitespace-nowrap mx-1"
+                    title="Daily Streak Count"
+                  >
+                    <FontAwesomeIcon icon={faFire} className="mr-1" />
+                    {habit.streak}
+                  </div>
+                  <div className="ml-1">
+                    <button onClick={() => completeHabits(habit.id)}>
+                      <FontAwesomeIcon icon={faCheck} />
+                    </button>
+                  </div>{" "}
+                </div>{" "}
+                <Heatmap dates={habit.completion_dates} />
               </div>
             ))}
       </div>

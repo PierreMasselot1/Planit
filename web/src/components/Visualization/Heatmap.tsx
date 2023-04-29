@@ -50,7 +50,7 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
                     (Math.floor((completionCount / curYearMaxCount) * 5) + 1) *
                       100) ||
                 "text-gray-500"
-              } align-top block m-px w-2 h-2`}
+              } align-top block m-px w-2 sm:w-3  h-2 sm:h-3`}
               icon={faSquare}
             />
           </div>
