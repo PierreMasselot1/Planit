@@ -54,8 +54,7 @@ export default function TodoListComponent() {
     event: React.ChangeEvent<HTMLInputElement>,
     id: number
   ) {
-    console.log(event.target);
-    api.updateTodo(id, undefined, undefined, !event.target.checked).then(() => {
+    api.updateTodo(id, undefined, undefined, event.target.checked).then(() => {
       getAllTodos();
     });
   }
