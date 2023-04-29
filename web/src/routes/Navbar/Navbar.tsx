@@ -28,7 +28,6 @@ export default function Navbar() {
         "Habit",
         !isAuthenticated
       )}
-
       <div className="sm:mt-auto">
         {NavIcon(
           "profile",
@@ -36,9 +35,8 @@ export default function Navbar() {
           "Profile",
           !isAuthenticated
         )}
-
-        <LoginButton />
-      </div>
+      </div>{" "}
+      <LoginButton />
     </div>
   );
 }
