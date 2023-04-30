@@ -6,6 +6,15 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
   const [selectedYear, setSelectedYear] = useState(0);
   const [curYearMaxCount, setcurYearMaxCount] = useState(0);
   const [yearCounts, setYearCounts] = useState<Array<Array<number>>>([]);
+
+  const colorGradient = [
+    "text-teal-400",
+    "text-teal-500",
+    "text-teal-600",
+    "text-teal-700",
+    "text-teal-800",
+    "text-teal-900",
+  ];
   // Find the earliest date in the input array
   useEffect(() => {
     if (dates) {
@@ -42,15 +51,18 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
     <div className="flex flex-wrap">
       {yearCounts?.length > 0 &&
         yearCounts[selectedYear].map((completionCount, index) => (
-          <div key={index}>
+          <div
+            key={index}
+            className={`${
+              completionCount > 0
+                ? colorGradient[
+                    Math.floor((completionCount / curYearMaxCount) * 5)
+                  ]
+                : "text-gray-500"
+            }`}
+          >
             <FontAwesomeIcon
-              className={` ${
-                (completionCount > 0 &&
-                  "text-teal-" +
-                    (Math.floor((completionCount / curYearMaxCount) * 5) + 1) *
-                      100) ||
-                "text-gray-500"
-              } align-top block m-px w-2 sm:w-3  h-2 sm:h-3`}
+              className={`align-top block m-px w-2 sm:w-3 h-2 sm:h-3 `}
               icon={faSquare}
             />
           </div>
