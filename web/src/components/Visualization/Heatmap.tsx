@@ -17,7 +17,7 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
   ];
   // Find the earliest date in the input array
   useEffect(() => {
-    if (dates) {
+    if (dates && dates.length > 0) {
       const earliestDate: Date = dates[0];
       const startYear = earliestDate.getFullYear();
       const endYear = new Date().getFullYear();
