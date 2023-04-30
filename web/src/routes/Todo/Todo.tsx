@@ -86,34 +86,36 @@ export default function TodoListComponent() {
           </div>
         </form>
       </div>
-      {todos &&
-        todos
-          ?.sort((a: Todo, b: Todo) => a.id - b.id)
-          .map((todo: any, key: number) => (
-            <li className="list-none" key={key}>
-              {
-                <div className="bg-slate-300 sm:w-1/2 my-1 py-1 px-2 rounded flex ">
-                  <input
-                    id="default-checkbox"
-                    className="mt-1 mb-auto"
-                    type="checkbox"
-                    checked={todo.completed != null ? todo.completed : false}
-                    onChange={(e) => onToggle(e, todo.id)}
-                  />
-                  <div>
-                    <label className="mx-2">{todo.title}</label>
-                    <label className="mx-2">{todo.description}</label>
+      <div className="flex flex-col w-fit">
+        {todos &&
+          todos
+            ?.sort((a: Todo, b: Todo) => a.id - b.id)
+            .map((todo: any, key: number) => (
+              <li className="list-none" key={key}>
+                {
+                  <div className="bg-slate-300 my-1 py-1 px-2 rounded flex ">
+                    <input
+                      id="default-checkbox"
+                      className="mt-1 mb-auto"
+                      type="checkbox"
+                      checked={todo.completed != null ? todo.completed : false}
+                      onChange={(e) => onToggle(e, todo.id)}
+                    />
+                    <div>
+                      <label className="mx-2 break-before-auto break-words">{todo.title}</label>
+                      <label className="mx-2 break-before-auto break-words">{todo.description}</label>
+                    </div>
+                    <button
+                      onClick={() => deleteTodo(todo.id)}
+                      className="ml-auto my-auto text-xs h-6 bg-slate-700 hover:bg-slate-800 text-white font-bold py-1 px-2 rounded-full"
+                    >
+                      X
+                    </button>
                   </div>
-                  <button
-                    onClick={() => deleteTodo(todo.id)}
-                    className="ml-auto my-auto text-xs h-6 bg-slate-700 hover:bg-slate-800 text-white font-bold py-1 px-2 rounded-full"
-                  >
-                    X
-                  </button>
-                </div>
-              }
-            </li>
-          ))}
+                }
+              </li>
+            ))}
+      </div>
     </div>
   );
 }
