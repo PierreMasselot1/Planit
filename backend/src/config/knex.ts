@@ -1,12 +1,13 @@
 const knex = require("knex");
+require("dotenv").config();
 
 const connection =
   process.env.CONNECTION_STRING === undefined
     ? {
         user: "postgres",
         host: process.env.DB_HOST || "localhost",
-        database: "planit",
-        password: "postgres",
+        database: process.env.DB_NAME || "planit",
+        password: process.env.DB_PASSWORD || "postgres",
         port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5435,
       }
     : { connectionString: process.env.CONNECTION_STRING };
