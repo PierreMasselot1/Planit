@@ -62,9 +62,8 @@ router.put("/increment/", async (req: Request, res: Response) => {
   const habitId = req.query.id;
 
   const habit: Habit = await knex("habit").where("id", habitId).first();
+  const completionDate: Date = new Date(req.body.completion_date);
 
-  // Get the current date and time
-  const currentDate = new Date();
   let lastCompletedDate = null;
   if (habit.completion_dates) {
     lastCompletedDate = new Date(
@@ -74,11 +73,10 @@ router.put("/increment/", async (req: Request, res: Response) => {
 
   if (
     !lastCompletedDate ||
-    (currentDate.toLocaleDateString() !==
-      lastCompletedDate.toLocaleDateString() &&
-      currentDate.getDay() - lastCompletedDate.getDay() === 1 &&
-      currentDate.getMonth() === lastCompletedDate.getMonth() &&
-      currentDate.getFullYear() === lastCompletedDate.getFullYear())
+    (completionDate.toUTCString() !== lastCompletedDate.toUTCString() &&
+      completionDate.getUTCDay() - lastCompletedDate.getUTCDay() === 1 &&
+      completionDate.getUTCMonth() === lastCompletedDate.getUTCMonth() &&
+      completionDate.getUTCFullYear() === lastCompletedDate.getUTCFullYear())
   ) {
     await knex("habit")
       .where("id", habitId)
@@ -94,7 +92,7 @@ router.put("/increment/", async (req: Request, res: Response) => {
     .increment("completion_count", 1)
     .update({
       completion_dates: knex.raw(`array_append(completion_dates, ?)`, [
-        currentDate,
+        completionDate.toISOString(),
       ]),
     })
     .then(() => {

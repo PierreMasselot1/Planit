@@ -26,7 +26,7 @@ function HabitComponent() {
   }
 
   async function completeHabits(id: number) {
-    await api.completeHabit(id).then(getHabits);
+    await api.completeHabit(id, new Date()).then(getHabits);
   }
 
   const handleSubmit = (event: SyntheticEvent) => {

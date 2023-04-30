@@ -56,7 +56,8 @@ export default class Api {
   };
   //HABITS
   getHabits = async () => {
-    const habits: Array<Habit> = (await this.client.get("/api/habit")).data.habits;
+    const habits: Array<Habit> = (await this.client.get("/api/habit")).data
+      .habits;
     for (const habit of habits) {
       if (habit.completion_dates)
         for (let i = 0; i < habit.completion_dates.length; i++) {
@@ -76,7 +77,9 @@ export default class Api {
     } as Habit);
   };
 
-  completeHabit = async (id: number) => {
-    return this.client.put(`/api/habit/increment?id=${id}`);
+  completeHabit = async (id: number, completion_date: Date) => {
+    return this.client.put(`/api/habit/increment?id=${id}`, {
+      completion_date,
+    });
   };
 }
