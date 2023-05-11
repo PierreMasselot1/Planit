@@ -9,6 +9,7 @@ import ErrorPage from "./routes/Error";
 import TodoListComponent from "./routes/Todo/Todo";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Habit from "./routes/Habit/Habit";
+import Profile from "./routes/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/habit",
         element: <Habit />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
