@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import Root from "./routes/Root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Pomodoro } from "./routes/pomodoro/Pomodoro";
+import { Pomodoro } from "./routes/Pomodoro/Pomodoro";
 import Home from "./routes/Home";
 import ErrorPage from "./routes/Error";
 import TodoListComponent from "./routes/Todo/Todo";
