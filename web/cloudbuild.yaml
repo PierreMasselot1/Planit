@@ -15,7 +15,7 @@ steps:
     args:
       - run
       - deploy
-      - planit-web
+      - planit-web-production
       - "--image"
       - "gcr.io/planit-374204/planit-web-production-build:latest"
       - "--region"
