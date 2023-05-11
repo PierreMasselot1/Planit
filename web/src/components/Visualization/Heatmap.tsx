@@ -8,12 +8,12 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
   const [yearCounts, setYearCounts] = useState<Array<Array<number>>>([]);
 
   const colorGradient = [
-    "text-teal-400",
-    "text-teal-500",
-    "text-teal-600",
-    "text-teal-700",
-    "text-teal-800",
     "text-teal-900",
+    "text-teal-800",
+    "text-teal-700",
+    "text-teal-600",
+    "text-teal-500",
+    "text-teal-400",
   ];
   // Find the earliest date in the input array
   useEffect(() => {
