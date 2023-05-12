@@ -5,12 +5,22 @@ import Api from "../../helpers/api";
 import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleXmark,
+  faClose,
+  faEdit,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 export default function TodoListComponent() {
   const api = new Api(useAuth0());
 
-  const [todos, setTodos] = useState([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [todos, setTodos] = useState<Array<Todo>>([]);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [editId, setEditId] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState<string>("");
+  const [editDescription, setEditDescription] = useState<string>("");
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -63,7 +73,7 @@ export default function TodoListComponent() {
     <div className="flex flex-col justify-start text-left h-full">
       <div className="mt-auto">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-row align-baseline  mb-4 flex-wrap">
+          <div className="flex flex-row align-baseline mb-4 flex-wrap">
             <input
               type="text"
               className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-teal-500"
@@ -101,20 +111,26 @@ export default function TodoListComponent() {
                       checked={todo.completed != null ? todo.completed : false}
                       onChange={(e) => onToggle(e, todo.id)}
                     />
-                    <div className="flex flex-col">
-                      <label className="mx-2 break-all break-words sm:text-lg">
-                        {todo.title}
-                      </label>
+                    <div className="flex flex-col w-full">
+                      <div className="flex flex-row">
+                        <label className="mx-2 break-all break-words sm:text-lg">
+                          {todo.title}
+                        </label>
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          className="ml-auto m-2 cursor-pointer"
+                        />
+                        <FontAwesomeIcon
+                          icon={faCircleXmark}
+                          onClick={() => deleteTodo(todo.id)}
+                          className="m-2 cursor-pointer"
+                        />
+                      </div>
+
                       <label className="mx-2 break-all text-gray-800 ">
                         {todo.description}
                       </label>
                     </div>
-                    <button
-                      onClick={() => deleteTodo(todo.id)}
-                      className="ml-auto my-auto text-xs h-6 bg-slate-700 hover:bg-slate-800 text-white font-bold py-1 px-2 rounded-full"
-                    >
-                      X
-                    </button>
                   </div>
                 }
               </li>
