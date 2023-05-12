@@ -102,10 +102,10 @@ export default function TodoListComponent() {
                       onChange={(e) => onToggle(e, todo.id)}
                     />
                     <div className="flex flex-col">
-                      <label className="mx-2 break-before-auto break-words sm:text-lg">
+                      <label className="mx-2 break-all break-words sm:text-lg">
                         {todo.title}
                       </label>
-                      <label className="mx-2 break-before-auto break-words text-gray-800 ">
+                      <label className="mx-2 break-all text-gray-800 ">
                         {todo.description}
                       </label>
                     </div>
