@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
 import { useAuth0 } from "@auth0/auth0-react";
 import Api from "../../helpers/api";
@@ -6,12 +6,9 @@ import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleXmark,
-  faClose,
-  faEdit,
-  faPen,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark, faPen } from "@fortawesome/free-solid-svg-icons";
+import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
+
 export default function TodoListComponent() {
   const api = new Api(useAuth0());
 
@@ -21,6 +18,12 @@ export default function TodoListComponent() {
   const [editId, setEditId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
   const [editDescription, setEditDescription] = useState<string>("");
+
+  const editDescriptionAreaRef = useRef<HTMLTextAreaElement>(null);
+  useAutosizeTextArea(editDescriptionAreaRef.current, editDescription);
+
+  const editTitleAreaRef = useRef<HTMLTextAreaElement>(null);
+  useAutosizeTextArea(editTitleAreaRef.current, editTitle);
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -113,11 +116,31 @@ export default function TodoListComponent() {
                     />
                     <div className="flex flex-col w-full">
                       <div className="flex flex-row">
-                        <label className="mx-2 break-all break-words sm:text-lg">
-                          {todo.title}
-                        </label>
+                        {editId === todo.id ? (
+                          <textarea
+                            className="mx-2 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full"
+                            placeholder="Description to edit"
+                            id="editTitle"
+                            value={editTitle}
+                            ref={editTitleAreaRef}
+                            rows={1}
+                            onChange={(event) =>
+                              setEditTitle(event.target.value)
+                            }
+                          />
+                        ) : (
+                          <label className="mx-2 break-all break-words sm:text-lg">
+                            {todo.title}
+                          </label>
+                        )}
+
                         <FontAwesomeIcon
                           icon={faPen}
+                          onClick={() => {
+                            setEditId(todo.id);
+                            setEditTitle(todo.title);
+                            setEditDescription(todo.description);
+                          }}
                           className="ml-auto m-2 cursor-pointer"
                         />
                         <FontAwesomeIcon
@@ -127,9 +150,23 @@ export default function TodoListComponent() {
                         />
                       </div>
 
-                      <label className="mx-2 break-all text-gray-800 ">
-                        {todo.description}
-                      </label>
+                      {editId === todo.id ? (
+                        <textarea
+                          className="mx-2 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full"
+                          placeholder="Description to edit"
+                          id="editDescription"
+                          value={editDescription}
+                          ref={editDescriptionAreaRef}
+                          rows={1}
+                          onChange={(event) =>
+                            setEditDescription(event.target.value)
+                          }
+                        />
+                      ) : (
+                        <label className="mx-2 break-all text-gray-800 ">
+                          {todo.description}
+                        </label>
+                      )}
                     </div>
                   </div>
                 }
