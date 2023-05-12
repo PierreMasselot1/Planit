@@ -86,7 +86,7 @@ export default function TodoListComponent() {
           </div>
         </form>
       </div>
-      <div className="flex flex-col w-fit">
+      <div className="flex flex-col w-1/2 min-w-fit">
         {todos &&
           todos
             ?.sort((a: Todo, b: Todo) => a.id - b.id)
@@ -101,9 +101,13 @@ export default function TodoListComponent() {
                       checked={todo.completed != null ? todo.completed : false}
                       onChange={(e) => onToggle(e, todo.id)}
                     />
-                    <div>
-                      <label className="mx-2 break-before-auto break-words">{todo.title}</label>
-                      <label className="mx-2 break-before-auto break-words">{todo.description}</label>
+                    <div className="flex flex-col">
+                      <label className="mx-2 break-before-auto break-words sm:text-lg">
+                        {todo.title}
+                      </label>
+                      <label className="mx-2 break-before-auto break-words text-gray-800 ">
+                        {todo.description}
+                      </label>
                     </div>
                     <button
                       onClick={() => deleteTodo(todo.id)}
