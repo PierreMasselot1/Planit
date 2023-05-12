@@ -60,7 +60,7 @@ export default function TodoListComponent() {
   }
 
   return (
-    <div className="flex-auto">
+    <div className="flex flex-col justify-start text-left h-full">
       <div className="mt-auto">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row align-baseline  mb-4 flex-wrap">
@@ -86,14 +86,14 @@ export default function TodoListComponent() {
           </div>
         </form>
       </div>
-      <div className="flex flex-col w-1/2 min-w-fit">
+      <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col w-1/2 min-w-fit">
         {todos &&
           todos
             ?.sort((a: Todo, b: Todo) => a.id - b.id)
             .map((todo: any, key: number) => (
               <li className="list-none" key={key}>
                 {
-                  <div className="bg-slate-300 my-1 py-1 px-2 rounded flex ">
+                  <div className="bg-slate-300 my-1 py-1 px-2 rounded flex mr-2">
                     <input
                       id="default-checkbox"
                       className="mt-1 mb-auto"
