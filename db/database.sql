@@ -5,8 +5,8 @@ CREATE TABLE "todo_list"(
 CREATE TABLE "todo" (
     "id" SERIAL PRIMARY KEY,
     "todo_list_id" integer NOT NULL,
-    "title" VARCHAR(255),
-    "description" VARCHAR(255),
+    "title" text ,
+    "description" text ,
     "completed" BOOLEAN,
     "is_deleted" BOOLEAN,
     CONSTRAINT "todo_fk1" FOREIGN KEY ("todo_list_id") REFERENCES "todo_list"("id")
@@ -18,8 +18,8 @@ CREATE TABLE "habit_list"(
 CREATE TABLE "habit" (
     "id" SERIAL PRIMARY KEY,
     "habit_list_id" integer NOT NULL,
-    "title" VARCHAR(255),
-    "description" VARCHAR(255),
+    "title" text ,
+    "description" text ,
     "is_deleted" BOOLEAN,
     "streak" integer,
     "completion_count" integer,
