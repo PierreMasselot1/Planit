@@ -1,0 +1,11 @@
+{
+  "appId": "io.ionic.planit",
+  "appName": "planit",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {},
+  "server": {
+    "androidScheme": "https"
+  }
+}
