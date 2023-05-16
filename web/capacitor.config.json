@@ -6,6 +6,14 @@
   "webDir": "build",
   "cordova": {},
   "server": {
-    "androidScheme": "https"
+    "hostname": "localhost",
+    "androidScheme": "https",
+    "allowNavigation": ["*"]
+  },
+  "android": {
+    "path": "../mobile/android"
+  },
+  "ios": {
+    "path": "../mobile/ios"
   }
 }
