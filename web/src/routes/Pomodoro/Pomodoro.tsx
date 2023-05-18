@@ -62,8 +62,8 @@ export function Pomodoro() {
     setSelectedTime(time);
   }
   return (
-    <div className="flex flex-col m-auto h-full justify-center">
-      <div className="h-2/3">
+    <div className="flex flex-col max-w-fit sm:h-full justify-center m-auto">
+      <div className="h-auto">
         <CircularTimer
           timeLeft={
             (selectedTime * 60000 - ellapsedTime - (Date.now() - tempDate)) /
@@ -85,7 +85,7 @@ export function Pomodoro() {
         />
       </div>
 
-      <div className="flex-row justify-center lg:text-3xl mx-auto">
+      <div className="flex-row justify-center  mx-auto">
         <Button onClick={() => changeTimer(0.1)} className="m-1">
           6 SECONDS
         </Button>
