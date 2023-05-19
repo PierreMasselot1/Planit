@@ -6,7 +6,12 @@ import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faPen, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faChevronDown,
+  faPen,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
 
 export default function TodoListComponent() {
@@ -20,6 +25,11 @@ export default function TodoListComponent() {
   const [editId, setEditId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
   const [editDescription, setEditDescription] = useState<string>("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleList = () => {
+    setIsOpen(!isOpen);
+  };
 
   const editDescriptionAreaRef = useRef<HTMLTextAreaElement>(null);
   useAutosizeTextArea(editDescriptionAreaRef.current, editDescription);
@@ -185,7 +195,22 @@ export default function TodoListComponent() {
       </div>
       <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col w-1/2 min-w-fit">
         {todoList(incompletedTodos)}
-        <div className="mt-auto">{todoList(completedTodos)}</div>
+        <div className="mt-auto"></div>
+        <div>
+          <button
+            className="flex items-center justify-between px-4 py-2 bg-gray-200 rounded"
+            onClick={toggleList}
+          >
+            <span>Completed Todos</span>
+            <FontAwesomeIcon
+              className={` ml-2 w-4 h-4 transition-transform transform hover:text-teal-300 ${
+                isOpen ? "rotate-90" : "rotate-0"
+              }`}
+              icon={faChevronDown}
+            />
+          </button>
+          {isOpen && todoList(completedTodos)}
+        </div>
       </div>
     </div>
   );
