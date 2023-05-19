@@ -3,6 +3,7 @@ export type Todo = {
   todo_list_id: number;
   title: string;
   description: string;
+  completed: boolean;
 };
 
 export type TodoList = {

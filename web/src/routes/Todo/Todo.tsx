@@ -6,11 +6,7 @@ import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleXmark,
-  faPen,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faXmark } from "@fortawesome/free-solid-svg-icons";
 import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
 
 export default function TodoListComponent() {
@@ -67,15 +63,6 @@ export default function TodoListComponent() {
     });
   }
 
-  async function onToggle(
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) {
-    api.updateTodo(id, undefined, undefined, event.target.checked).then(() => {
-      getAllTodos();
-    });
-  }
-
   return (
     <div className="flex flex-col justify-start text-left h-full">
       <div className="mt-auto">
@@ -107,17 +94,10 @@ export default function TodoListComponent() {
         {todos &&
           todos
             ?.sort((a: Todo, b: Todo) => a.id - b.id)
-            .map((todo: any, key: number) => (
+            .map((todo: Todo, key: number) => (
               <li className="list-none" key={key}>
                 {
                   <div className="bg-slate-300 my-1 py-1 px-2 rounded flex mr-2">
-                    <input
-                      id="default-checkbox"
-                      className="mt-1 mb-auto"
-                      type="checkbox"
-                      checked={todo.completed != null ? todo.completed : false}
-                      onChange={(e) => onToggle(e, todo.id)}
-                    />
                     <div className="flex flex-col w-full">
                       <div className="flex flex-row">
                         {editId === todo.id ? (
@@ -145,8 +125,29 @@ export default function TodoListComponent() {
                             setEditTitle(todo.title);
                             setEditDescription(todo.description);
                           }}
-                          className="ml-auto m-2  hover:text-teal-600 cursor-pointer"
+                          className="ml-auto m-2  hover:text-blue-500 cursor-pointer"
                         />
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          onClick={() => {
+                            api
+                              .updateTodo(
+                                todo.id,
+                                undefined,
+                                undefined,
+                                !todo.completed
+                              )
+                              .then(() => {
+                                getAllTodos();
+                              });
+                          }}
+                          className={`m-2   ${
+                            todo.completed
+                              ? "hover:text-gray-500 text-green-500"
+                              : "hover:text-green-500"
+                          } cursor-pointer `}
+                        />
+
                         <FontAwesomeIcon
                           icon={faXmark}
                           onClick={() => deleteTodo(todo.id)}
