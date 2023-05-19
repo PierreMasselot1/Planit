@@ -8,6 +8,7 @@ import {
   faRepeat,
   faHouse,
   faUser,
+  faCalendarDay,
 } from "@fortawesome/free-solid-svg-icons";
 export default function Navbar() {
   const { isAuthenticated } = useAuth0();
@@ -26,6 +27,12 @@ export default function Navbar() {
         "habit",
         <FontAwesomeIcon icon={faRepeat} />,
         "Habit",
+        !isAuthenticated
+      )}
+      {NavIcon(
+        "dailies",
+        <FontAwesomeIcon icon={faCalendarDay} />,
+        "Dailies",
         !isAuthenticated
       )}
       <div className="sm:mt-auto">
