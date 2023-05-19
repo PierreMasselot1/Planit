@@ -6,7 +6,11 @@ import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleXmark,
+  faPen,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
 
 export default function TodoListComponent() {
@@ -141,12 +145,12 @@ export default function TodoListComponent() {
                             setEditTitle(todo.title);
                             setEditDescription(todo.description);
                           }}
-                          className="ml-auto m-2 cursor-pointer"
+                          className="ml-auto m-2  hover:text-teal-600 cursor-pointer"
                         />
                         <FontAwesomeIcon
-                          icon={faCircleXmark}
+                          icon={faXmark}
                           onClick={() => deleteTodo(todo.id)}
-                          className="m-2 cursor-pointer"
+                          className="m-2 cursor-pointer hover:text-red-500"
                         />
                       </div>
 
