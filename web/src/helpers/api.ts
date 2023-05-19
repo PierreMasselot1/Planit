@@ -82,4 +82,8 @@ export default class Api {
       completion_date,
     });
   };
+
+  deleteHabit = async (id: number) => {
+    return this.client.delete(`/api/habit?id=${id}`);
+  };
 }

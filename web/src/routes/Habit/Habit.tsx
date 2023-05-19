@@ -1,7 +1,15 @@
 import Api from "../../helpers/api";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { faCheck, faFire, faRotate } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faCross,
+  faFire,
+  faRotate,
+  faX,
+  faXmark,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Common/Button";
 import { Habit } from "@shared/types/habit_types";
@@ -25,8 +33,12 @@ function HabitComponent() {
     });
   }
 
-  async function completeHabits(id: number) {
+  async function completeHabit(id: number) {
     await api.completeHabit(id, new Date()).then(getHabits);
+  }
+
+  async function deleteHabit(id: number) {
+    await api.deleteHabit(id).then(getHabits);
   }
 
   const handleSubmit = (event: SyntheticEvent) => {
@@ -63,7 +75,7 @@ function HabitComponent() {
           </Button>
         </div>
       </form>
-      <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col w-1/2 min-w-fit ">
+      <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col w-1/2 min-w-fit">
         {habits &&
           habits
             ?.sort((a: Habit, b: Habit) => a.id - b.id)
@@ -93,9 +105,14 @@ function HabitComponent() {
                     <FontAwesomeIcon icon={faFire} className="mr-1" />
                     {habit.streak}
                   </div>
-                  <div className="ml-1">
-                    <button onClick={() => completeHabits(habit.id)}>
+                  <div className="ml-1 hover:text-green-500">
+                    <button onClick={() => completeHabit(habit.id)}>
                       <FontAwesomeIcon icon={faCheck} />
+                    </button>
+                  </div>{" "}
+                  <div className="ml-1 hover:text-red-500">
+                    <button onClick={() => deleteHabit(habit.id)}>
+                      <FontAwesomeIcon icon={faXmark} />
                     </button>
                   </div>{" "}
                 </div>{" "}
