@@ -86,7 +86,7 @@ export default function TodoListComponent() {
           {
             <div
               className={`bg-slate-300 my-1 py-1 px-2 rounded flex mr-2 ${
-                todo.completed && "line-through"
+                todo.completed && "line-through bg-opacity-70"
               }`}
             >
               <div className="flex flex-col w-full">
