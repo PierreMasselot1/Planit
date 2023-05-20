@@ -7,7 +7,7 @@ export function Pomodoro() {
   const [selectedTime, setSelectedTime] = useState<number>(25);
   const [minutesLeft, setMinutes] = useState<number>(25);
   const [secondsLeft, setSeconds] = useState<number>(0);
-  const [timerRunning, setTimerStatus] = useState<boolean>(false);
+  let [timerRunning, setTimerStatus] = useState<boolean>(false);
   const [tempDate, setTempDate] = useState<number>(Date.now());
 
   function resetTimer() {
@@ -24,10 +24,13 @@ export function Pomodoro() {
       setSeconds(seconds - minutes * 60);
       return;
     }
+    let timerRanOut = false;
     const interval = setInterval(() => {
       const currentTime = Date.now();
       const cycleTime = currentTime - tempDate;
-      if (ellapsedTime + cycleTime >= selectedTime * 60000) {
+      //ensure that alert is only raised once
+      if (!timerRanOut && ellapsedTime + cycleTime >= selectedTime * 60000) {
+        timerRanOut = true;
         alert("Time expired!");
         changeTimer(selectedTime);
         return;
