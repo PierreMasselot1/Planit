@@ -26,16 +26,24 @@ export default function TodoListComponent() {
   const [editTitle, setEditTitle] = useState<string>("");
   const [editDescription, setEditDescription] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const toggleList = () => {
     setIsOpen(!isOpen);
   };
 
   const editDescriptionAreaRef = useRef<HTMLTextAreaElement>(null);
-  useAutosizeTextArea(editDescriptionAreaRef.current, editDescription);
+  useAutosizeTextArea(editDescriptionAreaRef.current, editDescription, refresh);
 
   const editTitleAreaRef = useRef<HTMLTextAreaElement>(null);
   useAutosizeTextArea(editTitleAreaRef.current, editTitle);
+
+  useEffect(() => {
+    if (editId !== null) {
+      editTitleAreaRef.current?.focus();
+      setRefresh(!refresh);
+    }
+  }, [editId]);
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -93,7 +101,7 @@ export default function TodoListComponent() {
                 <div className="flex flex-row">
                   {editId === todo.id ? (
                     <textarea
-                      className="mx-2 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full"
+                      className="mr-2 mt-1 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full overflow-hidden"
                       placeholder="Description to edit"
                       id="editTitle"
                       value={editTitle}
@@ -146,7 +154,7 @@ export default function TodoListComponent() {
 
                 {editId === todo.id ? (
                   <textarea
-                    className="mx-2 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full"
+                    className="mb-1 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full overflow-hidden"
                     placeholder="Description to edit"
                     id="editDescription"
                     value={editDescription}
@@ -193,7 +201,9 @@ export default function TodoListComponent() {
           </div>
         </form>
       </div>
-      <div className="overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col w-1/2 min-w-fit">
+      <div
+        className={`overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col min-w-fit  `}
+      >
         {todoList(incompletedTodos)}
         <div className="mt-auto"></div>
         <div>
