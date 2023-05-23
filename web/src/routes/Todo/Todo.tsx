@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faChevronDown,
+  faFilePen,
   faPen,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -86,6 +87,23 @@ export default function TodoListComponent() {
     });
   }
 
+  async function updateTodo() {
+    try {
+      if (editId)
+        api
+          .updateTodo(editId, editTitle, editDescription, undefined)
+          .then(() => {
+            setEditId(null);
+            getAllTodos();
+          });
+      else {
+        console.log("editId is null");
+      }
+    } catch (err) {
+      console.log("error" + err);
+    }
+  }
+
   function todoList(todos: Array<Todo>) {
     return todos
       ?.sort((a: Todo, b: Todo) => a.id - b.id)
@@ -153,15 +171,45 @@ export default function TodoListComponent() {
                 </div>
 
                 {editId === todo.id ? (
-                  <textarea
-                    className="mb-1 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full overflow-hidden"
-                    placeholder="Description to edit"
-                    id="editDescription"
-                    value={editDescription}
-                    ref={editDescriptionAreaRef}
-                    rows={1}
-                    onChange={(event) => setEditDescription(event.target.value)}
-                  />
+                  <div className="flex flex-col">
+                    <textarea
+                      className="mb-1 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full overflow-hidden"
+                      placeholder="Description to edit"
+                      id="editDescription"
+                      value={editDescription}
+                      ref={editDescriptionAreaRef}
+                      rows={1}
+                      onChange={(event) =>
+                        setEditDescription(event.target.value)
+                      }
+                    />
+                    <div className="flex">
+                      <Button
+                        className="ml-auto mr-2 text-red-500 hover:text-red-700"
+                        onClick={() => setEditId(null)}
+                      >
+                        <div className="flex">
+                          <div className="text-white">Cancel</div>
+                          <FontAwesomeIcon
+                            className="ml-2 my-auto"
+                            icon={faXmark}
+                          />
+                        </div>
+                      </Button>
+                      <Button
+                        onClick={updateTodo}
+                        className="text-green-500 hover:text-green-700"
+                      >
+                        <div className="flex align-middle">
+                          <div className="text-white">Update</div>
+                          <FontAwesomeIcon
+                            className="ml-2 my-auto"
+                            icon={faFilePen}
+                          />
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
                 ) : (
                   <label className="mx-2 break-all text-gray-800 ">
                     {todo.description}
