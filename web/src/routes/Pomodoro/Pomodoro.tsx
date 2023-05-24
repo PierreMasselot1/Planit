@@ -65,7 +65,7 @@ export function Pomodoro() {
     setSelectedTime(time);
   }
   return (
-    <div className="flex flex-col max-w-fit sm:h-full justify-center m-auto">
+    <div className="flex flex-col max-w-fit h-full justify-center m-auto">
       <div className="h-auto">
         <CircularTimer
           timeLeft={
