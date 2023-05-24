@@ -3,12 +3,10 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   faCheck,
-  faCross,
+  faChevronDown,
   faFire,
   faRotate,
-  faX,
   faXmark,
-  faXmarkCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Common/Button";
@@ -19,6 +17,7 @@ function HabitComponent() {
   const [habit_title, setHabitTitle] = useState("");
   const [habit_description, setHabitDescription] = useState("");
   const [habits, setHabits] = useState<Array<Habit>>([]);
+  const [view_heatmap, setViewHeatmap] = useState<Array<number>>([]);
 
   const api = new Api(useAuth0());
 
@@ -50,6 +49,16 @@ function HabitComponent() {
 
   async function createHabit(title: string, description: string) {
     api.createHabit(title, description).then(getHabits);
+  }
+
+  async function toggleHeatmap(id: number) {
+    //append or remove id from view_heatmap
+    if (view_heatmap.includes(id)) {
+      setViewHeatmap(view_heatmap.filter((item) => item !== id));
+    } else {
+      setViewHeatmap([...view_heatmap, id]);
+    }
+    return;
   }
 
   return (
@@ -116,7 +125,27 @@ function HabitComponent() {
                     </button>
                   </div>{" "}
                 </div>{" "}
-                <Heatmap dates={habit.completion_dates} />
+                <div>
+                  <button
+                    className="flex items-center text-xs justify-between px-1 py-1 mb-1 bg-gray-200 rounded"
+                    onClick={() => {
+                      toggleHeatmap(habit.id);
+                    }}
+                  >
+                    <span>View Heatmap</span>
+                    <FontAwesomeIcon
+                      className={` ml-2 w-4 h-4 transition-transform transform hover:text-teal-300 ${
+                        view_heatmap.includes(habit.id)
+                          ? "rotate-90"
+                          : "rotate-0"
+                      }`}
+                      icon={faChevronDown}
+                    />
+                  </button>
+                  {view_heatmap.includes(habit.id) && (
+                    <Heatmap dates={habit.completion_dates} />
+                  )}
+                </div>
               </div>
             ))}
       </div>
