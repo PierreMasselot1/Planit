@@ -18,7 +18,6 @@ import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
 export default function TodoListComponent() {
   const api = new Api(useAuth0());
 
-  const [todos, setTodos] = useState<Array<Todo>>([]);
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
   const [incompletedTodos, setIncompletedTodos] = useState<Array<Todo>>([]);
   const [title, setTitle] = useState<string>("");
@@ -75,7 +74,6 @@ export default function TodoListComponent() {
   async function getAllTodos() {
     api.getTodos().then((data: AxiosResponse<TodoList, TodoList>) => {
       const todos: Array<Todo> = (data as any).todos;
-      setTodos(todos);
       setCompletedTodos(todos.filter((todo) => todo.completed));
       setIncompletedTodos(todos.filter((todo) => !todo.completed));
     });
