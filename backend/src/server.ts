@@ -1,6 +1,7 @@
 import express from "express";
 import habitRouter from "./routes/habit";
 import todoRouter from "./routes/todo";
+import dailiesRouter from "./routes/dailies";
 
 const cors = require("cors");
 const app = express();
@@ -29,3 +30,4 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 //map routes
 app.use("/api/todo", checkJwt, todoRouter);
 app.use("/api/habit", checkJwt, habitRouter);
+app.use("/api/dailies", checkJwt, dailiesRouter);

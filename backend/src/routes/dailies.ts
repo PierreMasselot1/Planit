@@ -1,4 +1,4 @@
-import { Habit } from "@shared/types/habit_types";
+import { Dailies } from "@shared/types/dailies_types";
 import { Request, Response } from "express";
 import express from "express";
 import knex from "../config/knex";
@@ -8,66 +8,67 @@ const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
   const userProfile = req.auth.payload;
 
-  const habitList = await knex("habit_list")
+  const dailiesList = await knex("dailies_list")
     .where("owner_id", userProfile.sub.replace("|", "_"))
     .select("*");
 
-  let habits = [];
-  if (habitList.length !== 0) {
-    habits = await knex("habit")
-      .where("habit_list_id", habitList[0].id)
+  let dailiesArray = [];
+  if (dailiesList.length !== 0) {
+    dailiesArray = await knex("dailies")
+      .where("dailies_list_id", dailiesList[0].id)
       .where((builder) =>
         builder.whereNull("is_deleted").orWhere("is_deleted", false)
       )
       .select("*");
+    console.log(dailiesArray)
   }
 
-  res.json({ habits: habits });
+  res.json({ dailiesArray: dailiesArray });
 });
 
-router.post("/", async (req: Request<Habit>, res: Response) => {
+router.post("/", async (req: Request<Dailies>, res: Response) => {
   const userProfile = req.auth.payload;
-  const habit: Habit = req.body as unknown as Habit;
+  const dailies: Dailies = req.body as unknown as Dailies;
 
-  let habitList = await knex("habit_list")
+  let dailiesList = await knex("dailies_list")
     .where("owner_id", userProfile.sub.replace("|", "_"))
     .select("*");
 
-  if (habitList.length === 0) {
-    habitList = await knex("habit_list")
+  if (dailiesList.length === 0) {
+    dailiesList = await knex("dailies_list")
       .insert({ owner_id: userProfile.sub.replace("|", "_") })
       .returning("*");
   }
 
-  await knex("habit").insert({
-    habit_list_id: habitList[0].id,
-    title: habit.title,
-    description: habit.description,
-    streak: habit.streak,
-    completion_count: habit.completion_count,
+  await knex("dailies").insert({
+    dailies_list_id: dailiesList[0].id,
+    title: dailies.title,
+    description: dailies.description,
+    streak: dailies.streak,
+    completion_count: dailies.completion_count,
   });
 
   res.json({ message: "tried to post" });
 });
 
 router.delete("/", async (req: Request, res: Response) => {
-  const habitId = req.query.id;
+  const dailiesId = req.query.id;
 
-  await knex("habit").where("id", habitId).update("is_deleted", true);
+  await knex("dailies").where("id", dailiesId).update("is_deleted", true);
 
   res.status(204).json({ message: "Deleted the item" });
 });
 
 router.put("/increment/", async (req: Request, res: Response) => {
-  const habitId = req.query.id;
+  const dailiesId = req.query.id;
 
-  const habit: Habit = await knex("habit").where("id", habitId).first();
+  const dailies: Dailies = await knex("dailies").where("id", dailiesId).first();
   const completionDate: Date = new Date(req.body.completion_date);
 
   let lastCompletedDate = null;
-  if (habit.completion_dates) {
+  if (dailies.completion_dates) {
     lastCompletedDate = new Date(
-      habit.completion_dates[habit.completion_dates.length - 1]
+      dailies.completion_dates[dailies.completion_dates.length - 1]
     );
   }
 
@@ -78,8 +79,8 @@ router.put("/increment/", async (req: Request, res: Response) => {
       completionDate.getUTCMonth() === lastCompletedDate.getUTCMonth() &&
       completionDate.getUTCFullYear() === lastCompletedDate.getUTCFullYear())
   ) {
-    await knex("habit")
-      .where("id", habitId)
+    await knex("dailies")
+      .where("id", dailiesId)
       .increment("streak", 1)
       .catch((error) => {
         console.log(error);
@@ -87,8 +88,8 @@ router.put("/increment/", async (req: Request, res: Response) => {
       });
   }
 
-  await knex("habit")
-    .where("id", habitId)
+  await knex("dailies")
+    .where("id", dailiesId)
     .increment("completion_count", 1)
     .update({
       completion_dates: knex.raw(`array_append(completion_dates, ?)`, [
@@ -96,7 +97,7 @@ router.put("/increment/", async (req: Request, res: Response) => {
       ]),
     })
     .then(() => {
-      res.json({ message: "Incremented the habit counter" });
+      res.json({ message: "Incremented the dailies counter" });
     })
     .catch(() => {
       res.status(500).json({ message: "Error incrementing streak" });
