@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { Habit } from "@shared/types/habit_types";
 import { Auth0ContextInterface } from "@auth0/auth0-react";
+import { Dailies } from "@shared/types/dailies_types";
 
 export default class Api {
   client: AxiosInstance;
@@ -85,5 +86,38 @@ export default class Api {
 
   deleteHabit = async (id: number) => {
     return this.client.delete(`/api/habit?id=${id}`);
+  };
+
+  //DAILIES
+  getDailies = async () => {
+    const dailiesArray: Array<Dailies> = (await this.client.get("/api/dailies")).data
+      .dailiesArray;
+    for (const dailies of dailiesArray) {
+      if (dailies.completion_dates)
+        for (let i = 0; i < dailies.completion_dates.length; i++) {
+          dailies.completion_dates[i] = new Date(dailies.completion_dates[i]);
+        }
+    }
+    return dailiesArray;
+  };
+
+  createDailies = async (title: string, description: string) => {
+    return await this.client.post("/api/dailies", {
+      title,
+      description,
+      completion_count: 0,
+      streak: 0,
+      is_deleted: false,
+    } as Dailies);
+  };
+
+  completeDailies = async (id: number, completion_date: Date) => {
+    return this.client.put(`/api/dailies/increment?id=${id}`, {
+      completion_date,
+    });
+  };
+
+  deleteDailies = async (id: number) => {
+    return this.client.delete(`/api/dailies?id=${id}`);
   };
 }

@@ -66,7 +66,7 @@ export function Pomodoro() {
   }
   return (
     <div className="flex flex-col max-w-fit h-full justify-center m-auto">
-      <div className="h-auto">
+      <div className="flex flex-col w-auto h-auto">
         <CircularTimer
           timeLeft={
             (selectedTime * 60000 - ellapsedTime - (Date.now() - tempDate)) /
