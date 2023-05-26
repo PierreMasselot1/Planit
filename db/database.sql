@@ -26,6 +26,24 @@ CREATE TABLE "habit" (
     "completion_dates" timestamp [],
     CONSTRAINT "habit_fk1" FOREIGN KEY ("habit_list_id") REFERENCES "habit_list"("id")
 );
+
+CREATE TABLE "dailies_list"(
+    "id" SERIAL PRIMARY KEY,
+    "owner_id" VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE "dailies" (
+    "id" SERIAL PRIMARY KEY,
+    "dailies_list_id" integer NOT NULL,
+    "title" text ,
+    "description" text ,
+    "is_deleted" BOOLEAN,
+    "streak" integer,
+    "completion_count" integer,
+    "completion_dates" timestamp [],
+    CONSTRAINT "dailies_fk1" FOREIGN KEY ("dailies_list_id") REFERENCES "dailies_list"("id")
+);
+
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(255)
