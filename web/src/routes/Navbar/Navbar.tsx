@@ -42,8 +42,9 @@ export default function Navbar() {
           "Profile",
           !isAuthenticated
         )}
-      </div>{" "}
-      <LoginButton />
+      </div>
+      <div className="my-auto">      <LoginButton />
+</div>
     </div>
   );
 }
