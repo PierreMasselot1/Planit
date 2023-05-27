@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "../../components/Auth/Login";
+import LoginButton from "../../components/Auth/LoginButton";
 import NavIcon from "./NavIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -43,8 +43,9 @@ export default function Navbar() {
           !isAuthenticated
         )}
       </div>
-      <div className="my-auto">      <LoginButton />
-</div>
+      <div>
+        <LoginButton />
+      </div>
     </div>
   );
 }

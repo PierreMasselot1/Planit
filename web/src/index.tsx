@@ -11,6 +11,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import Habit from "./routes/Habit/Habit";
 import Profile from "./routes/Profile/Profile";
 import Dailies from "./routes/Dailies/Dailies";
+import Login from "./routes/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/dailies",
         element: <Dailies />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },
