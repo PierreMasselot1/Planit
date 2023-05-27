@@ -1,7 +1,13 @@
 import express from "express";
+
+import session from "express-session";
+import passport from "passport"
+import cookieParser from "cookie-parser";
+
 import habitRouter from "./routes/habit";
 import todoRouter from "./routes/todo";
 import dailiesRouter from "./routes/dailies";
+import authRouter from "./routes/auth";
 
 const cors = require("cors");
 const app = express();
@@ -23,6 +29,16 @@ app.use(
 );
 
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 const port: string = process.env.PORT;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -31,3 +47,4 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.use("/api/todo", checkJwt, todoRouter);
 app.use("/api/habit", checkJwt, habitRouter);
 app.use("/api/dailies", checkJwt, dailiesRouter);
+app.use("/api/auth", authRouter);
