@@ -120,4 +120,19 @@ export default class Api {
   deleteDailies = async (id: number) => {
     return this.client.delete(`/api/dailies?id=${id}`);
   };
+
+  //USER
+  login = async (name: string, password: string) => {
+    return await this.client.post("/api/auth/login", {
+      name,
+      password,
+    });
+  }
+
+  register = async (name: string, password: string) => {
+    return await this.client.post("/api/auth/register", {
+      name,
+      password,
+    });
+  }
 }
