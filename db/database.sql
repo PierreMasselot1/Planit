@@ -46,5 +46,7 @@ CREATE TABLE "dailies" (
 
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
-    "name" VARCHAR(255)
-);
+    "user_name" VARCHAR(255)
+    "email" VARCHAR(255),
+    "password" text,
+); 
