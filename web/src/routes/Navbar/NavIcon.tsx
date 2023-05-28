@@ -12,7 +12,6 @@ function NavIcon(
 
   useEffect(() => {
     setselected(location.pathname.replace("/", "") === linkTo);
-    console.log(location.pathname);
   }, [location, linkTo]);
 
   return (

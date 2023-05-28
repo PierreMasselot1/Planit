@@ -20,7 +20,6 @@ router.get("/", async (req: Request, res: Response) => {
         builder.whereNull("is_deleted").orWhere("is_deleted", false)
       )
       .select("*");
-    console.log(dailiesArray)
   }
 
   res.json({ dailiesArray: dailiesArray });
