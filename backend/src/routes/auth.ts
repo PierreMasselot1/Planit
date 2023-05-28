@@ -2,6 +2,7 @@ import passportLocal from "passport-local";
 import { User } from "@shared/types/user_types";
 import express from "express";
 import { Response } from "express";
+import knex from "knex";
 
 const router = express.Router();
 const LocalStrategy = passportLocal.Strategy;
@@ -19,6 +20,19 @@ router.post("/login", (req, res: Response<User | any>) => {
 
 router.post("/register", (req, res: Response<User | any>) => {
   console.log("register endpoint");
+  const name = req?.body.name // at this time this can be either the email or the username, might be a good idea to split up with undefined options
+  const password = req?.body.name
+
+  //Establish whether name is a username or an email
+  
+
+  if (!name || !password || typeof name !== "string" || typeof password !== "string") {
+    res.send("Improper Values");
+    return;
+  }
+
+  knex("user").where("username",name)
+
   //TODO implement register with passport and password hashing
   //Ideally hash and salt password on client then again on server
   //Challenge based login? for now just being "safe" db side is
