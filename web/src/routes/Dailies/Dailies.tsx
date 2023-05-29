@@ -64,55 +64,59 @@ function DailiesComponent() {
   function dailiesListItem(dailies: Dailies, key: number) {
     return (
       <div
-        className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex-col "
+        className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex flex-row"
         key={key}
       >
-        <div className="flex flex-row">
-          <div className="flex flex-col w-full">
-            <h2 className="break-words">{dailies.title}</h2>
-            <p className=" text-gray-700 text-sm">{dailies.description}</p>
-          </div>
-          <div
-            className=" whitespace-nowrap ml-auto mr-2 "
-            title="Completion Count"
-          >
-            <FontAwesomeIcon icon={faRotate} className="mr-1" />
-            {dailies.completion_count}
-          </div>
-          <div className=" whitespace-nowrap mx-1" title="Daily Streak Count">
-            <FontAwesomeIcon icon={faFire} className="mr-1" />
-            {dailies.streak}
-          </div>
-          <div className="ml-1 hover:text-green-500">
-            <button onClick={() => completeDailies(dailies.id)}>
-              <FontAwesomeIcon icon={faCheck} />
-            </button>
+        <div className="my-auto mr-2">-</div>
+        <div className="flex flex-col">
+          <div className="flex flex-row">
+            <div className="flex flex-col w-full">
+              <h2 className="break-words">{dailies.title}</h2>
+              <p className=" text-gray-700 text-sm">{dailies.description}</p>
+            </div>
+            <div
+              className=" whitespace-nowrap ml-auto mr-2 "
+              title="Completion Count"
+            >
+              <FontAwesomeIcon icon={faRotate} className="mr-1" />
+              {dailies.completion_count}
+            </div>
+            <div className=" whitespace-nowrap mx-1" title="Daily Streak Count">
+              <FontAwesomeIcon icon={faFire} className="mr-1" />
+              {dailies.streak}
+            </div>
+            <div className="ml-1 hover:text-green-500">
+              <button onClick={() => completeDailies(dailies.id)}>
+                <FontAwesomeIcon icon={faCheck} />
+              </button>
+            </div>{" "}
+            <div className="ml-1 hover:text-red-500">
+              <button onClick={() => deleteDailies(dailies.id)}>
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
+            </div>{" "}
           </div>{" "}
-          <div className="ml-1 hover:text-red-500">
-            <button onClick={() => deleteDailies(dailies.id)}>
-              <FontAwesomeIcon icon={faXmark} />
+          <div>
+            <button
+              className="flex items-center text-xs justify-between px-1 py-1 mb-1 bg-gray-200 rounded"
+              onClick={() => {
+                toggleHeatmap(dailies.id);
+              }}
+            >
+              <span>View Heatmap</span>
+              <FontAwesomeIcon
+                className={` ml-2 w-4 h-4 transition-transform transform hover:text-teal-300 ${
+                  view_heatmap.includes(dailies.id) ? "rotate-90" : "rotate-0"
+                }`}
+                icon={faChevronDown}
+              />
             </button>
-          </div>{" "}
-        </div>{" "}
-        <div>
-          <button
-            className="flex items-center text-xs justify-between px-1 py-1 mb-1 bg-gray-200 rounded"
-            onClick={() => {
-              toggleHeatmap(dailies.id);
-            }}
-          >
-            <span>View Heatmap</span>
-            <FontAwesomeIcon
-              className={` ml-2 w-4 h-4 transition-transform transform hover:text-teal-300 ${
-                view_heatmap.includes(dailies.id) ? "rotate-90" : "rotate-0"
-              }`}
-              icon={faChevronDown}
-            />
-          </button>
-          {view_heatmap.includes(dailies.id) && (
-            <Heatmap dates={dailies.completion_dates} />
-          )}
+            {view_heatmap.includes(dailies.id) && (
+              <Heatmap dates={dailies.completion_dates} />
+            )}
+          </div>
         </div>
+        <div className="my-auto ml-2">+</div>
       </div>
     );
   }
