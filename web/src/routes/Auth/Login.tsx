@@ -21,7 +21,7 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center mt-14">
       <div className="text-4xl font-bold text-white">Login</div>
       <form onSubmit={handleLogin} className="flex flex-col">
         <input
@@ -41,6 +41,15 @@ function Login() {
 
         <Button>Login</Button>
       </form>
+
+      <div className="text-white">
+        {" "}
+        Need an account?{" "}
+        <a href="/signup" className="text-teal-500">
+          {" "}
+          Signup
+        </a>
+      </div>
     </div>
   );
 }

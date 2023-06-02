@@ -1,7 +1,7 @@
 import express from "express";
 
 import session from "express-session";
-import passport from "passport"
+import passport from "passport";
 import cookieParser from "cookie-parser";
 
 import habitRouter from "./routes/habit";
@@ -39,6 +39,7 @@ app.use(
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
+
 const port: string = process.env.PORT;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

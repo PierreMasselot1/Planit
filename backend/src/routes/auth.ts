@@ -1,11 +1,33 @@
 import passportLocal from "passport-local";
+import passport from "passport";
+import bcrypt from "bcryptjs";
 import { User } from "@shared/types/user_types";
 import express from "express";
 import { Response } from "express";
-import knex from "knex";
+import knex from "../config/knex";
 
 const router = express.Router();
 const LocalStrategy = passportLocal.Strategy;
+
+// Passport config
+passport.use(
+  new LocalStrategy((username: string, password: string, done) => {
+    let user = knex("user").where("username", username).select("*");
+    if (!user) {
+      knex("user").where("email", username).select("*");
+    }
+    if (!user) return done(null, false);
+
+    bcrypt.compare(password, user.password, (err, result: boolean) => {
+      if (err) throw err;
+      if (result === true) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+      }
+    });
+  })
+);
 
 router.post("/login", (req, res: Response<User | any>) => {
   const name = req.body.name;
@@ -38,11 +60,39 @@ router.post("/register", async (req, res: Response<User | any>) => {
   const user: User = (
     await knex("user").where("username", name).select("*")
   )[0] as User;
-  if (user != undefined) {
-    res.send("User already exists");
-    return;
+
+  console.log("user: " + user);
+  //check for existing users with username
+  if (user != undefined) res.send("User already exists");
+
+  //check for existing users with email
+  const userFromEmail = await knex("user").where("email", name).select("*");
+  if (userFromEmail != undefined) res.send("User already exists");
+
+  console.log("no pre-existing user found, proceeding with account creation");
+
+  //check if name is email or username using regex
+  let username: string | undefined;
+  let email: string | undefined;
+
+  if (name.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)) {
+    console.log("name is email");
+    email = name;
+  } else {
+    console.log("name is username");
+    username = name;
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = await knex("user").insert({
+    username: username,
+    email: email,
+    password: hashedPassword,
+  });
+  console.log("User created")
+
+  res.send("User created")
+  
   //TODO implement register with passport and password hashing
   //Ideally hash and salt password on client then again on server
   //Challenge based login? for now just being "safe" db side is
