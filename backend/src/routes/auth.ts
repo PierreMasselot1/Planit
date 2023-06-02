@@ -16,16 +16,20 @@ interface AuthenticatedRequest extends Request {
 
 // Passport config
 passport.use(
-  new LocalStrategy((username: string, password: string, done) => {
-    let user = knex("user").where("username", username).select("*");
+  new LocalStrategy(async (username: string, password: string, done) => {
+    let user = await knex("user")
+      .where("username", username)
+      .select("*")
+      .first();
     if (!user) {
-      knex("user").where("email", username).select("*");
+      user = await knex("user").where("email", username).select("*").first();
     }
     if (!user) return done(null, false);
-
+    if (!user.password) return done(null, false);
     bcrypt.compare(password, user.password, (err, result: boolean) => {
       if (err) throw err;
       if (result === true) {
+        console.log(user);
         return done(null, user);
       } else {
         return done(null, false);
@@ -35,8 +39,7 @@ passport.use(
 );
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
-  console.log("login called")
-  res.send("success")
+  res.send("success");
 });
 
 router.post("/register", async (req, res) => {
@@ -60,8 +63,6 @@ router.post("/register", async (req, res) => {
     .where("username", name)
     .select("*")
     .first()) as User; // Fix: Use .first() to retrieve the first matching user
-
-  console.log("user: " + user);
 
   // Check for existing users with username
   if (user !== undefined) {
@@ -105,6 +106,8 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/user", (req: AuthenticatedRequest, res: Response<User | any>) => {
+  console.log("getting user");
+  console.log("req.user", req.user);
   res.send(req.user);
 });
 
