@@ -40,38 +40,38 @@ router.post("/login", (req, res: Response<User | any>) => {
   res.json({ message: "tried to login" });
 });
 
-router.post("/register", async (req, res: Response<User | any>) => {
+router.post("/register", async (req, res) => {
   console.log("register endpoint");
-  const name = req?.body.name; // at this time this can be either the email or the username, might be a good idea to split up with undefined options
-  const password = req?.body.name;
+  const name = req?.body.name; // This can be either the email or the username, it might be a good idea to split it up with separate variables
+  const password = req?.body.password; // Fix: use req?.body.password instead of req?.body.name
 
-  //Establish whether name is a username or an email
+  // Establish whether name is a username or an email
 
-  if (
-    !name ||
-    !password ||
-    typeof name !== "string" ||
-    typeof password !== "string"
-  ) {
-    res.send("Improper Values");
+  if (!name || !password || typeof name !== "string" || typeof password !== "string") {
+    res.status(400).send("Improper Values"); // Fix: Use res.status(400) to indicate a bad request
     return;
   }
 
-  const user: User = (
-    await knex("user").where("username", name).select("*")
-  )[0] as User;
+  const user: User = await knex("user").where("username", name).select("*").first() as User; // Fix: Use .first() to retrieve the first matching user
 
   console.log("user: " + user);
-  //check for existing users with username
-  if (user != undefined) res.send("User already exists");
+  
+  // Check for existing users with username
+  if (user !== undefined) {
+    res.status(409).send("User already exists"); // Fix: Use res.status(409) to indicate conflict
+    return;
+  }
 
-  //check for existing users with email
-  const userFromEmail = await knex("user").where("email", name).select("*");
-  if (userFromEmail != undefined) res.send("User already exists");
+  // Check for existing users with email
+  const userFromEmail = await knex("user").where("email", name).select("*").first(); // Fix: Use .first() to retrieve the first matching user
+  if (userFromEmail !== undefined) {
+    res.status(409).send("User already exists"); // Fix: Use res.status(409) to indicate conflict
+    return;
+  }
 
-  console.log("no pre-existing user found, proceeding with account creation");
+  console.log("No pre-existing user found, proceeding with account creation");
 
-  //check if name is email or username using regex
+  // Check if name is email or username using regex
   let username: string | undefined;
   let email: string | undefined;
 
@@ -84,19 +84,14 @@ router.post("/register", async (req, res: Response<User | any>) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = await knex("user").insert({
+  await knex("user").insert({
     username: username,
     email: email,
     password: hashedPassword,
   });
-  console.log("User created")
+  console.log("User created");
 
-  res.send("User created")
-  
-  //TODO implement register with passport and password hashing
-  //Ideally hash and salt password on client then again on server
-  //Challenge based login? for now just being "safe" db side is
-  //Gonna have to be enough
+  res.send("User created"); // Send the response after successful user creation
 });
 
 router.post("/user", (req, res: Response<User | any>) => {
