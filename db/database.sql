@@ -1,6 +1,6 @@
 CREATE TABLE "todo_list"(
     "id" SERIAL PRIMARY KEY,
-    "owner_id" VARCHAR(255) NOT NULL
+    "owner_id" text NOT NULL
 );
 CREATE TABLE "todo" (
     "id" SERIAL PRIMARY KEY,
@@ -13,7 +13,7 @@ CREATE TABLE "todo" (
 );
 CREATE TABLE "habit_list"(
     "id" SERIAL PRIMARY KEY,
-    "owner_id" VARCHAR(255) NOT NULL
+    "owner_id" text NOT NULL
 );
 CREATE TABLE "habit" (
     "id" SERIAL PRIMARY KEY,
@@ -29,7 +29,7 @@ CREATE TABLE "habit" (
 
 CREATE TABLE "dailies_list"(
     "id" SERIAL PRIMARY KEY,
-    "owner_id" VARCHAR(255) NOT NULL
+    "owner_id" text NOT NULL
 );
 
 CREATE TABLE "dailies" (
@@ -46,7 +46,7 @@ CREATE TABLE "dailies" (
 
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR(255) UNIQUE,
-    "email" VARCHAR(255) UNIQUE,
+    "username" text UNIQUE,
+    "email" text UNIQUE,
     "password" text
 ); 
