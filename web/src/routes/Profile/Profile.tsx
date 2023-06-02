@@ -1,11 +1,30 @@
-import React from "react";
-import { Auth0ContextInterface, useAuth0 } from "@auth0/auth0-react";
+import React, { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import Api from "../../helpers/api";
+import { User } from "@shared/types/user_types";
 function Profile() {
-  const { user }: Auth0ContextInterface = useAuth0();
+  const { user } = useAuth0();
+  const [userPassport, setUser] = React.useState<User | null>(null);
+  const api = new Api(useAuth0());
+  useEffect(() => {
+    getUserInfoPassport();
+    return;
+  }, []);
+
+  async function getUserInfoPassport() {
+    const userTemp = await api.getUser();
+    setUser(userTemp);
+  }
   return (
     <div className="text-white">
       <div className="text-white text-2xl font-bold">Profile:</div>
-
+      PASSPORT PROFILE
+      <div className="flex items-center">
+        {userPassport?.email}
+        {userPassport?.username}
+        {userPassport?.password}
+      </div>
+      AUTH0:
       <div className="flex items-center">
         <img
           src={user?.picture}

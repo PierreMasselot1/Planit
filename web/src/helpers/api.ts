@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { Habit } from "@shared/types/habit_types";
 import { Auth0ContextInterface } from "@auth0/auth0-react";
 import { Dailies } from "@shared/types/dailies_types";
@@ -90,8 +90,8 @@ export default class Api {
 
   //DAILIES
   getDailies = async () => {
-    const dailiesArray: Array<Dailies> = (await this.client.get("/api/dailies")).data
-      .dailiesArray;
+    const dailiesArray: Array<Dailies> = (await this.client.get("/api/dailies"))
+      .data.dailiesArray;
     for (const dailies of dailiesArray) {
       if (dailies.completion_dates)
         for (let i = 0; i < dailies.completion_dates.length; i++) {
@@ -122,17 +122,38 @@ export default class Api {
   };
 
   //USER
-  login = async (name: string, password: string) => {
-    return await this.client.post("/api/auth/login", {
-      name,
-      password,
-    });
-  }
+  login = async (username: string, password: string) => {
+    return await this.client
+      .post(
+        "/api/auth/login",
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then(
+        (res: AxiosResponse) => {
+          if (res.data === "success") {
+            window.location.href = "/";
+          }
+        },
+        () => {
+          console.log("Failure");
+        }
+      );
+  };
 
   register = async (name: string, password: string) => {
     return await this.client.post("/api/auth/register", {
       name,
       password,
     });
-  }
+  };
+
+  getUser = async () => {
+    return (await this.client.get("/api/auth/user")).data;
+  };
 }

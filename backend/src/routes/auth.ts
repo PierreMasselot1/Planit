@@ -3,11 +3,16 @@ import passport from "passport";
 import bcrypt from "bcryptjs";
 import { User } from "@shared/types/user_types";
 import express from "express";
-import { Response } from "express";
+import { Response, Request } from "express";
 import knex from "../config/knex";
 
 const router = express.Router();
 const LocalStrategy = passportLocal.Strategy;
+
+interface AuthenticatedRequest extends Request {
+  user: User; // Replace 'User' with your actual user type
+  logout: () => void;
+}
 
 // Passport config
 passport.use(
@@ -29,15 +34,9 @@ passport.use(
   })
 );
 
-router.post("/login", (req, res: Response<User | any>) => {
-  const name = req.body.name;
-  const password = req.body.password;
-
-  console.log("User trying to login");
-  console.log("name: " + name);
-  console.log("password: " + password);
-
-  res.json({ message: "tried to login" });
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  console.log("login called")
+  res.send("success")
 });
 
 router.post("/register", async (req, res) => {
@@ -47,15 +46,23 @@ router.post("/register", async (req, res) => {
 
   // Establish whether name is a username or an email
 
-  if (!name || !password || typeof name !== "string" || typeof password !== "string") {
+  if (
+    !name ||
+    !password ||
+    typeof name !== "string" ||
+    typeof password !== "string"
+  ) {
     res.status(400).send("Improper Values"); // Fix: Use res.status(400) to indicate a bad request
     return;
   }
 
-  const user: User = await knex("user").where("username", name).select("*").first() as User; // Fix: Use .first() to retrieve the first matching user
+  const user: User = (await knex("user")
+    .where("username", name)
+    .select("*")
+    .first()) as User; // Fix: Use .first() to retrieve the first matching user
 
   console.log("user: " + user);
-  
+
   // Check for existing users with username
   if (user !== undefined) {
     res.status(409).send("User already exists"); // Fix: Use res.status(409) to indicate conflict
@@ -63,7 +70,10 @@ router.post("/register", async (req, res) => {
   }
 
   // Check for existing users with email
-  const userFromEmail = await knex("user").where("email", name).select("*").first(); // Fix: Use .first() to retrieve the first matching user
+  const userFromEmail = await knex("user")
+    .where("email", name)
+    .select("*")
+    .first(); // Fix: Use .first() to retrieve the first matching user
   if (userFromEmail !== undefined) {
     res.status(409).send("User already exists"); // Fix: Use res.status(409) to indicate conflict
     return;
@@ -94,12 +104,13 @@ router.post("/register", async (req, res) => {
   res.send("User created"); // Send the response after successful user creation
 });
 
-router.post("/user", (req, res: Response<User | any>) => {
-  //RETURN USER
+router.get("/user", (req: AuthenticatedRequest, res: Response<User | any>) => {
+  res.send(req.user);
 });
 
-router.post("/logout", (req, res) => {
-  //End session, return sucess
+router.get("/logout", (req: AuthenticatedRequest, res) => {
+  req.logout();
+  res.send("logged out");
 });
 
 router.post("/deleteuser", (req, res) => {
