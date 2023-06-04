@@ -1,6 +1,17 @@
 import React from "react";
 
-const Button = ({ onClick, className, children }: any) => {
+//THIS IS CANCER REMOVE IT IMMEDIATLY
+const Button = ({
+  onClick,
+  className,
+  children,
+}:
+  | {
+      onClick: any;
+      className: string;
+      children: any;
+    }
+  | any) => {
   return (
     <button
       onClick={onClick}

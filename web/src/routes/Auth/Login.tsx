@@ -8,16 +8,16 @@ function Login() {
   const [userName, setUserName] = React.useState<string>(""); // username could be email? or just username
   const [password, setPassword] = React.useState<string>("");
 
-  const handleLogin = (e: { preventDefault: () => void }) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: once backend is implemented
-    console.log("username: ", userName, "password: ", password);
-    console.log("login");
-    api.login(userName, password);
+    //use passport typescript types
+    const loginResponse = await api.login(userName, password);
 
     //reset input fields
     setUserName("");
     setPassword("");
+
+    console.log(loginResponse);
   };
 
   return (
@@ -39,7 +39,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Button>Login</Button>
+        <Button onClick={handleLogin}>Login</Button>
       </form>
 
       <div className="text-white">

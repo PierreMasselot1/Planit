@@ -7,36 +7,6 @@ import { Response, Request } from "express";
 import knex from "../config/knex";
 
 const router = express.Router();
-const LocalStrategy = passportLocal.Strategy;
-
-interface AuthenticatedRequest extends Request {
-  user: User; // Replace 'User' with your actual user type
-  logout: () => void;
-}
-
-// Passport config
-passport.use(
-  new LocalStrategy(async (username: string, password: string, done) => {
-    let user = await knex("user")
-      .where("username", username)
-      .select("*")
-      .first();
-    if (!user) {
-      user = await knex("user").where("email", username).select("*").first();
-    }
-    if (!user) return done(null, false);
-    if (!user.password) return done(null, false);
-    bcrypt.compare(password, user.password, (err, result: boolean) => {
-      if (err) throw err;
-      if (result === true) {
-        console.log(user);
-        return done(null, user);
-      } else {
-        return done(null, false);
-      }
-    });
-  })
-);
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
   res.send("success");
@@ -105,13 +75,14 @@ router.post("/register", async (req, res) => {
   res.send("User created"); // Send the response after successful user creation
 });
 
-router.get("/user", (req: AuthenticatedRequest, res: Response<User | any>) => {
+router.get("/user", (req: any, res: Response<User | any>) => {
+  console.log(req);
   console.log("getting user");
   console.log("req.user", req.user);
   res.send(req.user);
 });
 
-router.get("/logout", (req: AuthenticatedRequest, res) => {
+router.get("/logout", (req: any, res) => {
   req.logout();
   res.send("logged out");
 });

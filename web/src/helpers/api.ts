@@ -123,27 +123,16 @@ export default class Api {
 
   //USER
   login = async (username: string, password: string) => {
-    return await this.client
-      .post(
-        "/api/auth/login",
-        {
-          username,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then(
-        (res: AxiosResponse) => {
-          if (res.data === "success") {
-            window.location.href = "/";
-          }
-        },
-        () => {
-          console.log("Failure");
-        }
-      );
+    return await this.client.post(
+      "/api/auth/login",
+      {
+        username,
+        password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
   };
 
   register = async (name: string, password: string) => {
