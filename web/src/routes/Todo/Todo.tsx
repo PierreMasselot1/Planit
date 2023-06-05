@@ -1,7 +1,5 @@
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
-import { useAuth0 } from "@auth0/auth0-react";
-import Api from "../../helpers/api";
 import { AxiosResponse } from "axios";
 import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
@@ -14,10 +12,14 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
+import {
+  createTodoAPI,
+  deleteTodoAPI,
+  getTodosAPI,
+  updateTodoAPI,
+} from "../../api/api_todos";
 
 export default function TodoListComponent() {
-  const api = new Api(useAuth0());
-
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
   const [incompletedTodos, setIncompletedTodos] = useState<Array<Todo>>([]);
   const [title, setTitle] = useState<string>("");
@@ -63,7 +65,7 @@ export default function TodoListComponent() {
 
   async function createTodo(title: string, description: string) {
     try {
-      api.createTodo(title, description).then(async () => {
+      createTodoAPI(title, description).then(async () => {
         getAllTodos();
       });
     } catch (err) {
@@ -72,7 +74,7 @@ export default function TodoListComponent() {
   }
 
   async function getAllTodos() {
-    api.getTodos().then((data: AxiosResponse<TodoList, TodoList>) => {
+    getTodosAPI().then((data: AxiosResponse<TodoList, TodoList>) => {
       const todos: Array<Todo> = (data as any).todos;
       setCompletedTodos(todos.filter((todo) => todo.completed));
       setIncompletedTodos(todos.filter((todo) => !todo.completed));
@@ -80,7 +82,7 @@ export default function TodoListComponent() {
   }
 
   async function deleteTodo(id: number) {
-    api.deleteTodo(id).then(() => {
+    deleteTodoAPI(id).then(() => {
       getAllTodos();
     });
   }
@@ -88,12 +90,12 @@ export default function TodoListComponent() {
   async function updateTodo() {
     try {
       if (editId)
-        api
-          .updateTodo(editId, editTitle, editDescription, undefined)
-          .then(() => {
+        updateTodoAPI(editId, editTitle, editDescription, undefined).then(
+          () => {
             setEditId(null);
             getAllTodos();
-          });
+          }
+        );
       else {
         console.log("editId is null");
       }
@@ -143,16 +145,14 @@ export default function TodoListComponent() {
                   <FontAwesomeIcon
                     icon={faCheck}
                     onClick={() => {
-                      api
-                        .updateTodo(
-                          todo.id,
-                          undefined,
-                          undefined,
-                          !todo.completed
-                        )
-                        .then(() => {
-                          getAllTodos();
-                        });
+                      updateTodoAPI(
+                        todo.id,
+                        undefined,
+                        undefined,
+                        !todo.completed
+                      ).then(() => {
+                        getAllTodos();
+                      });
                     }}
                     className={`m-2   ${
                       todo.completed

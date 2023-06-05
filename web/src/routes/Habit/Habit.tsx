@@ -1,6 +1,4 @@
-import Api from "../../helpers/api";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import {
   faCheck,
   faChevronDown,
@@ -12,6 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Common/Button";
 import { Habit } from "@shared/types/habit_types";
 import Heatmap from "../../components/Visualization/Heatmap";
+import {
+  completeHabitAPI,
+  createHabitAPI,
+  deleteHabitAPI,
+  getHabitsAPI,
+} from "../../api/api_habits";
 
 function HabitComponent() {
   const [habit_title, setHabitTitle] = useState("");
@@ -19,25 +23,23 @@ function HabitComponent() {
   const [habits, setHabits] = useState<Array<Habit>>([]);
   const [view_heatmap, setViewHeatmap] = useState<Array<number>>([]);
 
-  const api = new Api(useAuth0());
-
   useEffect(() => {
-    getHabits();
+    updateHabits();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function getHabits() {
-    await api.getHabits().then((habits) => {
+  async function updateHabits() {
+    await getHabitsAPI().then((habits) => {
       setHabits(habits);
     });
   }
 
   async function completeHabit(id: number) {
-    await api.completeHabit(id, new Date()).then(getHabits);
+    await completeHabitAPI(id, new Date()).then(updateHabits);
   }
 
   async function deleteHabit(id: number) {
-    await api.deleteHabit(id).then(getHabits);
+    await deleteHabitAPI(id).then(updateHabits);
   }
 
   const handleSubmit = (event: SyntheticEvent) => {
@@ -48,7 +50,7 @@ function HabitComponent() {
   };
 
   async function createHabit(title: string, description: string) {
-    api.createHabit(title, description).then(getHabits);
+    createHabitAPI(title, description).then(updateHabits);
   }
 
   async function toggleHeatmap(id: number) {

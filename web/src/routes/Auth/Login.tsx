@@ -1,23 +1,19 @@
 import React from "react";
-import Api from "../../helpers/api";
-import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Common/Button";
+import { useNavigate } from "react-router-dom";
+import { loginAPI } from "../../api/api_helpers";
 
 function Login() {
-  const api = new Api(useAuth0());
   const [userName, setUserName] = React.useState<string>(""); // username could be email? or just username
   const [password, setPassword] = React.useState<string>("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    //use passport typescript types
-    const loginResponse = await api.login(userName, password);
-
-    //reset input fields
+    loginAPI(userName, password);
     setUserName("");
     setPassword("");
-
-    console.log(loginResponse);
+    navigate("/"); //redirect to home page
   };
 
   return (

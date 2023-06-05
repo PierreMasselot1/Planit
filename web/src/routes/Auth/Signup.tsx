@@ -1,10 +1,9 @@
 import React from "react";
-import Api from "../../helpers/api";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Common/Button";
+import { registerAPI } from "../../api/api_helpers";
 
 function Signup() {
-  const api = new Api(useAuth0());
   const [userName, setUserName] = React.useState<string>(""); // username could be email? or just username
   const [password, setPassword] = React.useState<string>("");
 
@@ -13,7 +12,7 @@ function Signup() {
     // TODO: once backend is implemented
     console.log("username: ", userName, "password: ", password);
     console.log("signup");
-    api.register(userName, password);
+    registerAPI(userName, password);
 
     //reset input fields
     setUserName("");

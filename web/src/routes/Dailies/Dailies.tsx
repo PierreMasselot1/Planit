@@ -1,4 +1,3 @@
-import Api from "../../helpers/api";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
@@ -12,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Common/Button";
 import { Dailies } from "@shared/types/dailies_types";
 import Heatmap from "../../components/Visualization/Heatmap";
+import { completeDailiesAPI, fetchDailiesAPI } from "../../api/api_dailies";
 
 function DailiesComponent() {
   const [dailies_title, setDailiesTitle] = useState("");
@@ -19,25 +19,23 @@ function DailiesComponent() {
   const [dailiesArray, setdailiesArray] = useState<Array<Dailies>>([]);
   const [view_heatmap, setViewHeatmap] = useState<Array<number>>([]);
 
-  const api = new Api(useAuth0());
-
   useEffect(() => {
     getdailiesArray();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getdailiesArray() {
-    await api.getDailies().then((dailiesArray) => {
+    await fetchDailiesAPI().then((dailiesArray) => {
       setdailiesArray(dailiesArray);
     });
   }
 
   async function completeDailies(id: number) {
-    await api.completeDailies(id, new Date()).then(getdailiesArray);
+    await completeDailiesAPI(id, new Date()).then(getdailiesArray);
   }
 
   async function deleteDailies(id: number) {
-    await api.deleteDailies(id).then(getdailiesArray);
+    await deleteDailies(id).then(getdailiesArray);
   }
 
   const handleSubmit = (event: SyntheticEvent) => {
@@ -48,7 +46,7 @@ function DailiesComponent() {
   };
 
   async function createDailies(title: string, description: string) {
-    api.createDailies(title, description).then(getdailiesArray);
+    createDailies(title, description).then(getdailiesArray);
   }
 
   async function toggleHeatmap(id: number) {

@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import Api from "../../helpers/api";
 import { User } from "@shared/types/user_types";
+import { getUserAPI } from "../../api/api_helpers";
 function Profile() {
   const { user } = useAuth0();
   const [userPassport, setUser] = React.useState<User | null>(null);
-  const api = new Api(useAuth0());
   useEffect(() => {
     getUserInfoPassport();
     return;
   }, []);
 
   async function getUserInfoPassport() {
-    const userTemp = await api.getUser();
+    const userTemp = await getUserAPI();
     console.log(userTemp)
     setUser(userTemp);
   }
