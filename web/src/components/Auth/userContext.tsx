@@ -1,15 +1,15 @@
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { User } from "@shared/types/user_types";
-import { getUserAPI } from "../../api/api_helpers";
+import { getUserAPI } from "../../api/api_user";
 
 type UserContextType = {
   user: User | null;
-  updateUser: (newUser: User | null) => void;
+  refreshUser: () => void;
 };
 
 const UserContext = createContext<UserContextType>({
   user: null,
-  updateUser: () => {},
+  refreshUser: () => {},
 });
 
 type UserProviderProps = {
@@ -27,12 +27,9 @@ const UserProvider = ({ children }: UserProviderProps) => {
     const userTemp = await getUserAPI();
     setUser(userTemp);
   }
-  const updateUser = (newUser: User | null) => {
-    setUser(newUser);
-  };
 
   return (
-    <UserContext.Provider value={{ user, updateUser }}>
+    <UserContext.Provider value={{ user, refreshUser: getUserInfoPassport }}>
       {children}
     </UserContext.Provider>
   );

@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "./userContext";
+import { logoutAPI } from "../../api/api_user";
+import { useNavigate } from "react-router-dom";
 
 const LoginButton = () => {
-  const {user, updateUser}  = useContext(UserContext);
+  const { user, refreshUser } = useContext(UserContext);
+  const navigate = useNavigate();
   return (
     <div className="flex h-full">
       <button
@@ -12,7 +15,12 @@ const LoginButton = () => {
           "w-full flex flex-row text-white font-medium rounded-lg text-lg px-4 sm:px-5 py-1 sm:py-2.5 text-center sm:mx-2 my-1 hover:outline hover:outline-2"
         }
         onClick={
-          user ? () => console.log("logout") : () => console.log("login")
+          user
+            ? () =>
+                logoutAPI().then(() => {
+                  refreshUser();
+                })
+            : () => navigate("/login")
         }
       >
         <div className=" flex flex-row">

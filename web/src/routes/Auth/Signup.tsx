@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Common/Button";
-import { registerAPI } from "../../api/api_helpers";
+import { registerAPI } from "../../api/api_user";
 
 function Signup() {
   const [userName, setUserName] = React.useState<string>(""); // username could be email? or just username

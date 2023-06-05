@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { User } from "@shared/types/user_types";
-import { getUserAPI } from "../../api/api_helpers";
+import { getUserAPI } from "../../api/api_user";
 function Profile() {
   const { user } = useAuth0();
   const [userPassport, setUser] = React.useState<User | null>(null);

@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "../../components/Common/Button";
 import { useNavigate } from "react-router-dom";
-import { loginAPI } from "../../api/api_helpers";
+import { loginAPI } from "../../api/api_user";
+import { UserContext } from "../../components/Auth/userContext";
 
 function Login() {
   const [userName, setUserName] = React.useState<string>(""); // username could be email? or just username
   const [password, setPassword] = React.useState<string>("");
   const navigate = useNavigate();
+  const { refreshUser } = useContext(UserContext);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    loginAPI(userName, password);
+    await loginAPI(userName, password);
+    refreshUser();
     setUserName("");
     setPassword("");
     navigate("/"); //redirect to home page
