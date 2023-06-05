@@ -2,14 +2,15 @@ import { Dailies } from "@shared/types/dailies_types";
 import { Request, Response } from "express";
 import express from "express";
 import knex from "../config/knex";
+import { User } from "@shared/types/user_types";
 
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const userProfile = req.auth.payload;
+  const user: User = req.user;
 
   const dailiesList = await knex("dailies_list")
-    .where("owner_id", userProfile.sub.replace("|", "_"))
+    .where("owner_id", user.id)
     .select("*");
 
   let dailiesArray = [];
@@ -26,16 +27,16 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request<Dailies>, res: Response) => {
-  const userProfile = req.auth.payload;
+  const user: User = req.user;
   const dailies: Dailies = req.body as unknown as Dailies;
 
   let dailiesList = await knex("dailies_list")
-    .where("owner_id", userProfile.sub.replace("|", "_"))
+    .where("owner_id", user.id)
     .select("*");
 
   if (dailiesList.length === 0) {
     dailiesList = await knex("dailies_list")
-      .insert({ owner_id: userProfile.sub.replace("|", "_") })
+      .insert({ owner_id: user.id })
       .returning("*");
   }
 

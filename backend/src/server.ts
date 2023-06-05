@@ -10,6 +10,7 @@ import dailiesRouter from "./routes/dailies";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import knex from "./config/knex";
+import { User } from "@shared/types/user_types";
 
 const cors = require("cors");
 const app = express();
@@ -43,7 +44,7 @@ app.use(passport.initialize());
 // Passport config
 passport.use(
   new LocalStrategy(async (username, password, done) => {
-    let user = await knex("user")
+    let user: User = await knex("user")
       .where("username", username)
       .select("*")
       .first();
@@ -63,7 +64,7 @@ passport.use(
   })
 );
 
-passport.serializeUser(function (user, cb) {
+passport.serializeUser(function (user : User, cb) {
   process.nextTick(function () {
     return cb(null, {
       id: user.id,
@@ -73,7 +74,7 @@ passport.serializeUser(function (user, cb) {
   });
 });
 
-passport.deserializeUser(function (user, cb) {
+passport.deserializeUser(function (user: User, cb) {
   process.nextTick(function () {
     return cb(null, user);
   });

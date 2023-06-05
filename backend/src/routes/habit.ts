@@ -2,14 +2,14 @@ import { Habit } from "@shared/types/habit_types";
 import { Request, Response } from "express";
 import express from "express";
 import knex from "../config/knex";
+import { User } from "@shared/types/user_types";
 
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const userProfile = req.auth.payload;
-
+  const user: User = req.user;
   const habitList = await knex("habit_list")
-    .where("owner_id", userProfile.sub.replace("|", "_"))
+    .where("owner_id", user.id)
     .select("*");
 
   let habits = [];
@@ -26,16 +26,16 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request<Habit>, res: Response) => {
-  const userProfile = req.auth.payload;
+  const user: User = req.user;
   const habit: Habit = req.body as unknown as Habit;
 
   let habitList = await knex("habit_list")
-    .where("owner_id", userProfile.sub.replace("|", "_"))
+    .where("owner_id", user.id)
     .select("*");
 
   if (habitList.length === 0) {
     habitList = await knex("habit_list")
-      .insert({ owner_id: userProfile.sub.replace("|", "_") })
+      .insert({ owner_id: user.id })
       .returning("*");
   }
 

@@ -2,14 +2,13 @@ import { Request, Response } from "express";
 import { Todo } from "@shared/types/todo_types";
 import express from "express";
 import knex from "../config/knex";
+import { User } from "@shared/types/user_types";
 
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const userProfile = req.auth.payload;
-  const todolist = await knex("todo_list")
-    .where("owner_id", userProfile.sub.replace("|", "_"))
-    .first();
+  const user: User = req.user;
+  const todolist = await knex("todo_list").where("owner_id", user.id).first();
 
   var todos = null;
   if (todolist) {
@@ -23,14 +22,12 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request<Todo>, res: Response) => {
-  const userProfile = req.auth.payload;
-  let todolist = await knex("todo_list")
-    .where("owner_id", userProfile.sub.replace("|", "_"))
-    .first();
+  const user: User = req.user;
+  let todolist = await knex("todo_list").where("owner_id", user.id).first();
 
   if (!todolist) {
     const [newTodoList] = await knex("todo_list")
-      .insert({ owner_id: userProfile.sub.replace("|", "_") })
+      .insert({ owner_id: user.id })
       .returning("*");
     todolist = newTodoList;
   }
