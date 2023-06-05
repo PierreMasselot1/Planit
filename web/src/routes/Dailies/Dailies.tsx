@@ -13,6 +13,7 @@ import Heatmap from "../../components/Visualization/Heatmap";
 import {
   completeDailiesAPI,
   createDailiesAPI,
+  deleteDailiesAPI,
   fetchDailiesAPI,
 } from "../../api/api_dailies";
 
@@ -38,7 +39,7 @@ function DailiesComponent() {
   }
 
   async function deleteDailies(id: number) {
-    await deleteDailies(id).then(getdailiesArray);
+    await deleteDailiesAPI(id).then(getdailiesArray);
   }
 
   const handleSubmit = (event: SyntheticEvent) => {
