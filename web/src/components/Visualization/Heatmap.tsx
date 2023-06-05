@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
-  const [selectedYear, setSelectedYear] = useState(0);
+  const [selectedYear] = useState(0);//TODO add selector
   const [curYearMaxCount, setcurYearMaxCount] = useState(0);
   const [yearCounts, setYearCounts] = useState<Array<Array<number>>>([]);
 

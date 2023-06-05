@@ -28,14 +28,13 @@ export default function TodoListComponent() {
   const [editTitle, setEditTitle] = useState<string>("");
   const [editDescription, setEditDescription] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   const toggleList = () => {
     setIsOpen(!isOpen);
   };
 
   const editDescriptionAreaRef = useRef<HTMLTextAreaElement>(null);
-  useAutosizeTextArea(editDescriptionAreaRef.current, editDescription, refresh);
+  useAutosizeTextArea(editDescriptionAreaRef.current, editDescription);
 
   const editTitleAreaRef = useRef<HTMLTextAreaElement>(null);
   useAutosizeTextArea(editTitleAreaRef.current, editTitle);
@@ -43,7 +42,6 @@ export default function TodoListComponent() {
   useEffect(() => {
     if (editId !== null) {
       editTitleAreaRef.current?.focus();
-      setRefresh(!refresh);
     }
   }, [editId]);
 

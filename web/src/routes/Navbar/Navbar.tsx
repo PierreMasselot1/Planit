@@ -1,4 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../../components/Auth/LoginButton";
 import NavIcon from "./NavIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

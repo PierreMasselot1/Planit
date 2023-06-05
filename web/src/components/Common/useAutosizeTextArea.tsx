@@ -8,7 +8,6 @@ import { useEffect } from "react";
 const useAutosizeTextArea = (
   textAreaRef: HTMLTextAreaElement | null,
   value: string,
-  refresh: boolean = false
 ) => {
   useEffect(() => {
     if (textAreaRef) {
@@ -20,7 +19,7 @@ const useAutosizeTextArea = (
       // Trying to set this with state or a ref will product an incorrect value.
       textAreaRef.style.height = scrollHeight + "px";
     }
-  }, [textAreaRef, value, refresh]);
+  }, [textAreaRef, value]);
 };
 
 export default useAutosizeTextArea;

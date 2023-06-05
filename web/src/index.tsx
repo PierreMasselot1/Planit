@@ -12,7 +12,7 @@ import Profile from "./routes/Profile/Profile";
 import Dailies from "./routes/Dailies/Dailies";
 import Login from "./routes/Auth/Login";
 import Signup from "./routes/Auth/Signup";
-import { User } from "@auth0/auth0-react";
+
 import { UserProvider } from "./components/Auth/userContext";
 
 const router = createBrowserRouter([
