@@ -17,13 +17,9 @@ export default class Api {
     // create client instance
     this.client = axios.create({
       baseURL: this.api_url,
-    });
+      withCredentials: true, 
+      
 
-    // add interceptor to set token on every request
-    this.client.interceptors.request.use(async (config) => {
-      const token = await this.auth0.getAccessTokenSilently();
-      config.headers.Authorization = `Bearer ${token}`;
-      return config;
     });
   }
 
@@ -123,16 +119,17 @@ export default class Api {
 
   //USER
   login = async (username: string, password: string) => {
-    return await this.client.post(
-      "/api/auth/login",
-      {
-        username,
-        password,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    return await this.client
+      .post(
+        "/api/auth/login",
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
   };
 
   register = async (name: string, password: string) => {
@@ -143,6 +140,10 @@ export default class Api {
   };
 
   getUser = async () => {
-    return (await this.client.get("/api/auth/user")).data;
+    return (
+      await this.client.get("/api/user", {
+        withCredentials: true,
+      })
+    ).data;
   };
 }

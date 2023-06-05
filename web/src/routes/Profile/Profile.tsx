@@ -13,6 +13,7 @@ function Profile() {
 
   async function getUserInfoPassport() {
     const userTemp = await api.getUser();
+    console.log(userTemp)
     setUser(userTemp);
   }
   return (

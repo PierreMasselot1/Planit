@@ -1,15 +1,14 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import passportLocal from "passport-local";
-
 import session from "express-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
-
 import habitRouter from "./routes/habit";
 import todoRouter from "./routes/todo";
 import dailiesRouter from "./routes/dailies";
 import authRouter from "./routes/auth";
+import userRouter from "./routes/user";
 import knex from "./config/knex";
 
 const cors = require("cors");
@@ -18,14 +17,6 @@ var session = require("express-session");
 const LocalStrategy = passportLocal.Strategy;
 
 require("dotenv").config();
-const { auth, requiredScopes } = require("express-oauth2-jwt-bearer");
-
-// Authorization middleware. When used, the Access Token must
-// exist and be verified against the Auth0 JSON Web Key Set.
-const checkJwt = auth({
-  audience: "planit-auth",
-  issuerBaseURL: `https://dev-hfnpcabx1n3viyfj.us.auth0.com/`,
-});
 
 app.use(
   cors({
@@ -40,17 +31,20 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true },
+    cookie: { secure: false }, //change in prod once we get there lmao
   })
 );
 app.use(cookieParser());
+var bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
 app.use(passport.initialize());
-//app.use(passport.authenticate("session"));
+app.use(passport.session());
+app.use(passport.authenticate("session"));
 
 // Passport config
 passport.use(
-  new LocalStrategy(async (username: string, password: string, done) => {
-    console.log("strategyyyy");
+  new LocalStrategy(async (username, password, done) => {
     let user = await knex("user")
       .where("username", username)
       .select("*")
@@ -60,10 +54,9 @@ passport.use(
     }
     if (!user) return done(null, false);
     if (!user.password) return done(null, false);
-    bcrypt.compare(password, user.password, (err, result: boolean) => {
+    bcrypt.compare(password, user.password, (err, result) => {
       if (err) throw err;
       if (result === true) {
-        console.log(user);
         return done(null, user);
       } else {
         return done(null, false);
@@ -73,6 +66,8 @@ passport.use(
 );
 
 passport.serializeUser(function (user, cb) {
+  console.log("serializeUser");
+  console.log(user);
   process.nextTick(function () {
     return cb(null, {
       id: user.id,
@@ -83,17 +78,41 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (user, cb) {
+  console.log("deserializeUser");
+  console.log(user);
   process.nextTick(function () {
     return cb(null, user);
   });
 });
 
+const authenticateUser = (req, res, next) => {
+  passport.authenticate("local", { session: true }, (err, user, info) => {
+    console.log(info);
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Internal Server Error");
+    }
+    if (!user) {
+      return res.status(401).send("Authentication Failed");
+    }
+    req.user = user; // Attach user object to request
+    console.log("authenticateUser");
+    console.log(user);
+    next();
+  })(req, res, next);
+};
+
 const port: string = process.env.PORT;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-//map routes
-app.use("/api/todo", checkJwt, todoRouter);
-app.use("/api/habit", checkJwt, habitRouter);
-app.use("/api/dailies", checkJwt, dailiesRouter);
+app.post("/api/auth/login", authenticateUser, (req, res) => {
+  res.send("success");
+});
+
+// Map routes
+app.use("/api/todo", todoRouter);
+app.use("/api/habit", habitRouter);
+app.use("/api/dailies", dailiesRouter);
+app.use("/api/user", authenticateUser, userRouter);
 app.use("/api/auth", authRouter);

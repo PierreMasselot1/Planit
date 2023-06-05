@@ -8,12 +8,8 @@ import knex from "../config/knex";
 
 const router = express.Router();
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  res.send("success");
-});
 
 router.post("/register", async (req, res) => {
-  console.log("register endpoint");
   const name = req?.body.name; // This can be either the email or the username, it might be a good idea to split it up with separate variables
   const password = req?.body.password; // Fix: use req?.body.password instead of req?.body.name
 
@@ -50,17 +46,13 @@ router.post("/register", async (req, res) => {
     return;
   }
 
-  console.log("No pre-existing user found, proceeding with account creation");
-
   // Check if name is email or username using regex
   let username: string | undefined;
   let email: string | undefined;
 
   if (name.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)) {
-    console.log("name is email");
     email = name;
   } else {
-    console.log("name is username");
     username = name;
   }
 
@@ -70,29 +62,9 @@ router.post("/register", async (req, res) => {
     email: email,
     password: hashedPassword,
   });
-  console.log("User created");
 
   res.send("User created"); // Send the response after successful user creation
 });
 
-router.get("/user", (req: any, res: Response<User | any>) => {
-  console.log(req);
-  console.log("getting user");
-  console.log("req.user", req.user);
-  res.send(req.user);
-});
-
-router.get("/logout", (req: any, res) => {
-  req.logout();
-  res.send("logged out");
-});
-
-router.post("/deleteuser", (req, res) => {
-  //Allow user to delete their account and all their data
-  //Maybe go extra and:
-  // 1 ASK if they want us to keep data for another time if they come back
-  // 2 if NO ask if they want a copy of all their data before deletion, data which they could then export on this or another account
-  // 3 confirm full deletion
-});
 module.exports = router;
 export default router;
