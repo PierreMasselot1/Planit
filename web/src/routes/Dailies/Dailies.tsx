@@ -10,7 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Common/Button";
 import { Dailies } from "@shared/types/dailies_types";
 import Heatmap from "../../components/Visualization/Heatmap";
-import { completeDailiesAPI, fetchDailiesAPI } from "../../api/api_dailies";
+import {
+  completeDailiesAPI,
+  createDailiesAPI,
+  fetchDailiesAPI,
+} from "../../api/api_dailies";
 
 function DailiesComponent() {
   const [dailies_title, setDailiesTitle] = useState("");
@@ -45,7 +49,7 @@ function DailiesComponent() {
   };
 
   async function createDailies(title: string, description: string) {
-    createDailies(title, description).then(getdailiesArray);
+    createDailiesAPI(title, description).then(getdailiesArray);
   }
 
   async function toggleHeatmap(id: number) {
