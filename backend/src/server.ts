@@ -37,10 +37,8 @@ app.use(
 app.use(cookieParser());
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
-
-app.use(passport.initialize());
 app.use(passport.session());
-app.use(passport.authenticate("session"));
+app.use(passport.initialize());
 
 // Passport config
 passport.use(
@@ -66,8 +64,6 @@ passport.use(
 );
 
 passport.serializeUser(function (user, cb) {
-  console.log("serializeUser");
-  console.log(user);
   process.nextTick(function () {
     return cb(null, {
       id: user.id,
@@ -78,41 +74,38 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (user, cb) {
-  console.log("deserializeUser");
-  console.log(user);
   process.nextTick(function () {
     return cb(null, user);
   });
 });
 
-const authenticateUser = (req, res, next) => {
+const port: string = process.env.PORT;
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+app.post("/api/auth/login", (req: any, res: any) => {
   passport.authenticate("local", { session: true }, (err, user, info) => {
-    console.log(info);
     if (err) {
-      console.error(err);
       return res.status(500).send("Internal Server Error");
     }
     if (!user) {
       return res.status(401).send("Authentication Failed");
     }
-    req.user = user; // Attach user object to request
-    console.log("authenticateUser");
-    console.log(user);
-    next();
-  })(req, res, next);
-};
-
-const port: string = process.env.PORT;
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
-
-app.post("/api/auth/login", authenticateUser, (req, res) => {
-  res.send("success");
+    req.logIn(user, function (err) {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ err });
+      }
+      res.status(200).json({
+        msg: "Success",
+      });
+    });
+  })(req, res);
 });
 
 // Map routes
 app.use("/api/todo", todoRouter);
 app.use("/api/habit", habitRouter);
 app.use("/api/dailies", dailiesRouter);
-app.use("/api/user", authenticateUser, userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);

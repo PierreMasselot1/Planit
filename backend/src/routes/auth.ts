@@ -8,7 +8,6 @@ import knex from "../config/knex";
 
 const router = express.Router();
 
-
 router.post("/register", async (req, res) => {
   const name = req?.body.name; // This can be either the email or the username, it might be a good idea to split it up with separate variables
   const password = req?.body.password; // Fix: use req?.body.password instead of req?.body.name
@@ -64,6 +63,23 @@ router.post("/register", async (req, res) => {
   });
 
   res.send("User created"); // Send the response after successful user creation
+});
+
+router.post("/logout", (req: any, res) => {
+  req.logout(function (err) {
+    if (err) {
+      res.send(err);
+    }
+    res.send("logged out");
+  });
+});
+
+router.post("/deleteuser", (req, res) => {
+  //Allow user to delete their account and all their data
+  //Maybe go extra and:
+  // 1 ASK if they want us to keep data for another time if they come back
+  // 2 if NO ask if they want a copy of all their data before deletion, data which they could then export on this or another account
+  // 3 confirm full deletion
 });
 
 module.exports = router;
