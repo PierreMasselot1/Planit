@@ -3,6 +3,8 @@ import {
   faCheck,
   faChevronDown,
   faFire,
+  faMinus,
+  faPlus,
   faRotate,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -66,11 +68,17 @@ function DailiesComponent() {
   function dailiesListItem(dailies: Dailies, key: number) {
     return (
       <div
-        className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex flex-row"
+        className="bg-slate-300 my-1 mr-2 rounded flex flex-row justify-between"
         key={key}
       >
-        <div className="my-auto mr-2">-</div>
-        <div className="flex flex-col">
+        <div className="m-0 pr-2 pl-2 bg-red-300 hover:bg-red-400  rounded-l flex">
+          <FontAwesomeIcon
+            className="m-auto"
+            icon={faMinus}
+            onClick={() => {}}
+          />
+        </div>
+        <div className="flex flex-col w-full px-2">
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <h2 className="break-words">{dailies.title}</h2>
@@ -118,7 +126,13 @@ function DailiesComponent() {
             )}
           </div>
         </div>
-        <div className="my-auto ml-2">+</div>
+        <div className="m-0 pr-2 pl-2 bg-green-300 hover:bg-green-400  rounded-r flex">
+          <FontAwesomeIcon
+            icon={faPlus}
+            className="m-auto"
+            onClick={() => completeDailies(dailies.id)}
+          />
+        </div>
       </div>
     );
   }
