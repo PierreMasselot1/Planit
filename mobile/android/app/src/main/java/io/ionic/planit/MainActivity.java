@@ -1,4 +1,4 @@
-package io.ionic.planit;
+package io.ionic.rainbump;
 
 import com.getcapacitor.BridgeActivity;
 

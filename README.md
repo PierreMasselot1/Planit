@@ -1,4 +1,4 @@
-# Planit
+# RainBump
 
 The goal of this project is to familiarize myself with the development of a cross-platform application
 

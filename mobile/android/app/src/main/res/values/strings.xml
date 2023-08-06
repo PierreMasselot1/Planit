@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">planit</string>
-    <string name="title_activity_main">planit</string>
-    <string name="package_name">io.ionic.planit</string>
-    <string name="custom_url_scheme">io.ionic.planit</string>
+    <string name="app_name">rainbump</string>
+    <string name="title_activity_main">rainbump</string>
+    <string name="package_name">io.ionic.rainbump</string>
+    <string name="custom_url_scheme">io.ionic.rainbump</string>
 </resources>

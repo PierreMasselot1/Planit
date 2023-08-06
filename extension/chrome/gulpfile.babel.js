@@ -126,7 +126,7 @@ gulp.task('wiredep', () => {
 gulp.task('package', function () {
   var manifest = require('./dist/manifest.json');
   return gulp.src('dist/**')
-      .pipe($.zip('planit-' + manifest.version + '.zip'))
+      .pipe($.zip('rainbump-' + manifest.version + '.zip'))
       .pipe(gulp.dest('package'));
 });
 

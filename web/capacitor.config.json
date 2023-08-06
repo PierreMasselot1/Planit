@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.planit",
-  "appName": "planit",
+  "appId": "io.ionic.rainbump",
+  "appName": "rainbump",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
