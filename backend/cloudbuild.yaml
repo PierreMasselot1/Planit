@@ -15,7 +15,7 @@ steps:
     args:
       - run
       - deploy
-      - rainbump-backend
+      - rainbump-backend-staging
       - "--image"
       - "gcr.io/rainbump/rainbump-backend-staging-build:latest"
       - "--region"
