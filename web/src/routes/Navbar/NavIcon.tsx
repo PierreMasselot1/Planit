@@ -21,7 +21,7 @@ function NavIcon(
           disabled ? "opacity-25" : "hover:outline hover:outline-2"
         } `}
       >
-        <div className={`${selected ? "text-teal-200" : ""}`}>{icon}</div>
+        <div className={`${selected ? "text-primary-300" : ""}`}>{icon}</div>
         <div className="hidden sm:block ml-2">{element}</div>
       </div>
     </Link>

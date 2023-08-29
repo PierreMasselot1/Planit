@@ -117,7 +117,7 @@ export default function TodoListComponent() {
                 <div className="flex flex-row">
                   {editId === todo.id ? (
                     <textarea
-                      className="mr-2 mt-1 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full overflow-hidden"
+                      className="mr-2 mt-1 border rounded leading-tight focus:outline-none focus:border-primary-500 resize-none w-full overflow-hidden"
                       placeholder="Description to edit"
                       id="editTitle"
                       value={editTitle}
@@ -169,7 +169,7 @@ export default function TodoListComponent() {
                 {editId === todo.id ? (
                   <div className="flex flex-col">
                     <textarea
-                      className="mb-1 border rounded leading-tight focus:outline-none focus:border-teal-500 resize-none w-full overflow-hidden"
+                      className="mb-1 border rounded leading-tight focus:outline-none focus:border-primary-500 resize-none w-full overflow-hidden"
                       placeholder="Description to edit"
                       id="editDescription"
                       value={editDescription}
@@ -225,7 +225,7 @@ export default function TodoListComponent() {
           <div className="flex flex-row align-baseline mb-4 flex-wrap">
             <input
               type="text"
-              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-teal-500"
+              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
               placeholder="Title"
               id="title"
               value={title}
@@ -233,7 +233,7 @@ export default function TodoListComponent() {
             />
             <input
               type="text"
-              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-teal-500"
+              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
               id="description"
               placeholder="Description"
               value={description}
@@ -257,7 +257,7 @@ export default function TodoListComponent() {
           >
             <span>Completed Todos</span>
             <FontAwesomeIcon
-              className={` ml-2 w-4 h-4 transition-transform transform hover:text-teal-300 ${
+              className={` ml-2 w-4 h-4 transition-transform transform hover:text-primary-300 ${
                 isOpen ? "rotate-90" : "rotate-0"
               }`}
               icon={faChevronDown}

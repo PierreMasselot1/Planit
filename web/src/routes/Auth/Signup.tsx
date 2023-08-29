@@ -23,14 +23,14 @@ function Signup() {
       <div className="text-4xl font-bold text-white">Signup</div>
       <form onSubmit={handleSignup} className="flex flex-col">
         <input
-          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
           type="text"
           placeholder="Username/Email"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
         <input
-          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
           type="password"
           placeholder="Password"
           value={password}

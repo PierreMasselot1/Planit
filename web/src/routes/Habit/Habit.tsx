@@ -68,14 +68,14 @@ function HabitComponent() {
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
             type="text"
             placeholder="New habit"
             value={habit_title}
             onChange={(e) => setHabitTitle(e.target.value)}
           />
           <input
-            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
             type="text"
             placeholder="Description"
             value={habit_description}
@@ -136,7 +136,7 @@ function HabitComponent() {
                   >
                     <span>View Heatmap</span>
                     <FontAwesomeIcon
-                      className={` ml-2 w-4 h-4 transition-transform transform hover:text-teal-300 ${
+                      className={` ml-2 w-4 h-4 transition-transform transform hover:text-primary-300 ${
                         view_heatmap.includes(habit.id)
                           ? "rotate-90"
                           : "rotate-0"

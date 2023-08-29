@@ -24,14 +24,14 @@ function Login() {
       <div className="text-4xl font-bold text-white">Login</div>
       <form onSubmit={handleLogin} className="flex flex-col">
         <input
-          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
           type="text"
           placeholder="Username/Email"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
         <input
-          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-teal-500"
+          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
           type="password"
           placeholder="Password"
           value={password}
@@ -44,7 +44,7 @@ function Login() {
       <div className="text-white">
         {" "}
         Need an account?{" "}
-        <a href="/signup" className="text-teal-500">
+        <a href="/signup" className="text-primary-500">
           {" "}
           Signup
         </a>
