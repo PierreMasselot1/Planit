@@ -105,10 +105,18 @@ app.post("/api/auth/login", (req: any, res: any) => {
   })(req, res);
 });
 
+// Middleware function to check if user is authenticated
+function isAuthenticated(req: any, res: any, next: any) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).send("Unauthorized");
+}
+
 // Map routes
-app.use("/api/todo", todoRouter);
-app.use("/api/habit", habitRouter);
-app.use("/api/dailies", dailiesRouter);
-app.use("/api/user", userRouter);
+app.use("/api/todo", isAuthenticated, todoRouter);
+app.use("/api/habit", isAuthenticated, habitRouter);
+app.use("/api/dailies", isAuthenticated, dailiesRouter);
+app.use("/api/user", isAuthenticated, userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/label", labelRouter);
+app.use("/api/label", isAuthenticated, labelRouter);
