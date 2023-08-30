@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import passportLocal from "passport-local";
 import session from "express-session";
 import passport from "passport";
@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import habitRouter from "./routes/habit";
 import todoRouter from "./routes/todo";
+import labelRouter from "./routes/labels";
 import dailiesRouter from "./routes/dailies";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
@@ -64,7 +65,7 @@ passport.use(
   })
 );
 
-passport.serializeUser(function (user : User, cb) {
+passport.serializeUser(function (user: User, cb) {
   process.nextTick(function () {
     return cb(null, {
       id: user.id,
@@ -110,3 +111,4 @@ app.use("/api/habit", habitRouter);
 app.use("/api/dailies", dailiesRouter);
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/label", labelRouter);

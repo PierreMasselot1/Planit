@@ -18,6 +18,7 @@ import {
   getTodosAPI,
   updateTodoAPI,
 } from "../../api/api_todos";
+import { getLabelsForTodoAPI } from "../../api/api_labels";
 
 export default function TodoListComponent() {
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
@@ -74,6 +75,9 @@ export default function TodoListComponent() {
   async function getAllTodos() {
     getTodosAPI().then((data: AxiosResponse<TodoList, TodoList>) => {
       const todos: Array<Todo> = (data as any).todos;
+      todos.forEach(async (todo) => {
+        todo.labels = await getLabelsForTodoAPI(todo.id);
+      });
       setCompletedTodos(todos.filter((todo) => todo.completed));
       setIncompletedTodos(todos.filter((todo) => !todo.completed));
     });
