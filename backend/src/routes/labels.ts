@@ -21,7 +21,6 @@ router.get("/todo", async (req: Request, res: Response) => {
       return (await knex("label").where("id", label_id).first()) as Label;
     })
   );
-  console.log(labels);
   res.json({ labels });
 });
 

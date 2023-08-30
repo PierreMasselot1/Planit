@@ -6,6 +6,7 @@ export type Todo = {
   title: string;
   description: string;
   labels: Label[];
+  due_date: Date;
   completed: boolean;
 };
 

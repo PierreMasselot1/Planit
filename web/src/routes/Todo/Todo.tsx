@@ -73,8 +73,7 @@ export default function TodoListComponent() {
   }
 
   async function getAllTodos() {
-    getTodosAPI().then((data: AxiosResponse<TodoList, TodoList>) => {
-      const todos: Array<Todo> = (data as any).todos;
+    getTodosAPI().then((todos: Todo[]) => {
       todos.forEach(async (todo) => {
         todo.labels = await getLabelsForTodoAPI(todo.id);
       });
@@ -211,9 +210,14 @@ export default function TodoListComponent() {
                     </div>
                   </div>
                 ) : (
-                  <label className="mx-2 break-all text-gray-800 ">
-                    {todo.description}
-                  </label>
+                  <div>
+                    <label className="mx-2 break-all text-gray-800 ">
+                      {todo.description}
+                    </label>
+                    <label className="mx-2 break-all text-gray-800 ">
+                      {new Date(todo.due_date).toLocaleDateString()}
+                    </label>
+                  </div>
                 )}
               </div>
             </div>

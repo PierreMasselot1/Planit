@@ -60,6 +60,10 @@ router.put("/", async (req: Request, res: Response) => {
     queryBuilder.update("completed", req.body.completed);
   }
 
+  if (req.body.due_date != undefined) {
+    queryBuilder.update("due_date", req.body.due_date);
+  }
+
   await queryBuilder;
   res.json({ message: "Updated the item" });
 });

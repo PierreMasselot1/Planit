@@ -1,8 +1,18 @@
+import { Todo } from "@shared/types/todo_types";
 import axiosInstance from "./axios";
 
 //TODOS
-export const getTodosAPI = async () => {
-  return (await axiosInstance.get("/api/todo")).data;
+export const getTodosAPI = async (): Promise<Todo[]> => {
+  const response = await axiosInstance.get("/api/todo");
+
+  const todos: Todo[] = response.data.todos.map((todo: Todo) => {
+    return {
+      ...todo,
+      due_date: new Date(todo.due_date),
+    };
+  });
+
+  return Promise.resolve(todos);
 };
 
 export const createTodoAPI = async (title: string, description: string) => {
