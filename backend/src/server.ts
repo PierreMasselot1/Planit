@@ -3,6 +3,7 @@ import passportLocal from "passport-local";
 import session from "express-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import habitRouter from "./routes/habit";
 import todoRouter from "./routes/todo";
@@ -93,6 +94,23 @@ app.post("/api/auth/login", (req: any, res: any) => {
     if (!user) {
       return res.status(401).send("Authentication Failed");
     }
+    const rememberUser = req.body.rememberUser;
+    const token = crypto.randomBytes(64).toString("hex");
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 7);
+
+    console.log(rememberUser);
+    if (rememberUser) {
+      knex("user")
+        .where("id", user.id)
+        .update({ token: token, token_expiry: expiry });
+
+      res.cookie("token", token, {
+        expires: expiry,
+        httpOnly: true,
+      });
+    }
+
     req.logIn(user, function (err) {
       if (err) {
         console.log(err);

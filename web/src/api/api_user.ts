@@ -3,11 +3,13 @@ import axiosInstance from "./axios";
 
 export const loginAPI = async (
   username: string,
-  password: string
+  password: string,
+  rememberUser: boolean
 ): Promise<User> => {
   return await axiosInstance.post("/api/auth/login", {
     username,
     password,
+    rememberUser,
   });
 };
 

@@ -66,6 +66,8 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/logout", (req: any, res) => {
+  knex("user").where("id", req.user.id).update({ token: null });
+  res.clearCookie("token");
   req.logout(function (err) {
     if (err) {
       res.send(err);
