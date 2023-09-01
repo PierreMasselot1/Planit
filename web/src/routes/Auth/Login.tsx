@@ -21,35 +21,32 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mt-14">
+    <div className="flex flex-col justify-center items-center mt-14 ">
       <form onSubmit={handleLogin} className="flex flex-col">
         <input
-          className="my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
+          className="mb-1 rounded py-0.5 px-2 focus:outline-none focus:border-primary-500"
           type="text"
           placeholder="Username/Email"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
         <input
-          className="mt-1 mb-2 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
+          className="mb-1 rounded py-0.5 px-2 focus:outline-none focus:border-primary-500"
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        />
-        <div>
+        />{" "}
+        <Button onClick={handleLogin} className="mb-2">Login</Button>
+        <label htmlFor="rememberMe" className="text-white">
           <input
-            className="mr-2"
+            className=" align-middle mr-2 rounded border-gray-300 text-primary-500 focus:ring-primary-500 "
             type="checkbox"
             checked={rememberUser}
             onChange={(e) => setRememberUser(e.target.checked)}
           />
-          <label htmlFor="rememberMe" className="text-white">
-            Remember me
-          </label>
-        </div>
-
-        <Button onClick={handleLogin}>Login</Button>
+          Remember me
+        </label>
       </form>
 
       <div className="text-white">
