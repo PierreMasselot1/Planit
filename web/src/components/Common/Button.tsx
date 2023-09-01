@@ -15,7 +15,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`px-2 font-bold text-white bg-gray-500 rounded-md shadow-lg hover:bg-gray-600 focus:outline-none focus:shadow-outline ${className}`}
+      className={`px-2 font-bold text-white bg-secondary-500 rounded-md shadow-lg hover:bg-secondary-600 focus:outline-none focus:shadow-outline ${className}`}
     >
       {children}
     </button>

@@ -36,6 +36,7 @@ router.post("/", async (req: Request<Todo>, res: Response) => {
     todo_list_id: todolist.id,
     title: req.body.title,
     description: req.body.description,
+    due_date: req.body.due_date,
   });
   res.json({ message: "tried to post" });
 });

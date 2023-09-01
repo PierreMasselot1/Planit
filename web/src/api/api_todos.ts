@@ -15,10 +15,15 @@ export const getTodosAPI = async (): Promise<Todo[]> => {
   return Promise.resolve(todos);
 };
 
-export const createTodoAPI = async (title: string, description: string) => {
+export const createTodoAPI = async (
+  title: string,
+  description: string,
+  due_date: Date
+) => {
   return await axiosInstance.post("/api/todo", {
     title,
     description,
+    due_date,
   });
 };
 

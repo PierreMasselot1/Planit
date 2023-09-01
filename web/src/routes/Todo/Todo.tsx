@@ -25,6 +25,7 @@ export default function TodoListComponent() {
   const [incompletedTodos, setIncompletedTodos] = useState<Array<Todo>>([]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [due_date, setDueDate] = useState<Date | null>(null);
   const [editId, setEditId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
   const [editDescription, setEditDescription] = useState<string>("");
@@ -63,8 +64,12 @@ export default function TodoListComponent() {
   }, []);
 
   async function createTodo(title: string, description: string) {
+    if (!due_date) {
+      alert("Please enter a due date");
+      return;
+    }
     try {
-      createTodoAPI(title, description).then(async () => {
+      createTodoAPI(title, description, due_date).then(async () => {
         getAllTodos();
       });
     } catch (err) {
@@ -112,7 +117,7 @@ export default function TodoListComponent() {
         <li className="list-none" key={key}>
           {
             <div
-              className={`bg-slate-300 my-1 py-1 px-2 rounded flex mr-2 ${
+              className={`bg-neutral-800 my-1 py-1 px-2 rounded flex mr-2 ${
                 todo.completed && "line-through bg-opacity-70"
               }`}
             >
@@ -141,7 +146,7 @@ export default function TodoListComponent() {
                       setEditTitle(todo.title);
                       setEditDescription(todo.description);
                     }}
-                    className="ml-auto m-2  hover:text-blue-500 cursor-pointer"
+                    className="ml-auto m-2  hover:text-primary-500 cursor-pointer"
                   />
                   <FontAwesomeIcon
                     icon={faCheck}
@@ -210,11 +215,11 @@ export default function TodoListComponent() {
                     </div>
                   </div>
                 ) : (
-                  <div>
-                    <label className="mx-2 break-all text-gray-800 ">
+                  <div className="flex flex-col">
+                    <label className="mx-2 break-all text-white ">
                       {todo.description}
                     </label>
-                    <label className="mx-2 break-all text-gray-800 ">
+                    <label className="mx-2 break-all text-primary-100 ">
                       {new Date(todo.due_date).toLocaleDateString()}
                     </label>
                   </div>
@@ -227,7 +232,7 @@ export default function TodoListComponent() {
   }
 
   return (
-    <div className="flex flex-col justify-start text-left h-full">
+    <div className="flex flex-col justify-start text-left h-full text-white">
       <div className="mt-auto">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row align-baseline mb-4 flex-wrap">
@@ -247,6 +252,13 @@ export default function TodoListComponent() {
               value={description}
               onChange={(event) => setDescription(event.target.value)}
             />
+            <input
+              type="date"
+              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
+              id="due_date"
+              placeholder="Due Date"
+              onChange={(event) => setDueDate(new Date(event.target.value))}
+            />
             <Button handleSubmit className="my-1 px-2 py-0">
               Submit
             </Button>
@@ -260,12 +272,12 @@ export default function TodoListComponent() {
         <div className="mt-auto"></div>
         <div>
           <button
-            className="flex items-center justify-between px-4 py-2 bg-gray-200 rounded"
+            className="flex items-center justify-between px-4 py-2 hover:text-primary-400 bg-secondary-600 hover:bg-secondary-700 rounded"
             onClick={toggleList}
           >
-            <span>Completed Todos</span>
+            <span className="text-white">Completed Todos</span>
             <FontAwesomeIcon
-              className={` ml-2 w-4 h-4 transition-transform transform hover:text-primary-300 ${
+              className={` ml-2 w-4 h-4 transition-transform transform  ${
                 isOpen ? "rotate-90" : "rotate-0"
               }`}
               icon={faChevronDown}
