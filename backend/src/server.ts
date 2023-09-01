@@ -117,6 +117,6 @@ function isAuthenticated(req: any, res: any, next: any) {
 app.use("/api/todo", isAuthenticated, todoRouter);
 app.use("/api/habit", isAuthenticated, habitRouter);
 app.use("/api/dailies", isAuthenticated, dailiesRouter);
-app.use("/api/user", isAuthenticated, userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/label", isAuthenticated, labelRouter);
