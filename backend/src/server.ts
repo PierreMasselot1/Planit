@@ -27,14 +27,21 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
+
+const KnexSessionStore = require("connect-session-knex")(session);
+const store = new KnexSessionStore({
+  knex,
+  tablename: "sessions", // optional. Defaults to 'sessions'
+});
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false }, //change in prod once we get there lmao
+    store,
   })
 );
 app.use(cookieParser());
@@ -93,22 +100,6 @@ app.post("/api/auth/login", (req: any, res: any) => {
     }
     if (!user) {
       return res.status(401).send("Authentication Failed");
-    }
-    const rememberUser = req.body.rememberUser;
-    const token = crypto.randomBytes(64).toString("hex");
-    const expiry = new Date();
-    expiry.setDate(expiry.getDate() + 7);
-
-    console.log(rememberUser);
-    if (rememberUser) {
-      knex("user")
-        .where("id", user.id)
-        .update({ token: token, token_expiry: expiry });
-
-      res.cookie("token", token, {
-        expires: expiry,
-        httpOnly: true,
-      });
     }
 
     req.logIn(user, function (err) {
