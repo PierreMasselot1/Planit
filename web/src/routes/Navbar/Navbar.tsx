@@ -14,7 +14,7 @@ import { UserContext } from "../../components/Auth/userContext";
 export default function Navbar() {
   const { user } = useContext(UserContext);
   return (
-    <div className="flex flex-row sm:flex-col justify-between my-1 sm:my-2 sm:ml-2 sm:py-1 sm:bg-neutral-800 rounded-lg sm:w-60 overflow-auto">
+    <div className="flex flex-row sm:flex-col justify-between my-1 sm:my-2 sm:ml-1 sm:py-1 sm:bg-neutral-800 rounded-lg sm:w-60 overflow-auto">
       {NavIcon("", <FontAwesomeIcon icon={faHouse} />, "Home")}
       {NavIcon("pomodoro", <FontAwesomeIcon icon={faStopwatch} />, "Pomodoro")}
       {NavIcon("todo", <FontAwesomeIcon icon={faCheck} />, "Todo", !user)}

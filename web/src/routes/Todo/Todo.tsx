@@ -254,7 +254,7 @@ export default function TodoListComponent() {
             />
             <input
               type="date"
-              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
+              className="mr-2 my-1  text-gray-500 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
               id="due_date"
               placeholder="Due Date"
               onChange={(event) => setDueDate(new Date(event.target.value))}
