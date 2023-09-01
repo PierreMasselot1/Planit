@@ -107,6 +107,13 @@ app.post("/api/auth/login", (req: any, res: any) => {
         console.log(err);
         return res.status(500).json({ err });
       }
+      const rememberUser = req.body.rememberUser;
+      if (rememberUser) {
+        console.log("rememberUser is true");
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+      } else {
+        req.session.cookie.expires = false;
+      }
       res.status(200).json({
         msg: "Success",
       });
