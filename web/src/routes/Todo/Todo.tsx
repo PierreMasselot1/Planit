@@ -1,7 +1,5 @@
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
-import { AxiosResponse } from "axios";
-import { TodoList } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
