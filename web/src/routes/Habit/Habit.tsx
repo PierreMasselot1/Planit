@@ -64,7 +64,7 @@ function HabitComponent() {
   }
 
   return (
-    <div className="flex flex-col justify-start text-left h-full">
+    <div className="flex flex-col justify-start text-left text-white h-full">
       <form onSubmit={handleSubmit}>
         <div>
           <input
@@ -92,15 +92,13 @@ function HabitComponent() {
             ?.sort((a: Habit, b: Habit) => a.id - b.id)
             .map((habit: Habit, key: number) => (
               <div
-                className="bg-slate-300 my-1 mr-2 py-1 px-2 rounded flex-col "
+                className="bg-neutral-800 my-1 mr-2 py-1 px-2 rounded flex-col "
                 key={key}
               >
                 <div className="flex flex-row">
                   <div className="flex flex-col w-full">
                     <h2 className="break-words">{habit.title}</h2>
-                    <p className=" text-gray-700 text-sm">
-                      {habit.description}
-                    </p>
+                    <p className=" text-sm">{habit.description}</p>
                   </div>
                   <div
                     className=" whitespace-nowrap ml-auto mr-2 "
@@ -129,14 +127,14 @@ function HabitComponent() {
                 </div>{" "}
                 <div>
                   <button
-                    className="flex items-center text-xs justify-between px-1 py-1 mb-1 bg-gray-200 rounded"
+                    className="flex items-center text-xs justify-between px-1 py-1 mb-1 bg-secondary-600  hover:bg-secondary-700 hover:text-primary-300 rounded"
                     onClick={() => {
                       toggleHeatmap(habit.id);
                     }}
                   >
-                    <span>View Heatmap</span>
+                    <span className="text-white">View Heatmap</span>
                     <FontAwesomeIcon
-                      className={` ml-2 w-4 h-4 transition-transform transform hover:text-primary-300 ${
+                      className={` ml-2 w-4 h-4 transition-transform transform  ${
                         view_heatmap.includes(habit.id)
                           ? "rotate-90"
                           : "rotate-0"
