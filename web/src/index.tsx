@@ -60,7 +60,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <UserProvider>
     <React.StrictMode>
-      <div className="font-mono">
+      <div className="font-sans">
         <RouterProvider router={router} />
       </div>
     </React.StrictMode>
