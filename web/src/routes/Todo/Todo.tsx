@@ -123,7 +123,7 @@ export default function TodoListComponent() {
                 <div className="flex flex-row">
                   {editId === todo.id ? (
                     <textarea
-                      className="mr-2 mt-1 border rounded leading-tight focus:outline-none focus:border-primary-500 resize-none w-full overflow-hidden"
+                      className="mr-2 mt-1 text-black border rounded leading-tight focus:outline-none focus:border-primary-500 resize-none w-full overflow-hidden"
                       placeholder="Description to edit"
                       id="editTitle"
                       value={editTitle}
@@ -175,7 +175,7 @@ export default function TodoListComponent() {
                 {editId === todo.id ? (
                   <div className="flex flex-col">
                     <textarea
-                      className="mb-1 border rounded leading-tight focus:outline-none focus:border-primary-500 resize-none w-full overflow-hidden"
+                      className="mb-1 my-1 text-black border rounded leading-tight focus:outline-none focus:border-primary-500 resize-none w-full overflow-hidden"
                       placeholder="Description to edit"
                       id="editDescription"
                       value={editDescription}
@@ -236,7 +236,7 @@ export default function TodoListComponent() {
           <div className="flex flex-row align-baseline mb-4 flex-wrap">
             <input
               type="text"
-              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
+              className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"
               placeholder="Title"
               id="title"
               value={title}
@@ -244,7 +244,7 @@ export default function TodoListComponent() {
             />
             <input
               type="text"
-              className="mr-2 my-1 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
+              className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"
               id="description"
               placeholder="Description"
               value={description}
@@ -252,7 +252,7 @@ export default function TodoListComponent() {
             />
             <input
               type="date"
-              className="mr-2 my-1  text-gray-500 h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500"
+              className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"
               id="due_date"
               placeholder="Due Date"
               onChange={(event) => setDueDate(new Date(event.target.value))}
