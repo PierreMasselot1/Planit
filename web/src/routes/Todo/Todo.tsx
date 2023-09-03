@@ -17,6 +17,8 @@ import {
   updateTodoAPI,
 } from "../../api/api_todos";
 import { getLabelsForTodoAPI } from "../../api/api_labels";
+import { TextInput } from "../../components/Common/TextInput";
+import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
 
 export default function TodoListComponent() {
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
@@ -234,21 +236,11 @@ export default function TodoListComponent() {
       <div className="mt-auto">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row align-baseline mb-4 flex-wrap">
-            <input
-              type="text"
-              className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"
-              placeholder="Title"
-              id="title"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-            />
-            <input
-              type="text"
-              className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"
-              id="description"
-              placeholder="Description"
+            <TextInput label="Title" value={title} onChange={setTitle} />
+            <TextInput
+              label="Description"
               value={description}
-              onChange={(event) => setDescription(event.target.value)}
+              onChange={setDescription}
             />
             <input
               type="date"
@@ -269,18 +261,11 @@ export default function TodoListComponent() {
         {todoList(incompletedTodos)}
         <div className="mt-auto"></div>
         <div>
-          <button
-            className="flex items-center justify-between px-4 py-2 hover:text-primary-400 bg-secondary-600 hover:bg-secondary-700 rounded"
+          <CollapsibleButton
+            label="Completed"
+            isOpen={isOpen}
             onClick={toggleList}
-          >
-            <span className="text-white">Completed Todos</span>
-            <FontAwesomeIcon
-              className={` ml-2 w-4 h-4 transition-transform transform  ${
-                isOpen ? "rotate-90" : "rotate-0"
-              }`}
-              icon={faChevronDown}
-            />
-          </button>
+          />
           {isOpen && todoList(completedTodos)}
         </div>
       </div>

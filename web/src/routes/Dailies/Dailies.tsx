@@ -18,6 +18,7 @@ import {
   deleteDailiesAPI,
   fetchDailiesAPI,
 } from "../../api/api_dailies";
+import { TextInput } from "../../components/Common/TextInput";
 
 function DailiesComponent() {
   const [dailies_title, setDailiesTitle] = useState("");
@@ -68,10 +69,10 @@ function DailiesComponent() {
   function dailiesListItem(dailies: Dailies, key: number) {
     return (
       <div
-        className="bg-slate-300 my-1 mr-2 rounded flex flex-row justify-between"
+        className="bg-neutral-800 text-white my-1 mr-2 rounded flex flex-row justify-between"
         key={key}
       >
-        <div className="m-0 pr-2 pl-2 bg-red-300 hover:bg-red-400  rounded-l flex">
+        <div className="m-0 pr-2 pl-2 bg-red-300 hover:bg-red-400 text-black  rounded-l flex">
           <FontAwesomeIcon
             className="m-auto"
             icon={faMinus}
@@ -126,7 +127,7 @@ function DailiesComponent() {
             )}
           </div>
         </div>
-        <div className="m-0 pr-2 pl-2 bg-green-300 hover:bg-green-400  rounded-r flex">
+        <div className="m-0 pr-2 pl-2 bg-green-300 hover:bg-green-400 text-black rounded-r flex">
           <FontAwesomeIcon
             icon={faPlus}
             className="m-auto"
@@ -141,19 +142,15 @@ function DailiesComponent() {
     <div className="flex flex-col justify-start text-left h-full">
       <form onSubmit={handleSubmit}>
         <div>
-          <input
-            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
-            type="text"
-            placeholder="New dailies"
+          <TextInput
+            label="Dailies Title"
             value={dailies_title}
-            onChange={(e) => setDailiesTitle(e.target.value)}
+            onChange={setDailiesTitle}
           />
-          <input
-            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
-            type="text"
-            placeholder="Description"
+          <TextInput
+            label="Description"
             value={dailies_description}
-            onChange={(e) => setDailiesDescription(e.target.value)}
+            onChange={setDailiesDescription}
           />
           <Button handleSubmit className="h-full my-1 px-2 py-0">
             Submit

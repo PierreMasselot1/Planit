@@ -16,6 +16,8 @@ import {
   deleteHabitAPI,
   getHabitsAPI,
 } from "../../api/api_habits";
+import { TextInput } from "../../components/Common/TextInput";
+import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
 
 function HabitComponent() {
   const [habit_title, setHabitTitle] = useState("");
@@ -67,19 +69,15 @@ function HabitComponent() {
     <div className="flex flex-col justify-start text-left text-white h-full">
       <form onSubmit={handleSubmit}>
         <div>
-          <input
-            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
-            type="text"
-            placeholder="New habit"
+          <TextInput
+            label="Habit Title"
             value={habit_title}
-            onChange={(e) => setHabitTitle(e.target.value)}
+            onChange={setHabitTitle}
           />
-          <input
-            className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
-            type="text"
-            placeholder="Description"
+          <TextInput
+            label="Description"
             value={habit_description}
-            onChange={(e) => setHabitDescription(e.target.value)}
+            onChange={setHabitDescription}
           />
           <Button handleSubmit className="h-full my-1 px-2 py-0">
             Submit
@@ -126,22 +124,14 @@ function HabitComponent() {
                   </div>{" "}
                 </div>{" "}
                 <div>
-                  <button
-                    className="flex items-center text-xs justify-between px-1 py-1 mb-1 bg-secondary-600  hover:bg-secondary-700 hover:text-primary-300 rounded"
+                  <CollapsibleButton
+                    label="Heatmap"
+                    isOpen={view_heatmap.includes(habit.id)}
+                    className="text-sm py-1 my-1 px-2 "
                     onClick={() => {
                       toggleHeatmap(habit.id);
                     }}
-                  >
-                    <span className="text-white">View Heatmap</span>
-                    <FontAwesomeIcon
-                      className={` ml-2 w-4 h-4 transition-transform transform  ${
-                        view_heatmap.includes(habit.id)
-                          ? "rotate-90"
-                          : "rotate-0"
-                      }`}
-                      icon={faChevronDown}
-                    />
-                  </button>
+                  />
                   {view_heatmap.includes(habit.id) && (
                     <Heatmap dates={habit.completion_dates} />
                   )}
