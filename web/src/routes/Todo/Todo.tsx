@@ -110,6 +110,25 @@ export default function TodoListComponent() {
     }
   }
 
+  function getDaysUntilDueDate(dueDate: Date) {
+    //TODO add specific time deadline do dates
+    const now = new Date();
+    const diff = dueDate.getTime() - now.getTime();
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.ceil(diff / (1000 * 60 * 60));
+    const minutes = Math.ceil(diff / (1000 * 60));
+
+    return (
+      <div className="flex flex-row">
+        <label className="mx-2 break-all text-primary-100 ">
+          {days > 0 ? days + " days left" : "overdue"}
+          {hours > 0 && hours < 24 && " (" + hours + " hours left)"}
+          {minutes > 0 && minutes < 60 && " (" + minutes + " minutes left)"}
+        </label>
+      </div>
+    );
+  }
+
   function todoList(todos: Array<Todo>) {
     return todos
       ?.sort((a: Todo, b: Todo) => a.id - b.id)
@@ -220,9 +239,12 @@ export default function TodoListComponent() {
                       {todo.description}
                     </label>
                     {todo.due_date && (
-                      <label className="mx-2 break-all text-primary-100 ">
-                        {new Date(todo.due_date).toLocaleDateString()}
-                      </label>
+                      <div className="flex flex-row">
+                        <label className="mx-2 break-all text-primary-100 ">
+                          {new Date(todo.due_date).toLocaleDateString()}
+                        </label>
+                        {getDaysUntilDueDate(todo.due_date)}
+                      </div>
                     )}
                   </div>
                 )}
