@@ -8,7 +8,7 @@ export const getTodosAPI = async (): Promise<Todo[]> => {
   const todos: Todo[] = response.data.todos.map((todo: Todo) => {
     return {
       ...todo,
-      due_date: new Date(todo.due_date),
+      due_date: todo.due_date ? new Date(todo.due_date) : null,
     };
   });
 

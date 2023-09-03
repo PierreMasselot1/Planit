@@ -219,9 +219,11 @@ export default function TodoListComponent() {
                     <label className="mx-2 break-all text-white ">
                       {todo.description}
                     </label>
-                    <label className="mx-2 break-all text-primary-100 ">
-                      {new Date(todo.due_date).toLocaleDateString()}
-                    </label>
+                    {todo.due_date && (
+                      <label className="mx-2 break-all text-primary-100 ">
+                        {new Date(todo.due_date).toLocaleDateString()}
+                      </label>
+                    )}
                   </div>
                 )}
               </div>
