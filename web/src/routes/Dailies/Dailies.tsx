@@ -19,6 +19,7 @@ import {
   fetchDailiesAPI,
 } from "../../api/api_dailies";
 import { TextInput } from "../../components/Common/TextInput";
+import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
 
 function DailiesComponent() {
   const [dailies_title, setDailiesTitle] = useState("");
@@ -83,7 +84,7 @@ function DailiesComponent() {
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <h2 className="break-words">{dailies.title}</h2>
-              <p className=" text-gray-700 text-sm">{dailies.description}</p>
+              <p className="text-sm">{dailies.description}</p>
             </div>
             <div
               className=" whitespace-nowrap ml-auto mr-2 "
@@ -108,20 +109,15 @@ function DailiesComponent() {
             </div>{" "}
           </div>{" "}
           <div>
-            <button
-              className="flex items-center text-xs justify-between px-1 py-1 mb-1 bg-gray-200 rounded"
+            <CollapsibleButton
+              label="Heatmap"
+              className={`text-sm py-1 my-1 px-2`}
+              isOpen={view_heatmap.includes(dailies.id)}
               onClick={() => {
                 toggleHeatmap(dailies.id);
               }}
-            >
-              <span>View Heatmap</span>
-              <FontAwesomeIcon
-                className={` ml-2 w-4 h-4 transition-transform transform hover:text-primary-300 ${
-                  view_heatmap.includes(dailies.id) ? "rotate-90" : "rotate-0"
-                }`}
-                icon={faChevronDown}
-              />
-            </button>
+            />
+
             {view_heatmap.includes(dailies.id) && (
               <Heatmap dates={dailies.completion_dates} />
             )}
