@@ -16,12 +16,15 @@ import {
   getTodosAPI,
   updateTodoAPI,
 } from "../../api/api_todos";
-import { getLabelsForTodoAPI } from "../../api/api_labels";
+import { getLabelsAPI, getLabelsForTodoAPI } from "../../api/api_labels";
 import { TextInput } from "../../components/Common/TextInput";
 import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
+import { Label } from "@shared/types/label_types";
+import { LabelSelector } from "../../components/Common/LabelSelector";
 
 export default function TodoListComponent() {
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
+  const [selectedLabels, setSelectedLabels] = useState<Array<Label>>([]);
   const [incompletedTodos, setIncompletedTodos] = useState<Array<Todo>>([]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -278,6 +281,12 @@ export default function TodoListComponent() {
             </Button>
           </div>
         </form>
+        <div>
+          {LabelSelector({
+            setSelectedLabels: setSelectedLabels,
+            selectedLabels: selectedLabels,
+          })}
+        </div>
       </div>
       <div
         className={`overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col min-w-fit  `}

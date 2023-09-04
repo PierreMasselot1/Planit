@@ -1,7 +1,7 @@
 import { Label } from "@shared/types/label_types";
 import axiosInstance from "./axios";
 
-export const getLabelsAPI = async (): Promise<Label> => {
+export const getLabelsAPI = async (): Promise<Label[]> => {
   const labels = (await axiosInstance.get("/api/label")).data.labels;
   return labels;
 };
