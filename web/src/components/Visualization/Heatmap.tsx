@@ -8,9 +8,9 @@ const Heatmap = ({ dates }: { dates: Array<Date> | undefined }) => {
     new Date().getFullYear()
   );
   const [curYearMaxCount, setcurYearMaxCount] = useState(0);
-  const [yearCounts, setYearCounts] = useState<{ [year: number]: number[] }>(
-    {}
-  );
+  const [yearCounts, setYearCounts] = useState<{ [year: number]: number[] }>({
+    [new Date().getFullYear()]: Array(366).fill(0),
+  });
 
   const YearPicker = ({
     startYear,
