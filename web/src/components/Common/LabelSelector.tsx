@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getLabelsAPI } from "../../api/api_labels";
 import Button from "./Button";
 import { Label } from "@shared/types/label_types";
+import { TextInput } from "./TextInput";
 
 interface LabelSelectorProps {
   setSelectedLabels: (labels: Label[]) => void;
@@ -13,6 +14,7 @@ export function LabelSelector({
   selectedLabels,
 }: LabelSelectorProps) {
   const [labels, setLabels] = useState<Label[]>([]);
+  const [label, setLabel] = useState<Label | null>(null);
 
   useEffect(() => {
     getLabels();
@@ -42,6 +44,12 @@ export function LabelSelector({
             {label.title}
           </Button>
         ))}
+        <div className="ml-2 pb-2">
+          <TextInput
+            onChange={(e) => setLabel({ title: e } as Label)}
+            label="New Label"
+          />
+        </div>
       </div>
     </div>
   );

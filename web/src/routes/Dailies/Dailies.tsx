@@ -138,16 +138,8 @@ function DailiesComponent() {
     <div className="flex flex-col justify-start text-left h-full">
       <form onSubmit={handleSubmit}>
         <div>
-          <TextInput
-            label="Dailies Title"
-            value={dailies_title}
-            onChange={setDailiesTitle}
-          />
-          <TextInput
-            label="Description"
-            value={dailies_description}
-            onChange={setDailiesDescription}
-          />
+          <TextInput label="Dailies Title" onChange={setDailiesTitle} />
+          <TextInput label="Description" onChange={setDailiesDescription} />
           <Button handleSubmit className="h-full my-1 px-2 py-0">
             Submit
           </Button>
