@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getLabelsAPI } from "../../api/api_labels";
+import { createLabelAPI, getLabelsAPI } from "../../api/api_labels";
 import Button from "./Button";
 import { Label } from "@shared/types/label_types";
 import { TextInput } from "./TextInput";
@@ -37,7 +37,7 @@ export function LabelSelector({
                 setSelectedLabels([...selectedLabels, label]);
               }
             }}
-            className={`w-fit my-0.5 ${
+            className={`w-fit m-0.5 ${
               selectedLabels.includes(label) ? "bg-primary-500" : ""
             }`}
           >
@@ -45,10 +45,18 @@ export function LabelSelector({
           </Button>
         ))}
         <div className="ml-2 pb-2">
-          <TextInput
-            onChange={(e) => setLabel({ title: e } as Label)}
-            label="New Label"
-          />
+          <form
+            onSubmit={() => {
+              if (label) {
+                createLabelAPI(label).then(getLabels);
+              }
+            }}
+          >
+            <TextInput
+              onChange={(e) => setLabel({ title: e } as Label)}
+              label="New Label"
+            />
+          </form>
         </div>
       </div>
     </div>

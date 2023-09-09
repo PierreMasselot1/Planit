@@ -11,3 +11,8 @@ export const getLabelsForTodoAPI = async (id: number): Promise<Label[]> => {
     .labels;
   return labels;
 };
+
+export const createLabelAPI = async (label: Label) => {
+  const newLabel = (await axiosInstance.post("/api/label", label)).data.label;
+  return newLabel;
+};
