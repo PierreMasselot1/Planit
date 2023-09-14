@@ -30,6 +30,12 @@ export const completeDailiesAPI = async (id: number, completion_date: Date) => {
   });
 };
 
+export const decrementDailiesAPI = async (id: number, date: Date) => {
+  return axiosInstance.put(`/api/dailies/decrement?id=${id}`, {
+    date,
+  });
+};
+
 export const deleteDailiesAPI = async (id: number) => {
   return axiosInstance.delete(`/api/dailies?id=${id}`);
 };

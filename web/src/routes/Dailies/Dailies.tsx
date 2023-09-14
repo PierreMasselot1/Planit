@@ -14,6 +14,7 @@ import Heatmap from "../../components/Visualization/Heatmap";
 import {
   completeDailiesAPI,
   createDailiesAPI,
+  decrementDailiesAPI,
   deleteDailiesAPI,
   fetchDailiesAPI,
 } from "../../api/api_dailies";
@@ -39,6 +40,9 @@ function DailiesComponent() {
 
   async function completeDailies(id: number) {
     await completeDailiesAPI(id, new Date()).then(getdailiesArray);
+  }
+  async function decrementDailies(id: number, date: Date) {
+    await decrementDailiesAPI(id, date).then(getdailiesArray);
   }
 
   async function deleteDailies(id: number) {
@@ -101,15 +105,23 @@ function DailiesComponent() {
             </div>{" "}
           </div>{" "}
           <div>
-            <CollapsibleButton
-              label="Heatmap"
-              className={`text-sm py-1 my-1 px-2`}
-              isOpen={view_heatmap.includes(dailies.id)}
-              onClick={() => {
-                toggleHeatmap(dailies.id);
-              }}
-            />
-
+            <div className="flex flex-row ">
+              <CollapsibleButton
+                label="Heatmap"
+                className={`text-sm py-1 my-1 px-2`}
+                isOpen={view_heatmap.includes(dailies.id)}
+                onClick={() => {
+                  toggleHeatmap(dailies.id);
+                }}
+              />
+              <FontAwesomeIcon
+                icon={faMinus}
+                className="ml-auto mt-auto hover:text-red-500"
+                onClick={() => {
+                  decrementDailies(dailies.id, new Date());
+                }}
+              />
+            </div>
             {view_heatmap.includes(dailies.id) && (
               <Heatmap dates={dailies.completion_dates} />
             )}
