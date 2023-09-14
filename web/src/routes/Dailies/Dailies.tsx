@@ -1,7 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import {
   faCheck,
-  faChevronDown,
   faFire,
   faMinus,
   faPlus,
@@ -73,14 +72,7 @@ function DailiesComponent() {
         className="bg-neutral-800 text-white my-1 mr-2 rounded flex flex-row justify-between"
         key={key}
       >
-        <div className="m-0 pr-2 pl-2 bg-red-300 hover:bg-red-400 text-black  rounded-l flex">
-          <FontAwesomeIcon
-            className="m-auto"
-            icon={faMinus}
-            onClick={() => {}}
-          />
-        </div>
-        <div className="flex flex-col w-full px-2">
+        <div className="flex flex-col w-full px-2 py-1">
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <h2 className="break-words">{dailies.title}</h2>
@@ -123,12 +115,11 @@ function DailiesComponent() {
             )}
           </div>
         </div>
-        <div className="m-0 pr-2 pl-2 bg-green-300 hover:bg-green-400 text-black rounded-r flex">
-          <FontAwesomeIcon
-            icon={faPlus}
-            className="m-auto"
-            onClick={() => completeDailies(dailies.id)}
-          />
+        <div
+          className="m-0 pr-2 pl-2 bg-green-300 hover:bg-green-400 text-black rounded-r flex"
+          onClick={() => completeDailies(dailies.id)}
+        >
+          <FontAwesomeIcon icon={faPlus} className="m-auto" />
         </div>
       </div>
     );
