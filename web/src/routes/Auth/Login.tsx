@@ -37,7 +37,7 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />{" "}
-        <Button onClick={handleLogin} className="mb-2">Login</Button>
+        <Button onClick={handleLogin} className="mb-2 mt-1">Login</Button>
         <label htmlFor="rememberMe" className="text-white">
           <input
             className=" align-middle mr-2 rounded border-gray-300 text-primary-500 focus:ring-primary-500 "
@@ -49,7 +49,7 @@ function Login() {
         </label>
       </form>
 
-      <div className="text-white">
+      <div className="text-white mt-3">
         {" "}
         Need an account?{" "}
         <a href="/signup" className="text-primary-500">

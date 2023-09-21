@@ -19,26 +19,34 @@ function Signup() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="text-4xl font-bold text-white">Signup</div>
+    <div className="flex flex-col justify-center items-center mt-14 ">
       <form onSubmit={handleSignup} className="flex flex-col">
         <input
-          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
+          className="mb-1 rounded py-0.5 px-2 focus:outline-none focus:border-primary-500"
           type="text"
           placeholder="Username/Email"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
         <input
-          className="mr-2 my-1 h-full border rounded py-0.5 px-2 leading-tight focus:outline-none focus:border-primary-500"
+          className="mb-1 rounded py-0.5 px-2 focus:outline-none focus:border-primary-500"
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Button>Signup</Button>
+        <Button className="mb-2 mt-1">Signup</Button>
       </form>
+
+      <div className="text-white mt-3">
+        {" "}
+        Already have an account?{" "}
+        <a href="/login" className="text-primary-500">
+          {" "}
+          Login
+        </a>
+      </div>
     </div>
   );
 }
