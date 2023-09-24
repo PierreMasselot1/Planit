@@ -5,7 +5,7 @@ import { UserContext } from "./userContext";
 import { logoutAPI } from "../../api/api_user";
 import { useNavigate } from "react-router-dom";
 
-const LoginButton = () => {
+function LoginButton() {
   const { user, refreshUser } = useContext(UserContext);
   const navigate = useNavigate();
   return (
@@ -23,7 +23,7 @@ const LoginButton = () => {
             : () => navigate("/login")
         }
       >
-        <div className=" flex flex-row">
+        <div className=" flex flex-row my-auto">
           <FontAwesomeIcon
             icon={user ? faSignOut : faSignIn}
             className="my-auto"
@@ -36,6 +36,6 @@ const LoginButton = () => {
       </button>
     </div>
   );
-};
+}
 
 export default LoginButton;

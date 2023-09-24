@@ -263,12 +263,8 @@ export default function TodoListComponent() {
       <div className="mt-auto">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row align-baseline mb-4 flex-wrap">
-            <TextInput label="Title" value={title} onChange={setTitle} />
-            <TextInput
-              label="Description"
-              value={description}
-              onChange={setDescription}
-            />
+            <TextInput label="Title" onChange={setTitle} />
+            <TextInput label="Description" onChange={setDescription} />
             <input
               type="date"
               className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"

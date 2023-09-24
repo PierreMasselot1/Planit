@@ -69,16 +69,8 @@ function HabitComponent() {
     <div className="flex flex-col justify-start text-left text-white h-full">
       <form onSubmit={handleSubmit}>
         <div>
-          <TextInput
-            label="Habit Title"
-            value={habit_title}
-            onChange={setHabitTitle}
-          />
-          <TextInput
-            label="Description"
-            value={habit_description}
-            onChange={setHabitDescription}
-          />
+          <TextInput label="Habit Title" onChange={setHabitTitle} />
+          <TextInput label="Description" onChange={setHabitDescription} />
           <Button handleSubmit className="h-full my-1 px-2 py-0">
             Submit
           </Button>

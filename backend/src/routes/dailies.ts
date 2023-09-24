@@ -104,4 +104,47 @@ router.put("/increment/", async (req: Request, res: Response) => {
     });
 });
 
+router.put("/decrement/", async (req: Request, res: Response) => {
+  const dailiesId = req.query.id;
+  const date: Date = new Date(req.body.date);
+  const dailies: Dailies = await knex("dailies").where("id", dailiesId).first();
+
+  let lastCompletedDate = null;
+  if (dailies.completion_dates) {
+    lastCompletedDate = new Date(
+      dailies.completion_dates[dailies.completion_dates.length - 1]
+    );
+  }
+
+  const millisecondsInDay = 86400000;
+  const millisecondsDifference = lastCompletedDate.getTime() - date.getTime();
+
+  if (
+    lastCompletedDate &&
+    millisecondsDifference < millisecondsInDay &&
+    millisecondsDifference > 0
+  ) {
+    await knex("dailies")
+      .where("id", dailiesId)
+      .where("streak", ">", 0)
+      .decrement("streak", 1)
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({ message: "Error decrementing streak" });
+      });
+
+    await knex("dailies")
+      .where("id", dailiesId)
+      .decrement("completion_count", 1)
+      .update({
+        completion_dates: knex.raw(`array_remove(completion_dates, ?)`, [
+          lastCompletedDate.toISOString(),
+        ]),
+      })
+      .then(() => {
+        res.json({ message: "Decremented the dailies counter" });
+      });
+  }
+});
+
 export default router;

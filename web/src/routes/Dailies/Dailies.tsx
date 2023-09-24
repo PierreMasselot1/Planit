@@ -1,7 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import {
   faCheck,
-  faChevronDown,
   faFire,
   faMinus,
   faPlus,
@@ -15,6 +14,7 @@ import Heatmap from "../../components/Visualization/Heatmap";
 import {
   completeDailiesAPI,
   createDailiesAPI,
+  decrementDailiesAPI,
   deleteDailiesAPI,
   fetchDailiesAPI,
 } from "../../api/api_dailies";
@@ -40,6 +40,9 @@ function DailiesComponent() {
 
   async function completeDailies(id: number) {
     await completeDailiesAPI(id, new Date()).then(getdailiesArray);
+  }
+  async function decrementDailies(id: number, date: Date) {
+    await decrementDailiesAPI(id, date).then(getdailiesArray);
   }
 
   async function deleteDailies(id: number) {
@@ -73,14 +76,7 @@ function DailiesComponent() {
         className="bg-neutral-800 text-white my-1 mr-2 rounded flex flex-row justify-between"
         key={key}
       >
-        <div className="m-0 pr-2 pl-2 bg-red-300 hover:bg-red-400 text-black  rounded-l flex">
-          <FontAwesomeIcon
-            className="m-auto"
-            icon={faMinus}
-            onClick={() => {}}
-          />
-        </div>
-        <div className="flex flex-col w-full px-2">
+        <div className="flex flex-col w-full px-2 py-1">
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <h2 className="break-words">{dailies.title}</h2>
@@ -109,26 +105,33 @@ function DailiesComponent() {
             </div>{" "}
           </div>{" "}
           <div>
-            <CollapsibleButton
-              label="Heatmap"
-              className={`text-sm py-1 my-1 px-2`}
-              isOpen={view_heatmap.includes(dailies.id)}
-              onClick={() => {
-                toggleHeatmap(dailies.id);
-              }}
-            />
-
+            <div className="flex flex-row ">
+              <CollapsibleButton
+                label="Heatmap"
+                className={`text-sm py-1 my-1 px-2`}
+                isOpen={view_heatmap.includes(dailies.id)}
+                onClick={() => {
+                  toggleHeatmap(dailies.id);
+                }}
+              />
+              <FontAwesomeIcon
+                icon={faMinus}
+                className="ml-auto mt-auto hover:text-red-500"
+                onClick={() => {
+                  decrementDailies(dailies.id, new Date());
+                }}
+              />
+            </div>
             {view_heatmap.includes(dailies.id) && (
               <Heatmap dates={dailies.completion_dates} />
             )}
           </div>
         </div>
-        <div className="m-0 pr-2 pl-2 bg-green-300 hover:bg-green-400 text-black rounded-r flex">
-          <FontAwesomeIcon
-            icon={faPlus}
-            className="m-auto"
-            onClick={() => completeDailies(dailies.id)}
-          />
+        <div
+          className="m-0 pr-2 pl-2 bg-green-300 hover:bg-green-400 text-black rounded-r flex"
+          onClick={() => completeDailies(dailies.id)}
+        >
+          <FontAwesomeIcon icon={faPlus} className="m-auto" />
         </div>
       </div>
     );
@@ -138,16 +141,8 @@ function DailiesComponent() {
     <div className="flex flex-col justify-start text-left h-full">
       <form onSubmit={handleSubmit}>
         <div>
-          <TextInput
-            label="Dailies Title"
-            value={dailies_title}
-            onChange={setDailiesTitle}
-          />
-          <TextInput
-            label="Description"
-            value={dailies_description}
-            onChange={setDailiesDescription}
-          />
+          <TextInput label="Dailies Title" onChange={setDailiesTitle} />
+          <TextInput label="Description" onChange={setDailiesDescription} />
           <Button handleSubmit className="h-full my-1 px-2 py-0">
             Submit
           </Button>
