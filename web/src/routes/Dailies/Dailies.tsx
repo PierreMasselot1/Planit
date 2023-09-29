@@ -1,6 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import {
-  faCheck,
   faFire,
   faMinus,
   faPlus,
@@ -20,6 +19,7 @@ import {
 } from "../../api/api_dailies";
 import { TextInput } from "../../components/Common/TextInput";
 import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
+import { isWithin24Hours } from "@shared/helpers/dates_helpers";
 
 function DailiesComponent() {
   const [dailies_title, setDailiesTitle] = useState("");
@@ -89,15 +89,19 @@ function DailiesComponent() {
               <FontAwesomeIcon icon={faRotate} className="mr-1" />
               {dailies.completion_count}
             </div>
-            <div className=" whitespace-nowrap mx-1" title="Daily Streak Count">
+            <div
+              className={` whitespace-nowrap mx-1 ${
+                dailies.completion_dates &&
+                dailies.completion_dates.length > 0 &&
+                isWithin24Hours(dailies.completion_dates?.[0], new Date())
+                  ? ""
+                  : ""
+              }`}
+              title="Daily Streak Count"
+            >
               <FontAwesomeIcon icon={faFire} className="mr-1" />
               {dailies.streak}
             </div>
-            <div className="ml-1 hover:text-green-500">
-              <button onClick={() => completeDailies(dailies.id)}>
-                <FontAwesomeIcon icon={faCheck} />
-              </button>
-            </div>{" "}
             <div className="ml-1 hover:text-red-500">
               <button onClick={() => deleteDailies(dailies.id)}>
                 <FontAwesomeIcon icon={faXmark} />
