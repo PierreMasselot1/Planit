@@ -38,7 +38,7 @@ router.post("/", async (req: Request<Todo>, res: Response) => {
     description: req.body.description,
     due_date: req.body.due_date,
   });
-  res.json({ message: "tried to post" });
+  res.json({ message: "Created a new todo item" });
 });
 
 router.delete("/", async (req: Request, res: Response) => {

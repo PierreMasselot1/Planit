@@ -18,7 +18,7 @@ export const getTodosAPI = async (): Promise<Todo[]> => {
 export const createTodoAPI = async (
   title: string,
   description: string,
-  due_date: Date
+  due_date: Date | null
 ) => {
   return await axiosInstance.post("/api/todo", {
     title,

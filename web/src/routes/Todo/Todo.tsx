@@ -52,7 +52,9 @@ export default function TodoListComponent() {
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    createTodo(title, description);
+    createTodoAPI(title, description, due_date).then(() => {
+      getAllTodos();
+    });
     setTitle("");
     setDescription("");
   };
@@ -65,20 +67,6 @@ export default function TodoListComponent() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  async function createTodo(title: string, description: string) {
-    if (!due_date) {
-      alert("Please enter a due date");
-      return;
-    }
-    try {
-      createTodoAPI(title, description, due_date).then(async () => {
-        getAllTodos();
-      });
-    } catch (err) {
-      console.log("error" + err);
-    }
-  }
 
   async function getAllTodos() {
     getTodosAPI().then((todos: Todo[]) => {
@@ -263,8 +251,12 @@ export default function TodoListComponent() {
       <div className="mt-auto">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row align-baseline mb-4 flex-wrap">
-            <TextInput label="Title" onChange={setTitle} />
-            <TextInput label="Description" onChange={setDescription} />
+            <TextInput label="Title" onChange={setTitle} value={title} />
+            <TextInput
+              label="Description"
+              onChange={setDescription}
+              value={description}
+            />
             <input
               type="date"
               className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"
