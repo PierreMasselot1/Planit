@@ -3,9 +3,10 @@ import Button from "../../components/Common/Button";
 import { useNavigate } from "react-router-dom";
 import { loginAPI } from "../../api/api_user";
 import { UserContext } from "../../components/Auth/userContext";
+import { TextInput } from "../../components/Common/TextInput";
 
 function Login() {
-  const [userName, setUserName] = React.useState<string>(""); // username could be email? or just username
+  const [userName, setUserName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [rememberUser, setRememberUser] = React.useState<boolean>(false);
   const navigate = useNavigate();
@@ -17,30 +18,24 @@ function Login() {
     refreshUser();
     setUserName("");
     setPassword("");
-    navigate("/"); //redirect to home page
+    navigate("/");
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mt-14 ">
+    <div className="flex flex-col justify-center items-center mt-14 md:text-2xl">
       <form onSubmit={handleLogin} className="flex flex-col">
-        <input
-          className="mb-1 rounded py-0.5 px-2 focus:outline-none focus:border-primary-500"
-          type="text"
-          placeholder="Username/Email"
+        <TextInput
+          label="Username/Email"
           value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          onChange={setUserName}
         />
-        <input
-          className="mb-1 rounded py-0.5 px-2 focus:outline-none focus:border-primary-500"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />{" "}
-        <Button onClick={handleLogin} className="mb-2 mt-1">Login</Button>
+        <TextInput label="Password" value={password} onChange={setPassword} />
+        <Button onClick={handleLogin} className="mb-2 mt-1">
+          Login
+        </Button>
         <label htmlFor="rememberMe" className="text-white">
           <input
-            className=" align-middle mr-2 rounded border-gray-300 text-primary-500 focus:ring-primary-500 "
+            className="align-middle mr-2 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
             type="checkbox"
             checked={rememberUser}
             onChange={(e) => setRememberUser(e.target.checked)}
@@ -50,10 +45,8 @@ function Login() {
       </form>
 
       <div className="text-white mt-3">
-        {" "}
         Need an account?{" "}
         <a href="/signup" className="text-primary-500">
-          {" "}
           Signup
         </a>
       </div>
