@@ -16,6 +16,8 @@ steps:
       - run
       - deploy
       - rainbump-web-staging
+      - "--runtime"
+      - "nodejs16"
       - "--image"
       - "gcr.io/rainbump/rainbump-web-staging-build:latest"
       - "--region"
