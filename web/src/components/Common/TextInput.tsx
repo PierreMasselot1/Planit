@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import useAutosizeTextArea from "./useAutosizeTextArea";
+
 interface TextInputProps {
   label: string;
   value: string;
@@ -12,6 +15,90 @@ export function TextInput({ label, value, onChange }: TextInputProps) {
       placeholder={label}
       id={label}
       value={value}
+      onChange={(e) => {
+        onChange(e.target.value);
+      }}
+    />
+  );
+}
+
+export function TextInputNoBorder({
+  label,
+  value,
+  tabIndex,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  tabIndex: number | undefined;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <input
+      type="text"
+      className={`mr-2 my-1 bg-transparent text-white h-full py-1 px-2 outline-none border-none focus:outline-none focus:ring-0 `}
+      placeholder={label}
+      id={label}
+      value={value}
+      tabIndex={tabIndex}
+      onChange={(e) => {
+        onChange(e.target.value);
+      }}
+    />
+  );
+}
+
+export function DateInputNoBorder({
+  label,
+  value,
+  tabIndex,
+  onChange,
+}: {
+  label: string;
+  value: Date | null;
+  tabIndex: number | undefined;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div>
+      <input
+        type="date"
+        className={`mr-2 my-1 bg-transparent text-white h-full py-1 px-2 outline-none border-none focus:outline-none focus:ring-0 ${
+          value ? "" : "text-gray-500"
+        }`}
+        placeholder={label}
+        id={label}
+        value={value ? value.toISOString().split("T")[0] : ""}
+        tabIndex={tabIndex}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+      />
+    </div>
+  );
+}
+
+export function TextAreaInputNoBorder({
+  label,
+  value,
+  tabIndex,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  tabIndex: number | undefined;
+  onChange: (value: string) => void;
+}) {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  useAutosizeTextArea(textAreaRef.current, value);
+  return (
+    <textarea
+      ref={textAreaRef}
+      className={`mr-2 my-1 bg-transparent w-full text-white h-full py-1 px-2 outline-none border-none focus:outline-none focus:ring-0 `}
+      placeholder={label}
+      id={label}
+      value={value}
+      tabIndex={tabIndex}
       onChange={(e) => {
         onChange(e.target.value);
       }}

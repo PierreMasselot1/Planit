@@ -4,7 +4,6 @@ import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
-  faChevronDown,
   faFilePen,
   faPen,
   faXmark,
@@ -16,8 +15,13 @@ import {
   getTodosAPI,
   updateTodoAPI,
 } from "../../api/api_todos";
-import { getLabelsAPI, getLabelsForTodoAPI } from "../../api/api_labels";
-import { TextInput } from "../../components/Common/TextInput";
+import { getLabelsForTodoAPI } from "../../api/api_labels";
+import {
+  DateInputNoBorder,
+  TextAreaInputNoBorder,
+  TextInput,
+  TextInputNoBorder,
+} from "../../components/Common/TextInput";
 import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
 import { Label } from "@shared/types/label_types";
 import { LabelSelector } from "../../components/Common/LabelSelector";
@@ -57,6 +61,7 @@ export default function TodoListComponent() {
     });
     setTitle("");
     setDescription("");
+    setDueDate(null);
   };
 
   useEffect(() => {
@@ -116,6 +121,61 @@ export default function TodoListComponent() {
           {hours > 0 && hours < 24 && " (" + hours + " hours left)"}
           {minutes > 0 && minutes < 60 && " (" + minutes + " minutes left)"}
         </label>
+      </div>
+    );
+  }
+
+  // Input fields to create a todo and select a label
+  function TodoEntryBar() {
+    const ref = useRef<HTMLDivElement>(null);
+
+    function focus() {
+      ref.current?.classList.add("outline-white");
+    }
+
+    function blur() {
+      ref.current?.classList.remove("outline-white");
+    }
+
+    return (
+      <div
+        ref={ref}
+        className="outline  outline-1 outline-gray-500 rounded-md p-2 mb-2 w-fit focus:outline-white"
+      >
+        <form className="flex flex-col" onSubmit={handleSubmit}>
+          <div className="flex flex-row" onFocus={focus} onBlur={blur}>
+            <TextInputNoBorder
+              label="Title"
+              onChange={setTitle}
+              value={title}
+              tabIndex={1}
+            />
+
+            <DateInputNoBorder
+              label="Date"
+              onChange={(date) => {
+                setDueDate(new Date(date));
+              }}
+              value={due_date}
+              tabIndex={3}
+            />
+            <Button handleSubmit className="my-1 px-2 py-0">
+              Submit
+            </Button>
+          </div>
+          <div
+            className="flex flex-row align-baseline mb-4 flex-wrap w-full"
+            onFocus={focus}
+            onBlur={blur}
+          >
+            <TextAreaInputNoBorder
+              label="Description"
+              onChange={setDescription}
+              value={description}
+              tabIndex={2}
+            />
+          </div>
+        </form>
       </div>
     );
   }
@@ -248,27 +308,8 @@ export default function TodoListComponent() {
 
   return (
     <div className="flex flex-col justify-start text-left h-full text-white">
+      {TodoEntryBar()}
       <div className="mt-auto">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-row align-baseline mb-4 flex-wrap">
-            <TextInput label="Title" onChange={setTitle} value={title} />
-            <TextInput
-              label="Description"
-              onChange={setDescription}
-              value={description}
-            />
-            <input
-              type="date"
-              className="mr-2 my-1 bg-neutral-800 text-white h-full border rounded py-1 px-2 leading-tight focus:outline-none focus:border-primary-500 focus:ring-0"
-              id="due_date"
-              placeholder="Due Date"
-              onChange={(event) => setDueDate(new Date(event.target.value))}
-            />
-            <Button handleSubmit className="my-1 px-2 py-0">
-              Submit
-            </Button>
-          </div>
-        </form>
         <div>
           {LabelSelector({
             setSelectedLabels: setSelectedLabels,
