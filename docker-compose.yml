@@ -12,6 +12,7 @@ services:
   web:
     environment:
       - PORT=9240
+      - HOST=0.0.0.0
     build:
       dockerfile: ./web/Dockerfile
       context: ./

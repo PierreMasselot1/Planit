@@ -5,5 +5,6 @@ COPY ./shared ./shared
 COPY ./web ./web
 WORKDIR /web
 RUN npm install
-EXPOSE 9240
-CMD ["npm", "start"]
+EXPOSE ${PORT}
+CMD ["npm", "run", "start"]
+
