@@ -48,36 +48,6 @@ export function TextInputNoBorder({
   );
 }
 
-export function DateInputNoBorder({
-  label,
-  value,
-  tabIndex,
-  onChange,
-}: {
-  label: string;
-  value: Date | null;
-  tabIndex: number | undefined;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <div>
-      <input
-        type="date"
-        className={`mr-2 my-1 bg-transparent text-white h-full py-1 px-2 outline-none border-none focus:outline-none focus:ring-0 ${
-          value ? "" : "text-gray-500"
-        }`}
-        placeholder={label}
-        id={label}
-        value={value ? value.toISOString().split("T")[0] : ""}
-        tabIndex={tabIndex}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
-      />
-    </div>
-  );
-}
-
 export function TextAreaInputNoBorder({
   label,
   value,

@@ -1,15 +1,34 @@
 import { faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getLabelsAPI } from "../../../api/api_labels";
-import { LabelTab } from "./Label";
+import { LabelIcon } from "./Label";
 import { Label } from "@shared/types/label_types";
-import Button from "../Button";
 
-export function LabelPicker() {
+export function LabelPicker(
+  selectedLabels: Label[],
+  setSelectedLabels: (labels: Label[]) => void
+) {
   const [availableLabels, setAvailableLabels] = useState<Label[]>([]);
   const [pickingLabel, setPickingLabel] = useState<boolean>(false);
-  const [selectedLabels, setSelectedLabels] = useState<Label[]>([]);
+
+  const pickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        pickerRef.current &&
+        !pickerRef.current.contains(event.target as Node)
+      ) {
+        setPickingLabel(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [pickerRef]);
 
   useEffect(() => {
     getLabels();
@@ -31,12 +50,16 @@ export function LabelPicker() {
         }}
       />
       {pickingLabel && (
-        <div className="absolute bg-neutral-700 rounded-md p-2">
+        <div
+          className="absolute bg-neutral-700 rounded-md p-2  shadow-primary-500 shadow-sm"
+          ref={pickerRef}
+        >
           {availableLabels.map((label) => {
             return (
-              <div className="flex flex-row justify-between">
-                {LabelTab(
+              <div className="flex flex-row justify-between mt-1">
+                {LabelIcon(
                   label,
+                  selectedLabels.includes(label),
                   (label_id: number) => {
                     if (selectedLabels.includes(label)) {
                       setSelectedLabels(
@@ -45,19 +68,12 @@ export function LabelPicker() {
                         )
                       );
                     } else setSelectedLabels([...selectedLabels, label]);
-                  },
-                  selectedLabels.includes(label)
+                    setPickingLabel(false);
+                  }
                 )}
               </div>
             );
           })}
-          <Button
-            onClick={() => {
-              setPickingLabel(false);
-            }}
-          >
-            Done
-          </Button>
         </div>
       )}
     </div>

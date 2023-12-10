@@ -1,5 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Label } from "@shared/types/label_types";
-
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 function hexToRgba(hex: string, opacity: number) {
   const bigint = parseInt(hex.replace("#", ""), 16);
   const r = (bigint >> 16) & 255;
@@ -9,15 +10,16 @@ function hexToRgba(hex: string, opacity: number) {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
 
-export function LabelTab(
+export function LabelIcon(
   label: Label,
-  onClick: (label_id: number) => void,
-  isSelected: boolean
+  isSelected: boolean,
+  onClick?: (label_id: number) => void,
+  onClose?: (label_id: number) => void
 ) {
   return (
-    <button
+    <div
       onClick={() => {
-        onClick(label.id);
+        if (onClick) onClick(label.id);
       }}
       key={label.id}
       style={{ backgroundColor: hexToRgba(label.color, isSelected ? 1 : 0.5) }}
@@ -31,6 +33,16 @@ export function LabelTab(
       }
     >
       {label.title}
-    </button>
+      {onClose && (
+        <FontAwesomeIcon
+          icon={faClose}
+          cursor={"pointer"}
+          className="ml-2"
+          onClick={() => {
+            onClose(label.id);
+          }}
+        />
+      )}
+    </div>
   );
 }

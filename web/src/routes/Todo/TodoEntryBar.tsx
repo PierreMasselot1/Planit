@@ -9,6 +9,8 @@ import { Todo } from "@shared/types/todo_types";
 import { Label } from "@shared/types/label_types";
 import { LabelSelector } from "../../components/Common/Label/LabelSelector";
 import { LabelPicker } from "../../components/Common/Label/LabelPicker";
+import { LabelIcon } from "../../components/Common/Label/Label";
+import { DateAndTimePicker } from "../../components/Common/DateAndTimePicker";
 
 // Input fields to create a todo and select a label
 export function TodoEntryBar(createTodo: (todo: Partial<Todo>) => void) {
@@ -46,7 +48,7 @@ export function TodoEntryBar(createTodo: (todo: Partial<Todo>) => void) {
   return (
     <div
       ref={ref}
-      className="outline  outline-1 outline-gray-500 rounded-md p-2 mb-2 w-fit focus:outline-white"
+      className="outline w-fit  outline-1 outline-gray-500 rounded-md p-2 mb-2 focus:outline-white"
     >
       <form className="flex flex-col" onSubmit={handleSubmit}>
         <div className="flex flex-row" onFocus={focus} onBlur={blur}>
@@ -56,16 +58,18 @@ export function TodoEntryBar(createTodo: (todo: Partial<Todo>) => void) {
             value={title}
             tabIndex={1}
           />
-
-          <DateInputNoBorder
-            label="Date"
-            onChange={(date) => {
-              setDueDate(new Date(date));
-            }}
+          <DateAndTimePicker
+            onDateChange={setDueDate}
             value={due_date || null}
             tabIndex={3}
           />
-          <LabelPicker />
+
+          {labels.map((label: Label) => {
+            return LabelIcon(label, true, undefined, (label_id: number) => {
+              setLabels(labels.filter((l) => l.id !== label_id));
+            });
+          })}
+          {LabelPicker(labels, setLabels)}
           <Button handleSubmit className="my-1 px-2 py-0">
             Submit
           </Button>

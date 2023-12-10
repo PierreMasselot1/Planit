@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { createLabelAPI, getLabelsAPI } from "../../../api/api_labels";
-import Button from "../Button";
 import { Label } from "@shared/types/label_types";
 import { TextInput } from "../TextInput";
-import { LabelTab } from "./Label";
+import { LabelIcon } from "./Label";
 import ColorPicker from "../ColorPicker";
 
 interface LabelSelectorProps {
@@ -39,10 +38,10 @@ export function LabelSelector({
     <div className="flex flex-wrap">
       <div>
         {labels.map((label) => {
-          return LabelTab(
+          return LabelIcon(
             label,
-            () => toggleLabel(label),
-            selectedLabels.includes(label)
+            selectedLabels.includes(label),
+            (label_id: number) => toggleLabel(label)
           );
         })}
       </div>
