@@ -11,12 +11,14 @@ function hexToRgba(hex: string, opacity: number) {
 
 export function LabelTab(
   label: Label,
-  onClick: () => void,
+  onClick: (label_id: number) => void,
   isSelected: boolean
 ) {
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        onClick(label.id);
+      }}
       key={label.id}
       style={{ backgroundColor: hexToRgba(label.color, isSelected ? 1 : 0.5) }}
       className={

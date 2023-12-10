@@ -6,12 +6,16 @@ import {
   TextInputNoBorder,
 } from "../../components/Common/TextInput";
 import { Todo } from "@shared/types/todo_types";
+import { Label } from "@shared/types/label_types";
+import { LabelSelector } from "../../components/Common/Label/LabelSelector";
+import { LabelPicker } from "../../components/Common/Label/LabelPicker";
 
 // Input fields to create a todo and select a label
 export function TodoEntryBar(createTodo: (todo: Partial<Todo>) => void) {
   const [due_date, setDueDate] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [labels, setLabels] = useState<Label[]>([]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -61,6 +65,7 @@ export function TodoEntryBar(createTodo: (todo: Partial<Todo>) => void) {
             value={due_date || null}
             tabIndex={3}
           />
+          <LabelPicker />
           <Button handleSubmit className="my-1 px-2 py-0">
             Submit
           </Button>

@@ -24,7 +24,7 @@ import {
 } from "../../components/Common/TextInput";
 import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
 import { Label } from "@shared/types/label_types";
-import { LabelSelector } from "../../components/Common/LabelSelector";
+import { LabelSelector } from "../../components/Common/Label/LabelSelector";
 import { TodoEntryBar } from "./TodoEntryBar";
 
 export default function TodoListComponent() {

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { createLabelAPI, getLabelsAPI } from "../../api/api_labels";
-import Button from "./Button";
+import { createLabelAPI, getLabelsAPI } from "../../../api/api_labels";
+import Button from "../Button";
 import { Label } from "@shared/types/label_types";
-import { TextInput } from "./TextInput";
+import { TextInput } from "../TextInput";
 import { LabelTab } from "./Label";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "../ColorPicker";
 
 interface LabelSelectorProps {
   setSelectedLabels: (labels: Label[]) => void;
@@ -59,6 +59,7 @@ export function LabelSelector({
             <TextInput
               onChange={(e) => setLabel({ title: e } as Label)}
               label="New Label"
+              value={""}
             />
             {ColorPicker((color) => setLabel({ ...label, color } as Label))}
           </div>
