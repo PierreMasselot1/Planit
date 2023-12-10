@@ -15,15 +15,9 @@ export const getTodosAPI = async (): Promise<Todo[]> => {
   return Promise.resolve(todos);
 };
 
-export const createTodoAPI = async (
-  title: string,
-  description: string,
-  due_date: Date | null
-) => {
+export const createTodoAPI = async (todo: Partial<Todo>) => {
   return await axiosInstance.post("/api/todo", {
-    title,
-    description,
-    due_date,
+    todo,
   });
 };
 

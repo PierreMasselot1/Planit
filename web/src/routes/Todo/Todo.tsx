@@ -25,14 +25,12 @@ import {
 import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
 import { Label } from "@shared/types/label_types";
 import { LabelSelector } from "../../components/Common/LabelSelector";
+import { TodoEntryBar } from "./TodoEntryBar";
 
 export default function TodoListComponent() {
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
   const [selectedLabels, setSelectedLabels] = useState<Array<Label>>([]);
   const [incompletedTodos, setIncompletedTodos] = useState<Array<Todo>>([]);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [due_date, setDueDate] = useState<Date | null>(null);
   const [editId, setEditId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
   const [editDescription, setEditDescription] = useState<string>("");
@@ -54,14 +52,10 @@ export default function TodoListComponent() {
     }
   }, [editId]);
 
-  const handleSubmit = (event: SyntheticEvent) => {
-    event.preventDefault();
-    createTodoAPI(title, description, due_date).then(() => {
+  const create_todo = (todo: Partial<Todo>) => {
+    createTodoAPI(todo).then(() => {
       getAllTodos();
     });
-    setTitle("");
-    setDescription("");
-    setDueDate(null);
   };
 
   useEffect(() => {
@@ -121,61 +115,6 @@ export default function TodoListComponent() {
           {hours > 0 && hours < 24 && " (" + hours + " hours left)"}
           {minutes > 0 && minutes < 60 && " (" + minutes + " minutes left)"}
         </label>
-      </div>
-    );
-  }
-
-  // Input fields to create a todo and select a label
-  function TodoEntryBar() {
-    const ref = useRef<HTMLDivElement>(null);
-
-    function focus() {
-      ref.current?.classList.add("outline-white");
-    }
-
-    function blur() {
-      ref.current?.classList.remove("outline-white");
-    }
-
-    return (
-      <div
-        ref={ref}
-        className="outline  outline-1 outline-gray-500 rounded-md p-2 mb-2 w-fit focus:outline-white"
-      >
-        <form className="flex flex-col" onSubmit={handleSubmit}>
-          <div className="flex flex-row" onFocus={focus} onBlur={blur}>
-            <TextInputNoBorder
-              label="Title"
-              onChange={setTitle}
-              value={title}
-              tabIndex={1}
-            />
-
-            <DateInputNoBorder
-              label="Date"
-              onChange={(date) => {
-                setDueDate(new Date(date));
-              }}
-              value={due_date}
-              tabIndex={3}
-            />
-            <Button handleSubmit className="my-1 px-2 py-0">
-              Submit
-            </Button>
-          </div>
-          <div
-            className="flex flex-row align-baseline mb-4 flex-wrap w-full"
-            onFocus={focus}
-            onBlur={blur}
-          >
-            <TextAreaInputNoBorder
-              label="Description"
-              onChange={setDescription}
-              value={description}
-              tabIndex={2}
-            />
-          </div>
-        </form>
       </div>
     );
   }
@@ -308,7 +247,7 @@ export default function TodoListComponent() {
 
   return (
     <div className="flex flex-col justify-start text-left h-full text-white">
-      {TodoEntryBar()}
+      {TodoEntryBar(create_todo)}
       <div className="mt-auto">
         <div>
           {LabelSelector({

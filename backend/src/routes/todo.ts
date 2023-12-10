@@ -21,7 +21,9 @@ router.get("/", async (req: Request, res: Response) => {
   res.json({ todos });
 });
 
-router.post("/", async (req: Request<Todo>, res: Response) => {
+router.post("/", async (req: Request<Partial<Todo>>, res: Response) => {
+  const todo: Partial<Todo> = req.body.todo;
+
   const user: User = req.user;
   let todolist = await knex("todo_list").where("owner_id", user.id).first();
 
@@ -32,12 +34,11 @@ router.post("/", async (req: Request<Todo>, res: Response) => {
     todolist = newTodoList;
   }
 
-  await knex("todo").insert({
-    todo_list_id: todolist.id,
-    title: req.body.title,
-    description: req.body.description,
-    due_date: req.body.due_date,
-  });
+  todo.todo_list_id = todolist.id;
+  todo.completed = false;
+  todo.is_deleted = false;
+
+  await knex("todo").insert(todo);
   res.json({ message: "Created a new todo item" });
 });
 

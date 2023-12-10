@@ -6,8 +6,9 @@ export type Todo = {
   title: string;
   description: string;
   labels: Label[];
-  due_date: Date;
+  due_date?: Date;
   completed: boolean;
+  is_deleted: boolean;
 };
 
 export type TodoList = {
