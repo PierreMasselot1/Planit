@@ -53,6 +53,7 @@ export default function TodoListComponent() {
   }, [editId]);
 
   const create_todo = (todo: Partial<Todo>) => {
+    todo.labels = selectedLabels;
     createTodoAPI(todo).then(() => {
       getAllTodos();
     });
