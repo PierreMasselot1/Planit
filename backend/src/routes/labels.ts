@@ -11,11 +11,8 @@ router.get("/", async (req: Request, res: Response) => {
   res.json({ labels });
 });
 
-router.get("/todo", async (req: Request, res: Response) => {
-  const label_ids: number[] = await knex("label_todo_map")
-    .where("todo_id", req.query.id)
-    .select("label_id")
-    .pluck("label_id");
+router.get("/labels", async (req: Request<number[]>, res: Response) => {
+  const label_ids: number[] = req.body.label_ids;
   const labels: Label[] = await Promise.all(
     label_ids.map(async (label_id): Promise<Label> => {
       return (await knex("label").where("id", label_id).first()) as Label;

@@ -56,7 +56,10 @@ export function LabelPicker(
         >
           {availableLabels.map((label) => {
             return (
-              <div className="flex flex-row justify-between mt-1">
+              <div
+                className="flex flex-row justify-between mt-1"
+                key={label.id}
+              >
                 {LabelIcon(
                   label,
                   selectedLabels.includes(label),

@@ -1,19 +1,19 @@
 import { SyntheticEvent, useRef, useState } from "react";
 import Button from "../../components/Common/Button";
 import {
-  DateInputNoBorder,
   TextAreaInputNoBorder,
   TextInputNoBorder,
 } from "../../components/Common/TextInput";
 import { Todo } from "@shared/types/todo_types";
 import { Label } from "@shared/types/label_types";
-import { LabelSelector } from "../../components/Common/Label/LabelSelector";
 import { LabelPicker } from "../../components/Common/Label/LabelPicker";
 import { LabelIcon } from "../../components/Common/Label/Label";
 import { DateAndTimePicker } from "../../components/Common/DateAndTimePicker";
 
 // Input fields to create a todo and select a label
-export function TodoEntryBar(createTodo: (todo: Partial<Todo>) => void) {
+export function TodoEntryBar(
+  createTodo: (todo: Partial<Todo>, labels: Label[]) => void
+) {
   const [due_date, setDueDate] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -39,10 +39,11 @@ export function TodoEntryBar(createTodo: (todo: Partial<Todo>) => void) {
       completed: false,
     };
 
-    createTodo?.(todo);
+    createTodo?.(todo, labels);
     setTitle("");
     setDescription("");
     setDueDate(undefined);
+    setLabels([]);
   };
 
   return (

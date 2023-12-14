@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Todo } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,20 +12,15 @@ import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
 import {
   createTodoAPI,
   deleteTodoAPI,
+  getTodoLabelsAPI,
   getTodosAPI,
   updateTodoAPI,
 } from "../../api/api_todos";
-import { getLabelsForTodoAPI } from "../../api/api_labels";
-import {
-  DateInputNoBorder,
-  TextAreaInputNoBorder,
-  TextInput,
-  TextInputNoBorder,
-} from "../../components/Common/TextInput";
 import { CollapsibleButton } from "../../components/Common/CollapsibleButton";
 import { Label } from "@shared/types/label_types";
 import { LabelSelector } from "../../components/Common/Label/LabelSelector";
 import { TodoEntryBar } from "./TodoEntryBar";
+import { LabelIcon } from "../../components/Common/Label/Label";
 
 export default function TodoListComponent() {
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
@@ -52,8 +47,8 @@ export default function TodoListComponent() {
     }
   }, [editId]);
 
-  const create_todo = (todo: Partial<Todo>) => {
-    todo.labels = selectedLabels;
+  const create_todo = (todo: Partial<Todo>, labels: Label[]) => {
+    todo.labels = labels;
     createTodoAPI(todo).then(() => {
       getAllTodos();
     });
@@ -69,10 +64,7 @@ export default function TodoListComponent() {
   }, []);
 
   async function getAllTodos() {
-    getTodosAPI().then((todos: Todo[]) => {
-      todos.forEach(async (todo) => {
-        todo.labels = await getLabelsForTodoAPI(todo.id);
-      });
+    getTodosAPI().then((todos) => {
       setCompletedTodos(todos.filter((todo) => todo.completed));
       setIncompletedTodos(todos.filter((todo) => !todo.completed));
     });
@@ -149,14 +141,20 @@ export default function TodoListComponent() {
                     </label>
                   )}
 
+                  <div className="flex flex-row ml-auto">
+                    {todo.labels?.map((label: Label, key: number) =>
+                      LabelIcon(label, true)
+                    )}
+                  </div>
+
                   <FontAwesomeIcon
                     icon={faPen}
                     onClick={() => {
                       setEditId(todo.id);
                       setEditTitle(todo.title);
-                      setEditDescription(todo.description);
+                      setEditDescription(todo.description || "");
                     }}
-                    className="ml-auto m-2  hover:text-primary-500 cursor-pointer"
+                    className="m-2  hover:text-primary-500 cursor-pointer"
                   />
                   <FontAwesomeIcon
                     icon={faCheck}

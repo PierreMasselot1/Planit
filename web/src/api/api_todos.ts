@@ -1,5 +1,6 @@
 import { Todo } from "@shared/types/todo_types";
 import axiosInstance from "./axios";
+import { Label } from "@shared/types/label_types";
 
 //TODOS
 export const getTodosAPI = async (): Promise<Todo[]> => {
@@ -36,4 +37,13 @@ export const updateTodoAPI = async (
     description,
     completed,
   });
+};
+
+//LABELS for TODOS
+
+export const getTodoLabelsAPI = async (todo_id: number): Promise<Label[]> => {
+  const labels = (
+    await axiosInstance.get(`/api/todo/labels?todo_id=${todo_id}`)
+  ).data.labels;
+  return labels;
 };

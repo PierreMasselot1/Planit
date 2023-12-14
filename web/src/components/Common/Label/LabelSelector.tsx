@@ -14,7 +14,7 @@ export function LabelSelector({
   setSelectedLabels,
   selectedLabels,
 }: LabelSelectorProps) {
-  const [labels, setLabels] = useState<Label[]>([]);
+  const [availableLabels, setAvailableLabels] = useState<Label[]>([]);
   const [label, setLabel] = useState<Label | null>(null);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function LabelSelector({
   }, []);
 
   async function getLabels() {
-    getLabelsAPI().then((labels) => setLabels(labels));
+    getLabelsAPI().then((labels) => setAvailableLabels(labels));
   }
 
   function toggleLabel(label: Label) {
@@ -37,7 +37,7 @@ export function LabelSelector({
   return (
     <div className="flex flex-wrap">
       <div>
-        {labels.map((label) => {
+        {availableLabels.map((label) => {
           return LabelIcon(
             label,
             selectedLabels.includes(label),
