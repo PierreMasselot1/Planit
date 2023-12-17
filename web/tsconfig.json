@@ -1,5 +1,5 @@
 {
-  "include": ["./src", "../shared"],
+  "include": ["./src", "../shared", "**/*.d.ts"],
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -20,6 +20,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["react/experimental", "react-dom/experimental"]
   }
+  
 }

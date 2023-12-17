@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, experimental_useOptimistic as useOptimistic } from "react";
+
 import { Todo } from "@shared/types/todo_types";
 import Button from "../../components/Common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +13,6 @@ import useAutosizeTextArea from "../../components/Common/useAutosizeTextArea";
 import {
   createTodoAPI,
   deleteTodoAPI,
-  getTodoLabelsAPI,
   getTodosAPI,
   updateTodoAPI,
 } from "../../api/api_todos";
@@ -23,13 +23,16 @@ import { TodoEntryBar } from "./TodoEntryBar";
 import { LabelIcon } from "../../components/Common/Label/Label";
 
 export default function TodoListComponent() {
-  const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
+  const [todos, setTodos] = useState<Array<Todo>>([]);
+  const [optimisticTodos, setOptimisticTodos] = useOptimistic(todos);
+
   const [selectedLabels, setSelectedLabels] = useState<Array<Label>>([]);
-  const [incompletedTodos, setIncompletedTodos] = useState<Array<Todo>>([]);
   const [editId, setEditId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
   const [editDescription, setEditDescription] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
+
+  const optimisticUpdatesInProgress = useRef(0);
 
   const toggleList = () => {
     setIsOpen(!isOpen);
@@ -64,9 +67,15 @@ export default function TodoListComponent() {
   }, []);
 
   async function getAllTodos() {
-    getTodosAPI().then((todos) => {
-      setCompletedTodos(todos.filter((todo) => todo.completed));
-      setIncompletedTodos(todos.filter((todo) => !todo.completed));
+    if (optimisticUpdatesInProgress.current > 1) {
+      return; // Don't override optimistic update with old data
+    }
+    await getTodosAPI().then((todos) => {
+      if (optimisticUpdatesInProgress.current > 1) {
+        return;
+      }
+
+      setTodos(todos);
     });
   }
 
@@ -112,9 +121,10 @@ export default function TodoListComponent() {
     );
   }
 
-  function todoList(todos: Array<Todo>) {
+  function todoList(todos: Array<Todo>, completed: boolean) {
     return todos
-      ?.sort((a: Todo, b: Todo) => a.id - b.id)
+      ?.filter((todo) => todo.completed === completed)
+      .sort((a: Todo, b: Todo) => a.id - b.id)
       .map((todo: Todo, key: number) => (
         <li className="list-none" key={key}>
           {
@@ -159,13 +169,35 @@ export default function TodoListComponent() {
                   <FontAwesomeIcon
                     icon={faCheck}
                     onClick={() => {
+                      console.log("+1");
+                      optimisticUpdatesInProgress.current++;
+
+                      const toCompleted = !todo.completed;
+                      //Optimistic update
+                      if (!toCompleted) {
+                        //remove from completed and add to incompleted
+                        setTodos((prevTodos) =>
+                          prevTodos.map((t) =>
+                            t.id === todo.id ? { ...t, completed: false } : t
+                          )
+                        );
+                      } else {
+                        setTodos((prevTodos) =>
+                          prevTodos.map((t) =>
+                            t.id === todo.id ? { ...t, completed: true } : t
+                          )
+                        );
+                      }
+
                       updateTodoAPI(
                         todo.id,
                         undefined,
                         undefined,
-                        !todo.completed
-                      ).then(() => {
-                        getAllTodos();
+                        toCompleted
+                      ).then(async () => {
+                        await getAllTodos();
+                        console.log("-1");
+                        optimisticUpdatesInProgress.current--;
                       });
                     }}
                     className={`m-2   ${
@@ -258,7 +290,7 @@ export default function TodoListComponent() {
       <div
         className={`overflow-y-auto overflow-x-hidden scrollbar flex flex-1 flex-col min-w-fit  `}
       >
-        {todoList(incompletedTodos)}
+        {todoList(optimisticTodos, false)}
         <div className="mt-auto"></div>
         <div>
           <CollapsibleButton
@@ -266,7 +298,7 @@ export default function TodoListComponent() {
             isOpen={isOpen}
             onClick={toggleList}
           />
-          {isOpen && todoList(completedTodos)}
+          {isOpen && todoList(optimisticTodos, true)}
         </div>
       </div>
     </div>

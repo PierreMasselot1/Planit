@@ -15,7 +15,7 @@
     "outDir": "./dist",
     "moduleResolution": "node"
   },
-  "include": ["src", "../shared", "src/types/express/types.d.ts", "src/types/express/types.d.ts"],
+  "include": ["src", "../shared", "src/types/express/types.d.ts", "src/types/express/types.d.ts" ],
   "files": ["src/types/express/types.d.ts"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
