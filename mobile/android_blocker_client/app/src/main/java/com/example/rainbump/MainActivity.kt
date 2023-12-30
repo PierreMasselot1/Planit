@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.rainbump.ui.theme.RainBumpTheme
 import java.util.Calendar
@@ -28,11 +29,19 @@ class MainActivity : ComponentActivity() {
     private val REQUEST_CODE_USAGE_STATS = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+// Start background service
+        val serviceIntent = Intent(this, BackgroundService::class.java)
+        ContextCompat.startForegroundService(this, serviceIntent)
+
         super.onCreate(savedInstanceState)
         MainView()
     }
 
     override fun onResume() {
+        // Start background service
+        val serviceIntent = Intent(this, BackgroundService::class.java)
+        ContextCompat.startForegroundService(this, serviceIntent)
+
         super.onResume()
         MainView()
     }
@@ -50,11 +59,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        while (true) {
-            Thread.sleep(2000)
-            getLastOpenedApps(this)
+        getLastOpenedApps(this)
 
-        }
+
     }
 
     private fun checkAndRequestUsageStatsPermission(): Boolean {
