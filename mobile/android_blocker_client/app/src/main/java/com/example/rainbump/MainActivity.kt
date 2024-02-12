@@ -59,8 +59,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        getLastOpenedApps(this)
-
 
     }
 
@@ -90,80 +88,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-data class AppInfo(
-    val name: String,
-    val packageName: String,
-    val lastTimeUsed: Long,
-)
 
-fun getLastOpenedApps(context: Context): List<String> {
-    val cal = Calendar.getInstance()
-    cal.add(Calendar.DAY_OF_YEAR, -1)
-    val queryUsageStats = getSystemService(context, UsageStatsManager::class.java)?.queryUsageStats(
-        UsageStatsManager.INTERVAL_DAILY, cal.timeInMillis, System.currentTimeMillis()
-    )
-
-// Create a list of AppInfo objects from queryUsageStats
-    val appInfoList = mutableListOf<AppInfo>()
-
-// Get package manager
-    val packageManager = context.packageManager
-
-// Iterate through queryUsageStats
-    queryUsageStats?.forEach { usageStats ->
-        // Check if the app is a system app
-        if (!isSystemApp(packageManager, usageStats.packageName)) {
-            // Get application info
-            val applicationInfo: ApplicationInfo? = try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.getApplicationInfo(
-                        usageStats.packageName, PackageManager.ApplicationInfoFlags.of(
-                            0
-                        )
-                    )
-                } else {
-                    TODO("VERSION.SDK_INT < TIRAMISU")
-                }
-            } catch (e: PackageManager.NameNotFoundException) {
-                null
-            }
-
-            // Get application name
-            if (applicationInfo == null) {
-                Log.w("RainBump", "ApplicationInfo is null")
-                return@forEach
-            }
-
-            val applicationName = packageManager.getApplicationLabel(applicationInfo).toString()
-
-            // Add AppInfo object to appInfoList
-            appInfoList.add(
-                AppInfo(
-                    name = applicationName,
-                    packageName = usageStats.packageName,
-                    lastTimeUsed = usageStats.lastTimeUsed
-                )
-            )
-        }
-    }
-
-
-    if (queryUsageStats != null) {
-        return queryUsageStats.map { it.packageName }
-    } else {
-        return emptyList()
-
-    }
-}
-
-private fun isSystemApp(packageManager: PackageManager, packageName: String): Boolean {
-    return try {
-        val packageInfo = packageManager.getPackageInfo(packageName, 0)
-        packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
-    } catch (e: PackageManager.NameNotFoundException) {
-        false
-    }
-}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
